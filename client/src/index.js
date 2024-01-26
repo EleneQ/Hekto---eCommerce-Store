@@ -10,11 +10,13 @@ import {
 import { Provider } from "react-redux";
 import store from "./store";
 
+import PrivateRoute from "./components/PrivateRoute";
 import HomePage from "./pages/Home/HomePage";
 import ProductPage from "./pages/Product/ProductPage";
 import CartPage from "./pages/Cart/CartPage";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
+import ShippingPage from "./pages/shipping/ShippingPage";
 
 //allows child routes
 const router = createBrowserRouter(
@@ -25,6 +27,10 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
+      <Route path="" element={<PrivateRoute />}>
+        <Route path="/shipping" element={<ShippingPage />} />
+      </Route>
     </Route>
   )
 );
