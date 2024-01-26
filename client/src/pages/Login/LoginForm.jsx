@@ -57,9 +57,7 @@ const LoginForm = () => {
               name="email"
               placeholder="Enter Email"
               value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
           <label htmlFor="password">
@@ -70,9 +68,7 @@ const LoginForm = () => {
               name="password"
               placeholder="Enter Password"
               value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="on"
             />
           </label>

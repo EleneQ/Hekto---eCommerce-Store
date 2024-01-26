@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 import PrivateRoute from "./components/PrivateRoute";
+import AdminRoute from "./components/AdminRoute";
 import HomePage from "./pages/Home/HomePage";
 import ProductPage from "./pages/Product/ProductPage";
 import CartPage from "./pages/Cart/CartPage";
@@ -21,6 +22,7 @@ import PaymentPage from "./pages/Payment/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrder/PlaceOrderPage";
 import OrderDetailsPage from "./pages/Order/OrderDetailsPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
+import OrderListPage from "./pages/AdminPages/OrderList/OrderListPage";
 
 //allows child routes
 const router = createBrowserRouter(
@@ -38,6 +40,10 @@ const router = createBrowserRouter(
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderDetailsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+      </Route>
+
+      <Route path="" element={<AdminRoute />}>
+        <Route path="/admin/orderlist" element={<OrderListPage />} />
       </Route>
     </Route>
   )

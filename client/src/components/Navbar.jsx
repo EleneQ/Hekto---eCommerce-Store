@@ -25,6 +25,7 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+  const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -81,6 +82,14 @@ const Navbar = () => {
             </Link>
           )}
 
+          {userInfo && userInfo.isAdmin && (
+            <NavDropdown title="Admin">
+              <Link to="/admin/productlist">Products</Link>
+              <Link to="/admin/userlist">Users</Link>
+              <Link to="/admin/orderlist">Orders</Link>
+            </NavDropdown>
+          )}
+
           <Link
             to="/cart"
             style={{
@@ -90,6 +99,9 @@ const Navbar = () => {
             }}
           >
             <BsCart size={"1.25rem"} /> Cart
+            {cartItems.length > 0 && (
+              <p>{cartItems.reduce((acc, item) => acc + item.qty, 0)}</p>
+            )}
           </Link>
         </div>
       </Container>
