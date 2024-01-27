@@ -1,23 +1,43 @@
 import { Link } from "react-router-dom";
-import { FaTimes, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import Container from "../../../components/styles/Container.styled";
 import Message from "../../../components/Message";
 import Loader from "../../../components/Loader";
-import { useGetProductsQuery } from "../../../slices/productsApiSlice";
+import {
+  useGetProductsQuery,
+  useCreateProductMutation,
+} from "../../../slices/productsApiSlice";
+import { toast } from "react-toastify";
 
 const ProductList = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, refetch, isLoading, error } = useGetProductsQuery();
+
+  const [createProduct, { isLoading: loadingCreate }] =
+    useCreateProductMutation();
 
   const deleteHandler = (productId) => {};
+
+  const createProductHandler = async () => {
+    if (window.confirm("Are you sure you want to create a new product")) {
+      try {
+        await createProduct();
+        refetch();
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
+      }
+    }
+  };
 
   return (
     <section>
       <Container>
         <h1>Products</h1>
 
-        <button>
+        <button onClick={createProductHandler}>
           <FaEdit /> Create Product
         </button>
+
+        {loadingCreate && <Loader />}
 
         {isLoading ? (
           <Loader />
@@ -28,11 +48,12 @@ const ProductList = () => {
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>NAME</th>
-                  <th>PRICE</th>
-                  <th>CATEGORY</th>
-                  <th>BRAND(S)</th>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Colors</th>
+                  <th>Categories</th>
+                  <th>Brand(s)</th>
                   <th></th>
                 </tr>
               </thead>
@@ -42,14 +63,23 @@ const ProductList = () => {
                     <td>{product._id}</td>
                     <td>{product.name}</td>
                     <td>${product.price}</td>
-                    <td>{product.category}</td>
+                    <td>
+                      {product.colors.map((color) => (
+                        <p>{color.colorName}</p>
+                      ))}
+                    </td>
+                    <td>
+                      {product.categories.map((category) => (
+                        <p>{category}</p>
+                      ))}
+                    </td>
                     <td>
                       {product.brands.map((brand) => (
                         <p>{brand}</p>
                       ))}
                     </td>
                     <td>
-                      <Link to={`/admin/product/${product._id}`}>
+                      <Link to={`/admin/product/${product._id}/edit`}>
                         <button>
                           <FaEdit />
                         </button>

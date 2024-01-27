@@ -52,7 +52,7 @@ const productSchema = new mongoose.Schema(
         },
       },
     ],
-    views: { type: Number, default: 0 },
+    views: { type: Number, required: true, default: 0 },
     categories: [{ type: String, required: true }],
     rating: { type: Number, required: true, default: 0 },
     reviews: [reviewSchema],
