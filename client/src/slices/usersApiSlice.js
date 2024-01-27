@@ -3,7 +3,6 @@ import { apiSlice } from "./apiSlice";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    //UserInfo - returned from server, LoginData - sent to server
     login: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/auth`,
@@ -31,6 +30,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getUsers: builder.query({
+      query: () => ({
+        url: USERS_URL,
+      }),
+      providesTags: ["Users"], //to not have to reload to remove user from cache
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -39,4 +45,5 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useProfileMutation,
+  useGetUsersQuery,
 } = usersApiSlice;
