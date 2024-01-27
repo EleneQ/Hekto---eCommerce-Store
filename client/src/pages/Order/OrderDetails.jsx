@@ -1,8 +1,13 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Container from "../../components/styles/Container.styled";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { useGetOrderDetailsQuery } from "../../slices/ordersApiSlice";
+import {
+  useGetOrderDetailsQuery,
+  useDeliverOrderMutation,
+} from "../../slices/ordersApiSlice";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 
 const OrderDetails = () => {
@@ -14,6 +19,21 @@ const OrderDetails = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder(orderId);
+      refetch();
+      toast.success("Order delivered");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
 
   return (
     <>
@@ -102,7 +122,17 @@ const OrderDetails = () => {
                 <p>${order.totalPrice}</p>
               </div>
               {/* PAY ORDER */}
-              {/* MARK AS DELIVERED */}
+
+              {loadingDeliver && <Loader />}
+
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <button onClick={deliverOrderHandler}>
+                    Mark As Delivered
+                  </button>
+                )}
             </div>
           </Container>
         </section>
