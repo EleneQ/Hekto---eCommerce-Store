@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaTimes } from "react-icons/fa";
-import Contianer from "../../../components/styles/Container.styled";
+import Container from "../../../components/styles/Container.styled";
 import Message from "../../../components/Message";
 import Loader from "../../../components/Loader";
 import { useGetOrdersQuery } from "../../../slices/ordersApiSlice";
@@ -10,7 +10,7 @@ const OrderList = () => {
 
   return (
     <section>
-      <Contianer>
+      <Container>
         <h1>Orders</h1>
 
         {isLoading ? (
@@ -61,7 +61,7 @@ const OrderList = () => {
             </tbody>
           </table>
         )}
-      </Contianer>
+      </Container>
     </section>
   );
 };
