@@ -62,7 +62,7 @@ const FeaturedProducts = () => {
                 <Link key={product._id} to={`/product/${product._id}`}>
                   <ProductStyled>
                     <ImageContainer>
-                      <img src={`/${product.image}`} alt={product.name} />
+                      <img src={`${product.image}`} alt={product.name} />
                     </ImageContainer>
                     <div style={{ padding: "1rem" }}>
                       <ProductName>{product.name}</ProductName>

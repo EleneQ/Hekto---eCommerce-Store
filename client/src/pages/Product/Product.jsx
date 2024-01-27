@@ -48,7 +48,7 @@ const Product = () => {
           <Container>
             <ProductStyled>
               <div>
-                <Image src={`/${product.image}`} alt={product.name} />
+                <Image src={`${product.image}`} alt={product.name} />
               </div>
               <div>
                 <div>

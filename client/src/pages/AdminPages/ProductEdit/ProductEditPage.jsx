@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import {
   useUpdateProductMutation,
   useGetProductDetailsQuery,
+  useUploadProductImageMutation,
 } from "../../../slices/productsApiSlice";
 import Container from "../../../components/styles/Container.styled";
 
@@ -14,7 +15,7 @@ const ProductEditPage = () => {
 
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
-  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
   const [colors, setColors] = useState([{ colorName: "white", value: "#fff" }]);
   const [countInStock, setCountInStock] = useState(0);
@@ -31,6 +32,9 @@ const ProductEditPage = () => {
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
 
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
+
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
@@ -41,7 +45,7 @@ const ProductEditPage = () => {
         productId,
         name,
         price,
-        image,
+        image: imageUrl,
         brands,
         colors,
         categories,
@@ -57,11 +61,24 @@ const ProductEditPage = () => {
     }
   };
 
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      setImageUrl(res.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   useEffect(() => {
     if (product) {
       setName(product.name);
       setPrice(product.price);
-      setImage(product.image);
+      setImageUrl(product.image);
       setDescription(product.desc);
       setColors(product.colors);
       setCountInStock(product.countInStock);
@@ -118,7 +135,23 @@ const ProductEditPage = () => {
                 />
               </label>
 
-              {/* IMAGE GOES HERE */}
+              <div>
+                Image
+                <input
+                  type="text"
+                  name="imageUrl"
+                  id="imageUrl"
+                  placeholder="Enter image URL"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                />
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  onChange={uploadFileHandler}
+                />
+              </div>
 
               <label htmlFor="countInStock">
                 Count In Stock
