@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import Container from "../../components/styles/Container.styled";
 import {
   ProductList,
@@ -12,15 +12,15 @@ import SectionHeading from "../../components/styles/SectionHeading.styled";
 import { useGetProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import Paginate from "../../components/Paginate";
 import { Link } from "react-router-dom";
+import Paginate from "../../components/Paginate";
 
 const FeaturedProducts = () => {
-  const { pageNumber, keyword } = useParams();
+  const [pageNum, setPageNum] = useState(1);
 
   const { data, isLoading, error } = useGetProductsQuery({
-    keyword,
-    pageNumber,
+    page: pageNum,
+    limit: 4,
   });
 
   //TODO: CHANGE THIS TO FETCH ONLY THE FEATURED PRODUCTS!!!
@@ -65,7 +65,7 @@ const FeaturedProducts = () => {
           <>
             <SectionHeading>Featured Products</SectionHeading>
             <ProductList>
-              {data.products.map((product) => (
+              {data.products.map((product, index) => (
                 <Link key={product._id} to={`/product/${product._id}`}>
                   <ProductStyled>
                     <ImageContainer>
@@ -90,8 +90,8 @@ const FeaturedProducts = () => {
 
             <Paginate
               pages={data.pages}
-              currentPage={data.page}
-              keyword={keyword ? keyword : ""}
+              currentPageNum={pageNum}
+              setPageNum={setPageNum}
             />
           </>
         )}

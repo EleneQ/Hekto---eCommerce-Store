@@ -1,26 +1,29 @@
-import { Link } from "react-router-dom";
-
-const Paginate = ({ pages, currentPage, isAdmin = false, keyword = "" }) => {
+const Paginate = ({ pages, currentPageNum, setPageNum }) => {
   return (
     pages > 1 && (
-      <ul>
+      <ul
+        style={{
+          display: "flex",
+          gap: "0.3rem",
+          justifyContent: "center",
+          marginTop: "1rem",
+        }}
+      >
         {[...Array(pages).keys()].map((page) => (
-          <Link
+          <li
             key={page + 1}
-            style={{ color: page + 1 === currentPage ? "red" : "gray" }}
-            to={
-              !isAdmin
-                ? keyword
-                  ? `/search/${keyword}/page/${page + 1}`
-                  : `/page/${page + 1}`
-                : `/admin/productlist/${page + 1}`
-            }
+            onClick={() => setPageNum(page + 1)}
+            style={{
+              color: page + 1 === currentPageNum ? "red" : "black",
+              cursor: "pointer",
+            }}
           >
-            <li>{page + 1}</li>
-          </Link>
+            {page + 1}
+          </li>
         ))}
       </ul>
     )
   );
 };
+
 export default Paginate;

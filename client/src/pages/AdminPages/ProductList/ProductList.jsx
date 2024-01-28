@@ -11,7 +11,7 @@ import {
 import { toast } from "react-toastify";
 
 const ProductList = () => {
-  const { data: products, refetch, isLoading, error } = useGetProductsQuery();
+  const { data, refetch, isLoading, error } = useGetProductsQuery({});
 
   const [createProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();
@@ -74,7 +74,7 @@ const ProductList = () => {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => (
+                {data.products.map((product) => (
                   <tr key={product._id}>
                     <td>{product._id}</td>
                     <td>{product.name}</td>

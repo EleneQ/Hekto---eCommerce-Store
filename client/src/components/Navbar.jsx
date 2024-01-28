@@ -15,12 +15,6 @@ import { logout } from "../slices/authSlice";
 import NavDropdown from "./NavDropdown";
 import SearchBox from "./SearchBox";
 
-const navLinks = [
-  { name: "Home", link: "/" },
-  { name: "Products", link: "/products" },
-  { name: "Blog", link: "/blog" },
-];
-
 const Navbar = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
@@ -48,15 +42,18 @@ const Navbar = () => {
         </Link>
         <Nav>
           <NavLinks>
-            {navLinks.map((navLink) => (
-              <NavLink
-                key={navLink.name}
-                className={({ isActive }) => (isActive ? "active" : "")}
-                to={navLink.link}
-              >
-                {navLink.name}
-              </NavLink>
-            ))}
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : "")}
+              to="/"
+            >
+              Home
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : "")}
+              to="/products"
+            >
+              Products
+            </NavLink>
           </NavLinks>
         </Nav>
 

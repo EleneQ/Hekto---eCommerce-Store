@@ -3,20 +3,37 @@ import Product from "../models/productModel.js";
 import randProductCode from "../utils/randProductCode.js";
 
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 8;
-  const page = Number(req.query.pageNumber) || 1;
+  //pagination
+  const productCount = await Product.countDocuments();
 
-  //match anywhere in the product
-  const keyword = req.query.keyword
-    ? { name: { $regex: req.query.keyword, $options: "i" } }
-    : {};
+  const pageNum = parseInt(req.query.page || 1);
+  const limit = parseInt(req.query.limit || productCount);
 
-  const productCount = await Product.countDocuments({ ...keyword });
+  const products = await Product.find()
+    .limit(limit)
+    .skip(limit * (pageNum - 1));
 
-  const products = await Product.find({ ...keyword })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
-  res.json({ products, page, pages: Math.ceil(productCount / pageSize) });
+  //send results
+  res.json({
+    products,
+    page: pageNum,
+    pages: Math.ceil(productCount / limit),
+  });
+
+  // const pageSize = 8;
+  // const page = Number(req.query.pageNumber) || 1;
+
+  // //match anywhere in the product
+  // const keyword = req.query.keyword
+  //   ? { name: { $regex: req.query.keyword, $options: "i" } }
+  //   : {};
+
+  // const productCount = await Product.countDocuments({ ...keyword });
+
+  // const products = await Product.find({ ...keyword })
+  //   .limit(pageSize)
+  //   .skip(pageSize * (page - 1));
+  // res.json({ products, page, pages: Math.ceil(productCount / pageSize) });
 });
 
 const getProductById = asyncHandler(async (req, res) => {
