@@ -23,7 +23,11 @@ const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    res.json(product);
+    res.status(200);
+    return res.json(product);
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
   }
 });
 
@@ -128,6 +132,18 @@ const createProductReview = asyncHandler(async (req, res) => {
   }
 });
 
+const getTopRatedProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+
+  if (products) {
+    res.status(200);
+    return res.json(products);
+  } else {
+    res.status(404);
+    throw new Error("Resouce not found");
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -135,4 +151,5 @@ export {
   updateProduct,
   deleteProduct,
   createProductReview,
+  getTopRatedProducts,
 };
