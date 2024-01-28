@@ -3,7 +3,7 @@ import randProductCode from "../utils/randProductCode.js";
 const products = [
   {
     name: "Bagpack padded black Model 10",
-    image: "productImages/product1.png",
+    image: "/productImages/product1.png",
     code: randProductCode(),
     price: 299.99,
     colors: [{ colorName: "black", value: "#000000" }],
@@ -18,7 +18,7 @@ const products = [
   },
   {
     name: "Catevilever Watch Model 12",
-    image: "productImages/product2.png",
+    image: "/productImages/product2.png",
     code: randProductCode(),
     price: 2449.99,
     colors: [{ colorName: "black", value: "#000000" }],
@@ -32,7 +32,7 @@ const products = [
   },
   {
     name: "Stromisier EOS 80D DSLR Camera",
-    image: "productImages/product3.png",
+    image: "/productImages/product3.png",
     code: randProductCode(),
     price: 1554.99,
     colors: [{ colorName: "black", value: "#000000" }],
@@ -46,7 +46,7 @@ const products = [
   },
   {
     name: "Stromisier Wireless Bluetooth Headphones",
-    image: "productImages/product4.png",
+    image: "/productImages/product4.png",
     code: randProductCode(),
     price: 89.99,
     colors: [
@@ -64,7 +64,7 @@ const products = [
   },
   {
     name: "Coaster Furniture & Green DIY Furniture Chair",
-    image: "productImages/product5.png",
+    image: "/productImages/product5.png",
     code: randProductCode(),
     price: 3199.99,
     colors: [{ colorName: "blue", value: "#82aaea" }],
@@ -80,7 +80,7 @@ const products = [
   },
   {
     name: "Coaster Furniture Chair Model 3",
-    image: "productImages/product6.png",
+    image: "/productImages/product6.png",
     code: randProductCode(),
     price: 499.99,
     colors: [
@@ -98,7 +98,7 @@ const products = [
   },
   {
     name: "Yellow Furniture Chair Model 5",
-    image: "productImages/product7.png",
+    image: "/productImages/product7.png",
     code: randProductCode(),
     price: 399.99,
     colors: [
@@ -116,7 +116,7 @@ const products = [
   },
   {
     name: "Coaster Blue Chair Model 5F",
-    image: "productImages/product8.png",
+    image: "/productImages/product8.png",
     code: randProductCode(),
     price: 425.99,
     colors: [{ colorName: "gray", value: "#aeada9" }],
@@ -131,7 +131,7 @@ const products = [
   },
   {
     name: "Yellow Chair Model 1C by Coaster Blue",
-    image: "productImages/product9.png",
+    image: "/productImages/product9.png",
     code: randProductCode(),
     price: 425.99,
     colors: [
@@ -149,7 +149,7 @@ const products = [
   },
   {
     name: "Gray Chair Model 2B by Yellow Furniture",
-    image: "productImages/product10.png",
+    image: "/productImages/product10.png",
     code: randProductCode(),
     price: 355.99,
     colors: [{ colorName: "gray", value: "#ddd9d6" }],
@@ -163,7 +163,7 @@ const products = [
   },
   {
     name: "Lamp Model 3F by Yellow Furniture",
-    image: "productImages/product11.png",
+    image: "/productImages/product11.png",
     code: randProductCode(),
     price: 56.99,
     colors: [
@@ -180,7 +180,7 @@ const products = [
   },
   {
     name: "Chair Model 4G by Yellow Furniture",
-    image: "productImages/product12.png",
+    image: "/productImages/product12.png",
     code: randProductCode(),
     price: 799.99,
     colors: [

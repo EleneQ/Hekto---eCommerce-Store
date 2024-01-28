@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaTrash, FaTimes, FaEdit, FaCheck } from "react-icons/fa";
+import { FaTrash, FaTimes, FaCheck } from "react-icons/fa";
 import Container from "../../../components/styles/Container.styled";
 import Message from "../../../components/Message";
 import Loader from "../../../components/Loader";
@@ -52,7 +52,9 @@ const UserListPage = () => {
               {users.map((user) => (
                 <tr key={user._id}>
                   <td>{user._id}</td>
-                  <td>{user.name}</td>
+                  <td>
+                    <Link to={`admin/user/${user._id}`}>{user.name}</Link>
+                  </td>
                   <td>
                     <a href={`mailto:${user.email}`}>{user.email}</a>
                   </td>
@@ -65,11 +67,6 @@ const UserListPage = () => {
                     )}
                   </td>
                   <td>
-                    <Link to={`admin/user/${user._id}/edit`}>
-                      <button>
-                        <FaEdit />
-                      </button>
-                    </Link>
                     <button onClick={() => deleteHandler(user._id)}>
                       <FaTrash />
                     </button>
