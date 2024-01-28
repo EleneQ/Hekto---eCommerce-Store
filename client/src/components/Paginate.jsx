@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Paginate = ({ pages, currentPage, isAdmin = false }) => {
+const Paginate = ({ pages, currentPage, isAdmin = false, keyword = "" }) => {
   return (
     pages > 1 && (
       <ul>
@@ -9,7 +9,11 @@ const Paginate = ({ pages, currentPage, isAdmin = false }) => {
             key={page + 1}
             style={{ color: page + 1 === currentPage ? "red" : "gray" }}
             to={
-              !isAdmin ? `/page/${page + 1}` : `/admin/productlist/${page + 1}`
+              !isAdmin
+                ? keyword
+                  ? `/search/${keyword}/page/${page + 1}`
+                  : `/page/${page + 1}`
+                : `/admin/productlist/${page + 1}`
             }
           >
             <li>{page + 1}</li>

@@ -1,22 +1,19 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { GoPerson } from "react-icons/go";
 import { BsCart } from "react-icons/bs";
-import { CiSearch } from "react-icons/ci";
 import Container from "./styles/Container.styled";
 import {
   NavbarStyled,
   Nav,
   NavLinks,
   Logo,
-  SearchForm,
-  SearchInput,
-  SearchButton,
   LoginButton,
 } from "./styles/Navbar.styled";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 import NavDropdown from "./NavDropdown";
+import SearchBox from "./SearchBox";
 
 const navLinks = [
   { name: "Home", link: "/" },
@@ -62,12 +59,9 @@ const Navbar = () => {
             ))}
           </NavLinks>
         </Nav>
-        <SearchForm>
-          <SearchInput type="text" name="searchTerm" />
-          <SearchButton>
-            <CiSearch />
-          </SearchButton>
-        </SearchForm>
+
+        <SearchBox />
+
         <div>
           {userInfo ? (
             <NavDropdown title={userInfo.name}>

@@ -16,9 +16,12 @@ import Paginate from "../../components/Paginate";
 import { Link } from "react-router-dom";
 
 const FeaturedProducts = () => {
-  const { pageNumber } = useParams();
+  const { pageNumber, keyword } = useParams();
 
-  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
 
   //TODO: CHANGE THIS TO FETCH ONLY THE FEATURED PRODUCTS!!!
   // useEffect(() => {
@@ -84,8 +87,12 @@ const FeaturedProducts = () => {
                 </Link>
               ))}
             </ProductList>
-            
-            <Paginate pages={data.pages} currentPage={data.page} />
+
+            <Paginate
+              pages={data.pages}
+              currentPage={data.page}
+              keyword={keyword ? keyword : ""}
+            />
           </>
         )}
       </Container>
