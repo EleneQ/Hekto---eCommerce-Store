@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import SectionHeading from "../../components/styles/SectionHeading.styled";
 import Container from "../../components/styles/Container.styled";
 import { categories } from "../../constants/data";

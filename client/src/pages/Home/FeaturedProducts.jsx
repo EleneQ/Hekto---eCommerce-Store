@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import Container from "../../components/styles/Container.styled";
 import {
   ProductList,
@@ -11,10 +12,13 @@ import SectionHeading from "../../components/styles/SectionHeading.styled";
 import { useGetProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
+import Paginate from "../../components/Paginate";
 import { Link } from "react-router-dom";
 
 const FeaturedProducts = () => {
-  const { data: featuredProducts, isLoading, error } = useGetProductsQuery();
+  const { pageNumber } = useParams();
+
+  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
 
   //TODO: CHANGE THIS TO FETCH ONLY THE FEATURED PRODUCTS!!!
   // useEffect(() => {
@@ -58,7 +62,7 @@ const FeaturedProducts = () => {
           <>
             <SectionHeading>Featured Products</SectionHeading>
             <ProductList>
-              {featuredProducts?.map((product) => (
+              {data.products.map((product) => (
                 <Link key={product._id} to={`/product/${product._id}`}>
                   <ProductStyled>
                     <ImageContainer>
@@ -80,6 +84,8 @@ const FeaturedProducts = () => {
                 </Link>
               ))}
             </ProductList>
+            
+            <Paginate pages={data.pages} currentPage={data.page} />
           </>
         )}
       </Container>

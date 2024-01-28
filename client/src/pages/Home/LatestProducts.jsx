@@ -5,6 +5,7 @@ import { CategoryList } from "./styles/LatestProducts.styled";
 import { useGetProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
+import { useParams } from "react-router-dom";
 
 export const categories = [
   { title: "New Arrival", value: "new" },
@@ -14,7 +15,10 @@ export const categories = [
 
 const LatestProducts = () => {
   const [selectedCategory, setSelectedCategory] = useState("new");
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  
+  const { pageNumber } = useParams();
+
+  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
 
   //TODO: CHANGE THIS TO FETCH ONLY THE FEATURED PRODUCTS!!!
   // useEffect(() => {
@@ -59,7 +63,7 @@ const LatestProducts = () => {
               ))}
             </CategoryList>
             <ul style={{ display: "flex", textAlign: "center" }}>
-              {products?.map((product) => (
+              {data.products.map((product) => (
                 <li>
                   <img src={product.image} alt={product.name} />
                   <p>${product.price}</p>
