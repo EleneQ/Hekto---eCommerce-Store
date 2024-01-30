@@ -26,19 +26,19 @@ import OrderListPage from "./pages/AdminPages/OrderList/OrderListPage";
 import ProductList from "./pages/AdminPages/ProductList/ProductList";
 import ProductEditPage from "./pages/AdminPages/ProductEdit/ProductEditPage";
 import UserListPage from "./pages/AdminPages/UserList/UserListPage";
+import ProductsPage from "./pages/Products/ProductsPage";
 
 //allows child routes
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} element={<HomePage />} />
-      {/* <Route path="/search/:keyword" element={<HomePage />} />
-      <Route path="/page/:pageNumber" element={<HomePage />} />
-      <Route path="/search/:keyword/page/:pageNumber" element={<HomePage />} /> */}
       <Route path="/product/:id" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/products" element={<ProductsPage />} />
+      <Route path="/products/:searchParams" element={<ProductsPage />} />
 
       <Route path="" element={<PrivateRoute />}>
         <Route path="/shipping" element={<ShippingPage />} />

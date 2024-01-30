@@ -53,7 +53,7 @@ const CartItems = () => {
               {cartItems.map((item) => (
                 <li key={item._id}>
                   <div>
-                    <img src={`/${item.image}`} alt={item.name} />
+                    <img src={`${item.image}`} alt={item.name} />
                   </div>
                   <Link to={`/product/${item._id}`}>{item.name}</Link>
                   <p>{item.price}</p>

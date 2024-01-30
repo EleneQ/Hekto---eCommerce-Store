@@ -1,4 +1,4 @@
-const Paginate = ({ pages, currentPageNum, setPageNum }) => {
+const Paginate = ({ pages, currentPageNum, setSearchParams, setPageNum }) => {
   return (
     pages > 1 && (
       <ul
@@ -12,7 +12,17 @@ const Paginate = ({ pages, currentPageNum, setPageNum }) => {
         {[...Array(pages).keys()].map((page) => (
           <li
             key={page + 1}
-            onClick={() => setPageNum(page + 1)}
+            onClick={
+              setPageNum
+                ? () => {
+                    setPageNum(page + 1);
+                  }
+                : () =>
+                    setSearchParams((prev) => {
+                      prev.set("p", page + 1);
+                      return prev;
+                    })
+            }
             style={{
               color: page + 1 === currentPageNum ? "red" : "black",
               cursor: "pointer",

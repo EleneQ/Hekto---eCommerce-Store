@@ -4,21 +4,10 @@ import { apiSlice } from "./apiSlice";
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: (pagination) => {
-        const params = {};
-
-        if (pagination.page) {
-          params.page = pagination.page;
-        }
-        if (pagination.limit) {
-          params.limit = pagination.limit;
-        }
-
-        return {
-          url: PRODUCTS_URL,
-          params: params,
-        };
-      },
+      query: (params) => ({
+        url: PRODUCTS_URL,
+        params: params,
+      }),
       providesTags: ["Products"], //now there's no need to refresh the page
       keepUnusedDataFor: 5, //in seconds, how long the data's cached
     }),

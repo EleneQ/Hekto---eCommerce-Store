@@ -1,39 +1,50 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
 import randProductCode from "../utils/randProductCode.js";
+import {
+  buildFilterCriteria,
+  buildSortCriteria,
+} from "../utils/filterSortProducts.js";
 
 const getProducts = asyncHandler(async (req, res) => {
-  //pagination
-  const productCount = await Product.countDocuments();
+  const {
+    keyword = "",
+    page = 1,
+    limit = 100,
+    sort = "",
+    rating = 0,
+    brands = "",
+    discount = 0,
+    colors = "",
+  } = req.query;
 
-  const pageNum = parseInt(req.query.page || 1);
-  const limit = parseInt(req.query.limit || productCount);
-
-  const products = await Product.find()
-    .limit(limit)
-    .skip(limit * (pageNum - 1));
-
-  //send results
-  res.json({
-    products,
-    page: pageNum,
-    pages: Math.ceil(productCount / limit),
+  //filtering and sorting
+  const filterCriteria = buildFilterCriteria({
+    keyword,
+    rating,
+    discount,
+    brands,
+    colors,
   });
 
-  // const pageSize = 8;
-  // const page = Number(req.query.pageNumber) || 1;
+  const sortCriteria = sort ? buildSortCriteria(sort) : {};
 
-  // //match anywhere in the product
-  // const keyword = req.query.keyword
-  //   ? { name: { $regex: req.query.keyword, $options: "i" } }
-  //   : {};
+  //pagination
+  const pageSize = parseInt(limit);
+  const startIndex = (page - 1) * pageSize;
+  const productCount = await Product.countDocuments(filterCriteria);
 
-  // const productCount = await Product.countDocuments({ ...keyword });
+  //response
+  const products = await Product.find(filterCriteria)
+    .sort(sortCriteria)
+    .limit(pageSize)
+    .skip(startIndex);
 
-  // const products = await Product.find({ ...keyword })
-  //   .limit(pageSize)
-  //   .skip(pageSize * (page - 1));
-  // res.json({ products, page, pages: Math.ceil(productCount / pageSize) });
+  res.json({
+    products,
+    page: parseInt(page),
+    pages: Math.ceil(productCount / pageSize),
+  });
 });
 
 const getProductById = asyncHandler(async (req, res) => {

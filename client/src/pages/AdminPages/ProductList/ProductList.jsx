@@ -11,7 +11,7 @@ import {
 import { toast } from "react-toastify";
 
 const ProductList = () => {
-  const { data, refetch, isLoading, error } = useGetProductsQuery({});
+  const { data, refetch, isLoading, error } = useGetProductsQuery();
 
   const [createProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();

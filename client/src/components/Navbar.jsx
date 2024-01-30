@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 import NavDropdown from "./NavDropdown";
-import SearchBox from "./SearchBox";
 
 const Navbar = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -56,8 +55,6 @@ const Navbar = () => {
             </NavLink>
           </NavLinks>
         </Nav>
-
-        <SearchBox />
 
         <div>
           {userInfo ? (

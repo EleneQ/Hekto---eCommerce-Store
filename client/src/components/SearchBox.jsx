@@ -1,21 +1,18 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { SearchInput, SearchForm, SearchButton } from "./styles/Navbar.styled";
 
-const SearchBox = () => {
-  const navigate = useNavigate();
-  const { keyword: urlkeyword } = useParams();
-  const [keyword, setKeyword] = useState(urlkeyword || "");
+const SearchBox = ({ setSearchParams }) => {
+  const [keyword, setKeyword] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     if (keyword.trim()) {
-      navigate(`/search/${keyword}`);
-      setKeyword("");
-    } else {
-      navigate("/");
+      setSearchParams((prev) => {
+        prev.set("q", keyword);
+        return prev;
+      });
     }
   };
 
