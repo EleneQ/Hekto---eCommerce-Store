@@ -16,6 +16,7 @@ const getProducts = asyncHandler(async (req, res) => {
     brands = "",
     discount = 0,
     colors = "",
+    categories = "",
   } = req.query;
 
   //filtering and sorting
@@ -25,6 +26,7 @@ const getProducts = asyncHandler(async (req, res) => {
     discount,
     brands,
     colors,
+    categories,
   });
 
   const sortCriteria = sort ? buildSortCriteria(sort) : {};

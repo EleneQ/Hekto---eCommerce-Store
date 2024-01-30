@@ -7,10 +7,7 @@ import Paginate from "../../components/Paginate";
 import ProductFilters from "./ProductFilter";
 
 const ProductsPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams({
-    sort: "new",
-    p: 1,
-  });
+  const [searchParams, setSearchParams] = useSearchParams({ p: 1 });
 
   const params = {
     page: searchParams.get("p") || 1,
@@ -21,6 +18,7 @@ const ProductsPage = () => {
     brands: searchParams.get("brands") || [],
     discount: searchParams.get("discount") || 0,
     colors: searchParams.get("colors") || [],
+    categories: searchParams.get("categories") || [],
   };
 
   const { data, isLoading, error } = useGetProductsQuery(params);

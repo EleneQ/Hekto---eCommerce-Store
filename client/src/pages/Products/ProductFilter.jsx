@@ -1,4 +1,7 @@
 import SearchBox from "../../components/SearchBox";
+import { useGetCategoriesQuery } from "../../slices/categoriesApiSlice";
+import Loader from "../../components/Loader";
+import Message from "../../components/Message";
 import {
   brandList,
   ratingOptions,
@@ -7,6 +10,8 @@ import {
 } from "../../constants/productFilterOptions";
 
 const ProductFilters = ({ searchParams, setSearchParams }) => {
+  const { data: categories, isLoading, error } = useGetCategoriesQuery();
+
   const handleCheckboxFilter = (e, filterType, filterTitle) => {
     const filter = filterTitle.toLowerCase();
 
@@ -79,6 +84,36 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Categories */}
+        <div>
+          Product Categories
+          {isLoading ? (
+            <Loader />
+          ) : error ? (
+            <Message>{error?.data?.message || error.error}</Message>
+          ) : (
+            <ul>
+              {categories.map((category) => (
+                <li key={category.name} style={{ textTransform: "capitalize" }}>
+                  <label htmlFor={category.name}>
+                    {category.name}
+                    <input
+                      id={category.name}
+                      type="checkbox"
+                      name={category.name}
+                      value={category.name}
+                      checked={isParamChecked("categories", category.name)}
+                      onChange={(e) =>
+                        handleCheckboxFilter(e, "categories", category.name)
+                      }
+                    />
+                  </label>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Discount Offers */}

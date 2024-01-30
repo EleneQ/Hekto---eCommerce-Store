@@ -21,20 +21,21 @@ export const buildFilterCriteria = ({
   discount,
   brands,
   colors,
+  categories,
 }) => {
   const filter = { name: { $regex: keyword, $options: "i" } };
 
-  if (rating & (rating > 0)) {
+  if (rating > 0) {
     filter.rating = { $gte: parseInt(rating) };
   }
 
-  if (discount & (discount > 0)) {
+  if (discount > 0) {
     filter.discount = { $gte: parseInt(discount) };
   }
 
   if (brands) {
-    const brandsArray = createRegexArray(brands);
-    filter.brands = { $all: brandsArray };
+    const brandArray = createRegexArray(brands);
+    filter.brands = { $all: brandArray };
   }
 
   if (colors) {
@@ -42,6 +43,11 @@ export const buildFilterCriteria = ({
     filter.colors = {
       $all: colorsArray.map((color) => ({ $elemMatch: { colorName: color } })),
     };
+  }
+
+  if (categories) {
+    const categoryArray = createRegexArray(categories);
+    filter.categories = { $all: categoryArray };
   }
 
   return filter;
