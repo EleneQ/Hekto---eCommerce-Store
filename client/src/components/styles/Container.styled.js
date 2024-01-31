@@ -5,11 +5,11 @@ const Container = styled.div`
   margin-inline: auto;
   max-width: 80rem;
 
-  @media (min-width: ${({ theme }) => theme.screens.md}) {
+  @media (min-width: 45rem) {
     padding-inline: 4rem;
   }
 
-  @media (min-width: ${({ theme }) => theme.screens.lg}) {
+  @media (min-width: 54rem) {
     padding-inline: 7rem;
   }
 `;

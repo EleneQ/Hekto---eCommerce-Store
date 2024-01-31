@@ -14,9 +14,7 @@ export const NavbarStyled = styled.header`
 export const Nav = styled.nav`
   display: none;
 
-  @media (min-width: ${({ theme }) => theme.screens.md}) {
-    display: block;
-  }
+ 
 `;
 
 export const NavLinks = styled.ul`
@@ -24,15 +22,11 @@ export const NavLinks = styled.ul`
   align-items: center;
   gap: 2rem;
 
-  .active {
-    color: ${({ theme }) => theme.colors.pink8};
-  }
+
 `;
 
 export const Logo = styled.p`
-  color: ${({ theme }) => theme.colors.blue22};
-  font-weight: ${({ theme }) => theme.typography.fwBold};
-  font-size: ${({ theme }) => theme.typography.fs16};
+
 `;
 
 export const SearchForm = styled.form`
@@ -43,13 +37,13 @@ export const SearchForm = styled.form`
 
 export const SearchInput = styled.input`
   height: 100%;
-  border: 1px solid ${({ theme }) => theme.colors.gray7};
+
   padding-inline: 0.8rem;
   padding-block: 0.35rem;
 `;
 
 export const SearchButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.pink8};
+
   color: white;
   height: 100%;
   padding-inline: 0.6rem;
@@ -58,7 +52,7 @@ export const SearchButton = styled.button`
 `;
 
 export const LoginButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue22};
+
   color: white;
   padding: 0.6rem 0.9rem;
   border-radius: 12px;

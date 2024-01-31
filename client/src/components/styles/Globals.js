@@ -14,9 +14,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: ${({ theme }) => theme.typography.ffPrimary};
-    font-size: ${({ theme }) => theme.typography.fs5};
-    background-color: ${({ theme }) => theme.colors.white};
+
   }
 
   h1,

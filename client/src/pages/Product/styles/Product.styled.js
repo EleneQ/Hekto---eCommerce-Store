@@ -36,7 +36,7 @@ export const ColorsList = styled.ul`
 
 export const AddToCartButton = styled.button`
   padding: 0.9rem 1rem;
-  background-color: ${({ theme }) => theme.colors.pink8};
+
   color: white;
   border-radius: 10px;
   margin-top: 2rem;

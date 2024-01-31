@@ -1,20 +1,59 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { GoPerson } from "react-icons/go";
-import { BsCart } from "react-icons/bs";
-import Container from "./styles/Container.styled";
-import {
-  NavbarStyled,
-  Nav,
-  NavLinks,
-  Logo,
-  LoginButton,
-} from "./styles/Navbar.styled";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
-import NavDropdown from "./NavDropdown";
+import { useState } from "react";
+import {
+  Button,
+  Container,
+  Toolbar,
+  IconButton,
+  Box,
+  AppBar,
+  Badge,
+  MenuItem,
+  Menu,
+  Fade,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Stack,
+  Typography,
+  styled,
+  Divider,
+} from "@mui/material";
+import {
+  ShoppingCart,
+  Person2,
+  AccountCircle,
+  AdminPanelSettings,
+  MenuOpen,
+} from "@mui/icons-material";
+import { Link, NavLink } from "react-router-dom";
+import theme from "./styles/theme";
+import { navLinks } from "../constants/navLinks";
+
+const StyledNavLink = styled(ListItemButton)(({ theme }) => ({
+  textAlign: "center",
+  py: "0.2rem",
+  borderRadius: "10px",
+  ml: "0.3rem",
+  color: theme.palette.secondary.main,
+
+  "&.active": {
+    color: theme.palette.pink.main,
+  },
+}));
 
 const Navbar = () => {
+  const [adminMenuAnchor, setAdminMenuAnchor] = useState(null);
+  const [userMenuAnchor, setUserMenuAnchor] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const adminMenuOpen = Boolean(adminMenuAnchor);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -33,67 +72,308 @@ const Navbar = () => {
     }
   };
 
-  return (
-    <NavbarStyled>
-      <Container className="container">
-        <Link to="/">
-          <Logo>Hekto</Logo>
-        </Link>
-        <Nav>
-          <NavLinks>
-            <NavLink
-              className={({ isActive }) => (isActive ? "active" : "")}
-              to="/"
-            >
-              Home
-            </NavLink>
-            <NavLink
-              className={({ isActive }) => (isActive ? "active" : "")}
-              to="/products"
-            >
-              Products
-            </NavLink>
-          </NavLinks>
-        </Nav>
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMobileMenuOpen}
+      onClose={() => setMobileMoreAnchorEl(null)}
+    >
+      <MenuItem sx={{ py: "0" }}>
+        <List>
+          {navLinks.map((item) => (
+            <ListItem sx={{ m: "0" }} key={item.name} disablePadding>
+              <StyledNavLink
+                component={NavLink}
+                to={item.link}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <ListItemText primary={item.name} />
+              </StyledNavLink>
+            </ListItem>
+          ))}
+        </List>
+      </MenuItem>
 
-        <div>
-          {userInfo ? (
-            <NavDropdown title={userInfo.name}>
-              <Link to="/profile">Profile</Link>
-              <button onClick={logoutHandler}>Logout</button>
-            </NavDropdown>
-          ) : (
-            <Link to="/login">
-              <LoginButton>
-                Login <GoPerson size={"1.25rem"} />
-              </LoginButton>
-            </Link>
-          )}
+      <Divider />
 
-          {userInfo && userInfo.isAdmin && (
-            <NavDropdown title="Admin">
-              <Link to="/admin/productlist">Products</Link>
-              <Link to="/admin/userlist">Users</Link>
-              <Link to="/admin/orderlist">Orders</Link>
-            </NavDropdown>
-          )}
-
-          <Link
-            to="/cart"
-            style={{
-              backgroundColor: "transparent",
-              marginLeft: "2rem",
-              color: "black",
-            }}
+      {userInfo && (
+        <MenuItem onClick={(e) => setUserMenuAnchor(e.currentTarget)}>
+          <IconButton
+            sx={{ fontSize: "1.1rem" }}
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
           >
-            <BsCart size={"1.25rem"} /> Cart
-            {cartItems.length > 0 && (
-              <p>{cartItems.reduce((acc, item) => acc + item.qty, 0)}</p>
-            )}
-          </Link>
-        </div>
-      </Container>
-    </NavbarStyled>
+            <AccountCircle />
+          </IconButton>
+          <Typography variant="body2">Profile</Typography>
+        </MenuItem>
+      )}
+      {userInfo.isAdmin && (
+        <MenuItem onClick={(e) => setAdminMenuAnchor(e.currentTarget)}>
+          <IconButton
+            sx={{ fontSize: "1.1rem" }}
+            aria-label="account of current user"
+            aria-controls="primary-search-admin-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AdminPanelSettings />
+          </IconButton>
+          <Typography variant="body2">Admin</Typography>
+        </MenuItem>
+      )}
+    </Menu>
+  );
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "transparent", boxShadow: "none" }}
+      >
+        <Container>
+          <Toolbar sx={{ justifyContent: "space-between" }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component={Link}
+              fontWeight={700}
+              fontSize={"1.5rem"}
+              href="/"
+              sx={{
+                color: theme.palette.secondary.main,
+                textDecoration: "none",
+              }}
+            >
+              Hekto
+            </Typography>
+
+            <List sx={{ ml: "8rem" }}>
+              <Stack
+                direction={"row"}
+                sx={{ display: { xs: "none", md: "flex" } }}
+              >
+                {navLinks.map((item) => (
+                  <ListItem key={item.name} disablePadding>
+                    <StyledNavLink
+                      component={NavLink}
+                      to={item.link}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                      <ListItemText primary={item.name} />
+                    </StyledNavLink>
+                  </ListItem>
+                ))}
+              </Stack>
+            </List>
+
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {userInfo && userInfo.isAdmin && (
+                <>
+                  <Button
+                    id="fade-button"
+                    aria-controls={adminMenuOpen ? "fade-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={adminMenuOpen ? "true" : undefined}
+                    onClick={(e) => setAdminMenuAnchor(e.currentTarget)}
+                    sx={{
+                      backgroundColor: theme.palette.secondary.main,
+                      textTransform: "capitalize",
+                      fontSize: "1rem",
+                      p: "0rem 0.8rem",
+                      mx: "1rem",
+                      "&:hover": {
+                        backgroundColor: theme.palette.secondary.dark5,
+                      },
+                    }}
+                  >
+                    Admin
+                  </Button>
+                  <Menu
+                    id="fade-menu"
+                    MenuListProps={{
+                      "aria-labelledby": "fade-button",
+                    }}
+                    anchorEl={adminMenuAnchor}
+                    open={adminMenuOpen}
+                    onClose={() => setAdminMenuAnchor(null)}
+                    TransitionComponent={Fade}
+                  >
+                    <MenuItem
+                      component={Link}
+                      to="/admin/productlist"
+                      onClick={() => setAdminMenuAnchor(null)}
+                    >
+                      Products
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/admin/userlist"
+                      onClick={() => setAdminMenuAnchor(null)}
+                    >
+                      Users
+                    </MenuItem>
+                    <MenuItem
+                      component={Link}
+                      to="/admin/orderlist"
+                      onClick={() => setAdminMenuAnchor(null)}
+                    >
+                      Orders
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
+
+              {userInfo ? (
+                <div>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={(e) => setUserMenuAnchor(e.currentTarget)}
+                    color="inherit"
+                  >
+                    <AccountCircle sx={{ fontSize: "1.5rem" }} />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={userMenuAnchor}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(userMenuAnchor)}
+                    onClose={() => setUserMenuAnchor(null)}
+                    sx={{ zIndex: "2000" }}
+                  >
+                    <MenuItem
+                      component={Link}
+                      to="/profile"
+                      onClick={() => setUserMenuAnchor(null)}
+                    >
+                      Profile
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setUserMenuAnchor(null);
+                        logoutHandler();
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </div>
+              ) : (
+                <Button
+                  href="/login"
+                  variant="contained"
+                  endIcon={<Person2 />}
+                  sx={{ p: "0 1.3rem", fontSize: "0.9rem", mr: "1rem" }}
+                >
+                  Login
+                </Button>
+              )}
+
+              <IconButton
+                component={Link}
+                to="/cart"
+                size="large"
+                color="inherit"
+              >
+                <Badge
+                  badgeContent={cartItems.reduce(
+                    (acc, item) => acc + item.qty,
+                    0
+                  )}
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      color: "white",
+                      backgroundColor: theme.palette.pink.main,
+                    },
+                  }}
+                >
+                  <ShoppingCart sx={{ fontSize: "1.5rem" }} />
+                </Badge>
+              </IconButton>
+            </Box>
+
+            <Stack
+              direction={"row"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              sx={{ display: { xs: "flex", md: "none" } }}
+            >
+              {userInfo ? (
+                <Box>
+                  <IconButton
+                    sx={{ fontSize: "1.5rem" }}
+                    aria-label="show more"
+                    aria-controls={mobileMenuId}
+                    aria-haspopup="true"
+                    onClick={(e) => setMobileMoreAnchorEl(e.currentTarget)}
+                    color="inherit"
+                  >
+                    <MenuOpen />
+                  </IconButton>
+                </Box>
+              ) : (
+                <Button
+                  href="/login"
+                  variant="contained"
+                  endIcon={<Person2 />}
+                  sx={{ p: "0 1.3rem", fontSize: "0.9rem", mr: "1rem" }}
+                >
+                  Login
+                </Button>
+              )}
+
+              <IconButton
+                component={Link}
+                to="/cart"
+                size="large"
+                color="inherit"
+                sx={{ display: { xs: "flex", md: "none" } }}
+              >
+                <Badge
+                  badgeContent={cartItems.reduce(
+                    (acc, item) => acc + item.qty,
+                    0
+                  )}
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      color: "white",
+                      backgroundColor: theme.palette.pink.main,
+                    },
+                  }}
+                >
+                  <ShoppingCart sx={{ fontSize: "1.5rem" }} />
+                </Badge>
+              </IconButton>
+            </Stack>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      {renderMobileMenu}
+    </Box>
   );
 };
 export default Navbar;

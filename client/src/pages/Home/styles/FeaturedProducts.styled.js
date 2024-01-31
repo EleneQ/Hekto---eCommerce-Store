@@ -15,7 +15,7 @@ export const ProductStyled = styled.li`
 `;
 
 export const ImageContainer = styled.div`
-  background-color: ${({ theme }) => theme.colors.gray3};
+
   padding: 2rem;
   border-radius: 10px;
 
@@ -28,7 +28,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const ProductName = styled.p`
-  color: ${({ theme }) => theme.colors.pink8};
+
 `;
 
 export const ProductColors = styled.ul`

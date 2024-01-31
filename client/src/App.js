@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "@mui/material";
 import theme from "./components/styles/theme";
-import GlobalStyles from "./components/styles/Globals";
+// import GlobalStyles from "./components/styles/Globals";
+import CssBaseline from "@mui/material/CssBaseline";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,7 +12,8 @@ import Navbar from "./components/Navbar";
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyles />
+      {/* <GlobalStyles /> */}
+      <CssBaseline />
 
       <HeadingBar />
       <Navbar />

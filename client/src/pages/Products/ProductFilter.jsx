@@ -40,7 +40,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
       <select
         name="sort"
         id="sort"
-        value={searchParams.get("sort")}
+        value={searchParams.get("sort") || ""}
         onChange={(e) =>
           setSearchParams(
             (prev) => {
@@ -51,6 +51,9 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
           )
         }
       >
+        <option value="" selected disabled hidden>
+          Select
+        </option>
         <option value="new">Newest</option>
         <option value="old">Oldest</option>
       </select>

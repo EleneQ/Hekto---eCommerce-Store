@@ -1,4 +1,4 @@
-import { PRODUCTS_URL, UPLOAD_URL } from "../constants";
+import { PRODUCTS_URL, UPLOAD_URL } from "../constants/endpoints";
 import { apiSlice } from "./apiSlice";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
