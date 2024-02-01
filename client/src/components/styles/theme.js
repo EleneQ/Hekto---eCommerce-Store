@@ -32,6 +32,7 @@ const theme = createTheme({
     },
     pink: {
       light: "#ffdbf1",
+      medium: "#FEBAD7",
       mainHover: "rgba(251, 46, 134, 0.8)",
       main: "#fb2e86",
       contrastText: "#fff",
@@ -46,6 +47,7 @@ const theme = createTheme({
       main: "#ff9437",
     },
     green: {
+      mainHover: "rgba(8, 209, 95, 0.9)",
       main: "#08d15f",
       medium: "#33d221",
     },
@@ -65,6 +67,13 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           maxWidth: "1100px",
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
         },
       },
     },

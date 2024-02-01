@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -10,14 +9,14 @@ import { useGetTopRatedProductsQuery } from "../slices/productsApiSlice";
 import { useState } from "react";
 import Loader from "./Loader";
 import Message from "./Message";
-import { Container, Grid, styled, useMediaQuery } from "@mui/material";
+import { Container, Grid, styled, useMediaQuery, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import pinkBackground1 from "../images/Hero/pinkBackground1.svg";
 import pinkBackground2 from "../images/Hero/pinkBackground2.svg";
 import blueBlob from "../images/Hero/blueBlob.svg";
 import chandelier from "../images/Hero/chandelier.png";
 
-const StyledImageContainer = styled("div")(({ theme }) => ({
+const StyledImageContainer = styled("div")({
   position: "relative",
 
   "&::after": {
@@ -33,13 +32,7 @@ const StyledImageContainer = styled("div")(({ theme }) => ({
     backgroundPosition: "bottom left, bottom 5px left 55px",
     backgroundSize: "84%, 87%",
   },
-
-  // [theme.breakpoints.up("xl")]: {
-  //   "&::before": {
-  //     display: "none",
-  //   },
-  // },
-}));
+});
 
 const StyledDiv = styled(Box)(({ theme }) => ({
   position: "relative",

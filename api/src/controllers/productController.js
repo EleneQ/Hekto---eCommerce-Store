@@ -33,7 +33,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
   //pagination
   const pageSize = parseInt(limit);
-  const startIndex = (page - 1) * pageSize;
+  const startIndex = (parseInt(page) - 1) * pageSize;
   const productCount = await Product.countDocuments(filterCriteria);
 
   //response
@@ -180,6 +180,30 @@ const getTopRatedProducts = asyncHandler(async (req, res) => {
   }
 });
 
+const getFeaturedProducts = asyncHandler(async (req, res) => {
+  const { limit = 4, page = 1 } = req.query;
+
+  const pageSize = parseInt(limit);
+  const startIndex = (parseInt(page) - 1) * pageSize;
+  const productCount = await Product.countDocuments({ featured: true });
+
+  const products = await Product.find({ featured: true })
+    .limit(pageSize)
+    .skip(startIndex);
+
+  if (products) {
+    res.status(200);
+    return res.json({
+      products,
+      page: parseInt(page),
+      pages: Math.ceil(productCount / pageSize),
+    });
+  } else {
+    res.status(404);
+    throw new Error("Resouce not found");
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -188,4 +212,5 @@ export {
   deleteProduct,
   createProductReview,
   getTopRatedProducts,
+  getFeaturedProducts,
 };

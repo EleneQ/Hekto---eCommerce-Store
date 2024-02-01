@@ -61,6 +61,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getFeaturedProducts: builder.query({
+      query: (params) => ({
+        url: `${PRODUCTS_URL}/featured`,
+        params: params,
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -73,4 +80,5 @@ export const {
   useDeleteProductMutation,
   useCreateReviewMutation,
   useGetTopRatedProductsQuery,
+  useGetFeaturedProductsQuery,
 } = productsApiSlice;
