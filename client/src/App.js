@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import HeadingBar from "./components/HeadingBar";
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
 
       <HeadingBar />
       <Navbar />
+      <Hero />
 
       <Outlet />
 

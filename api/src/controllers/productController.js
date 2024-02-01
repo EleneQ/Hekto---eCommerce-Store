@@ -163,7 +163,13 @@ const createProductReview = asyncHandler(async (req, res) => {
 });
 
 const getTopRatedProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+  const { discount = 0, limit = 3 } = req.query;
+
+  const products = await Product.find({
+    discount: { $gte: parseInt(discount) },
+  })
+    .sort({ rating: -1 })
+    .limit(parseInt(limit));
 
   if (products) {
     res.status(200);

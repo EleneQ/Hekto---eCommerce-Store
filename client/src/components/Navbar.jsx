@@ -165,8 +165,8 @@ const Navbar = () => {
         position="static"
         sx={{ backgroundColor: "transparent", boxShadow: "none" }}
       >
-        <Container>
-          <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Container maxWidth={false}>
+          <Toolbar sx={{ justifyContent: "space-between" }} disableGutters>
             <Typography
               variant="h6"
               noWrap

@@ -60,6 +60,15 @@ const theme = createTheme({
     fontWeightMedium: 600,
     fontWeightBold: 700,
   },
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          maxWidth: "1100px",
+        },
+      },
+    },
+  },
 });
 
 // const themes = {
