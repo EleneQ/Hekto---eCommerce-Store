@@ -18,7 +18,7 @@ const theme = createTheme({
       dark2: "#5e37ff",
       dark3: "#2f1ac4",
       dark4: "#151875",
-      dark5: "rgba(13, 14, 67, 0.6)",
+      mainHover: "rgba(13, 14, 67, 0.6)",
       main: "#0d0e43",
       contrastText: "#fff",
     },
@@ -32,6 +32,7 @@ const theme = createTheme({
     },
     pink: {
       light: "#ffdbf1",
+      mainHover: "rgba(251, 46, 134, 0.8)",
       main: "#fb2e86",
       contrastText: "#fff",
     },

@@ -107,6 +107,27 @@ const Navbar = () => {
 
       <Divider />
 
+      {!userInfo && (
+        <MenuItem>
+          <Button
+            component={Link}
+            to="/login"
+            variant="contained"
+            endIcon={<Person2 />}
+            sx={{
+              fontSize: "0.7rem",
+              backgroundColor: theme.palette.pink.main,
+              color: theme.palette.pink.contrastText,
+              "&:hover": {
+                backgroundColor: theme.palette.pink.mainHover,
+              },
+            }}
+          >
+            Login
+          </Button>
+        </MenuItem>
+      )}
+
       {userInfo && (
         <MenuItem onClick={(e) => setUserMenuAnchor(e.currentTarget)}>
           <IconButton
@@ -121,7 +142,7 @@ const Navbar = () => {
           <Typography variant="body2">Profile</Typography>
         </MenuItem>
       )}
-      {userInfo.isAdmin && (
+      {userInfo && userInfo.isAdmin && (
         <MenuItem onClick={(e) => setAdminMenuAnchor(e.currentTarget)}>
           <IconButton
             sx={{ fontSize: "1.1rem" }}
@@ -196,7 +217,7 @@ const Navbar = () => {
                       p: "0rem 0.8rem",
                       mx: "1rem",
                       "&:hover": {
-                        backgroundColor: theme.palette.secondary.dark5,
+                        backgroundColor: theme.palette.secondary.mainHover,
                       },
                     }}
                   >
@@ -284,10 +305,20 @@ const Navbar = () => {
                 </div>
               ) : (
                 <Button
-                  href="/login"
+                  component={Link}
+                  to="/login"
                   variant="contained"
                   endIcon={<Person2 />}
-                  sx={{ p: "0 1.3rem", fontSize: "0.9rem", mr: "1rem" }}
+                  sx={{
+                    p: "0 1.3rem",
+                    fontSize: "0.9rem",
+                    mr: "1rem",
+                    backgroundColor: theme.palette.pink.main,
+                    color: theme.palette.pink.contrastText,
+                    "&:hover": {
+                      backgroundColor: theme.palette.pink.mainHover,
+                    },
+                  }}
                 >
                   Login
                 </Button>
@@ -322,29 +353,18 @@ const Navbar = () => {
               justifyContent={"center"}
               sx={{ display: { xs: "flex", md: "none" } }}
             >
-              {userInfo ? (
-                <Box>
-                  <IconButton
-                    sx={{ fontSize: "1.5rem" }}
-                    aria-label="show more"
-                    aria-controls={mobileMenuId}
-                    aria-haspopup="true"
-                    onClick={(e) => setMobileMoreAnchorEl(e.currentTarget)}
-                    color="inherit"
-                  >
-                    <MenuOpen />
-                  </IconButton>
-                </Box>
-              ) : (
-                <Button
-                  href="/login"
-                  variant="contained"
-                  endIcon={<Person2 />}
-                  sx={{ p: "0 1.3rem", fontSize: "0.9rem", mr: "1rem" }}
+              <Box>
+                <IconButton
+                  sx={{ fontSize: "1.5rem" }}
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={(e) => setMobileMoreAnchorEl(e.currentTarget)}
+                  color="inherit"
                 >
-                  Login
-                </Button>
-              )}
+                  <MenuOpen />
+                </IconButton>
+              </Box>
 
               <IconButton
                 component={Link}
