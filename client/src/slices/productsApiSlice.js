@@ -1,4 +1,4 @@
-import { PRODUCTS_URL, UPLOAD_URL } from "../constants/endpoints";
+import { PRODUCTS_URL, UPLOAD_URL, TABS_URL } from "../constants/endpoints";
 import { apiSlice } from "./apiSlice";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -68,6 +68,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    getLatestProducts: builder.query({
+      query: ({ selectedTab, limit }) => ({
+        url: `${TABS_URL}/${selectedTab}`,
+        params: { limit },
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -81,4 +88,5 @@ export const {
   useCreateReviewMutation,
   useGetTopRatedProductsQuery,
   useGetFeaturedProductsQuery,
+  useGetLatestProductsQuery,
 } = productsApiSlice;

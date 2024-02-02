@@ -22,6 +22,9 @@ import {
 } from "@mui/material";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 import { AddShoppingCartRounded } from "@mui/icons-material";
+import { addToCart } from "../../slices/cartSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const StyledViewButton = styled(Button)(({ theme }) => ({
   position: "absolute",
@@ -42,6 +45,8 @@ const FeaturedProducts = () => {
   const theme = useTheme();
   const [pageNum, setPageNum] = useState(1);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
+
+  const dispatch = useDispatch();
 
   const { data, isLoading, error } = useGetFeaturedProductsQuery({
     page: pageNum,
@@ -69,14 +74,13 @@ const FeaturedProducts = () => {
 
             <Grid
               container
-              spacing={{ xs: 3, sm: 5, lg: 3 }}
+              spacing={{ xs: 3, sm: 5, md: 3 }}
               justifyContent={{ xs: "center", md: "space-between" }}
             >
               {data.products.map((product, index) => (
                 <Grid item key={index} xs={10} sm={6} md={3}>
                   <Card
                     sx={{
-                      textDecoration: "none",
                       height: "100%",
                       "&:hover": {
                         bgcolor: theme.palette.secondary.dark3,
@@ -104,6 +108,10 @@ const FeaturedProducts = () => {
                             color: theme.palette.secondary.dark4,
                             zIndex: "5",
                             display: "none",
+                          }}
+                          onClick={() => {
+                            dispatch(addToCart({ ...product, qty: 1 }));
+                            toast.success("Product added to cart");
                           }}
                         >
                           <AddShoppingCartRounded />

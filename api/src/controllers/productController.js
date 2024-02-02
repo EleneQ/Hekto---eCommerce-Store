@@ -17,6 +17,7 @@ const getProducts = asyncHandler(async (req, res) => {
     discount = 0,
     colors = "",
     categories = "",
+    topRated = "",
   } = req.query;
 
   //filtering and sorting
@@ -147,9 +148,7 @@ const createProductReview = asyncHandler(async (req, res) => {
     };
 
     product.reviews.push(review);
-
     product.numReviews = product.reviews.length;
-
     product.rating =
       product.reviews.reduce((acc, review) => acc + review.rating, 0) /
       product.reviews.length;
@@ -204,6 +203,40 @@ const getFeaturedProducts = asyncHandler(async (req, res) => {
   }
 });
 
+const getLatestProducts = asyncHandler(async (req, res) => {
+  const { tab: selectedTab } = req.params;
+  const { limit = 10 } = req.query;
+
+  let sortCriteria = {};
+  let filterCriteria = {};
+
+  switch (selectedTab) {
+    case "new":
+      sortCriteria = { createdAt: -1 };
+      break;
+    case "most-reviewed":
+      sortCriteria = { numReviews: -1 };
+      break;
+    case "special-offer":
+      filterCriteria = { discount: { $exists: true } };
+      break;
+    default:
+      throw new Error("Invalid tab selection");
+  }
+
+  const products = await Product.find(filterCriteria)
+    .sort(sortCriteria)
+    .limit(parseInt(limit));
+
+  if (products) {
+    res.status(200);
+    return res.json(products);
+  } else {
+    res.status(404);
+    throw new Error("Resouce not found");
+  }
+});
+
 export {
   getProducts,
   getProductById,
@@ -213,4 +246,5 @@ export {
   createProductReview,
   getTopRatedProducts,
   getFeaturedProducts,
+  getLatestProducts,
 };

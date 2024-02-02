@@ -1,73 +1,163 @@
 import { useState } from "react";
-import SectionHeading from "../../components/styles/SectionHeading.styled";
-import Container from "../../components/styles/Container.styled";
-import { CategoryList } from "./styles/LatestProducts.styled";
-import { useGetProductsQuery } from "../../slices/productsApiSlice";
+import { useGetLatestProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
+import {
+  Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Container,
+  Grid,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+  styled,
+  useTheme,
+} from "@mui/material";
+import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import { Link } from "react-router-dom";
 
-export const categories = [
-  { title: "New Arrival", value: "new" },
-  { title: "Best Seller", value: "best" },
-  { title: "Special Offer", value: "special" },
-];
+const StyledTab = styled(Tab)(({ theme }) => ({
+  "&.Mui-selected": {
+    color: theme.palette.pink.main,
+  },
+}));
 
 const LatestProducts = () => {
-  const [selectedCategory, setSelectedCategory] = useState("new");
+  const theme = useTheme();
+  const [selectedTab, setSelectedTab] = useState("new");
 
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const params = { selectedTab, limit: 6 };
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useGetLatestProductsQuery(params);
 
-  //TODO: CHANGE THIS TO FETCH ONLY THE FEATURED PRODUCTS!!!
-  // useEffect(() => {
-  //   let data: Product[] = [];
-
-  //   switch (selectedCategory) {
-  //     case "new":
-  //       data = productExamples;
-  //       break;
-  //     case "best":
-  //       data = [...productExamples].sort((a, b) => b.sales - a.sales);
-  //       break;
-  //     case "special":
-  //       data = productExamples.filter((product) => product.discount);
-  //       break;
-  //     default:
-  //       data = productExamples;
-  //   }
-  //   setProducts(data.slice(0, 6));
-  // }, [selectedCategory]);
+  const handleCategoryChange = (e, newValue) => {
+    setSelectedTab(newValue);
+  };
 
   return (
     <section>
-      <Container>
+      <Container maxWidth={false} sx={{ textAlign: "center" }}>
         {isLoading ? (
           <Loader />
         ) : error ? (
           <Message>{error?.data?.message || error.error}</Message>
         ) : (
           <>
-            <SectionHeading>Latest Products</SectionHeading>
-            <CategoryList>
-              {categories.map((category) => (
-                <li
-                  style={{
-                    color: category.value === selectedCategory ? "red" : "",
-                  }}
-                  onClick={() => setSelectedCategory(category.value)}
-                >
-                  {category.title}
-                </li>
-              ))}
-            </CategoryList>
-            <ul style={{ display: "flex", textAlign: "center" }}>
+            <Typography
+              variant="h2"
+              color={theme.palette.secondary.main}
+              fontWeight={700}
+              mt="5rem"
+              mb="2rem"
+            >
+              Latest Products
+            </Typography>
+
+            <Tabs
+              value={selectedTab}
+              onChange={handleCategoryChange}
+              textColor="secondary"
+              aria-label="secondary tabs example"
+              centered
+              TabIndicatorProps={{
+                style: { background: theme.palette.pink.main },
+              }}
+              sx={{ mb: "3rem" }}
+            >
+              <StyledTab value="new" label="New Arrival" />
+              <StyledTab value="most-reviewed" label="Most Reviewed" />
+              <StyledTab value="special-offer" label="Special Offer" />
+            </Tabs>
+
+            <Grid
+              container
+              rowSpacing={5}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              justifyContent={"center"}
+            >
               {products.map((product) => (
-                <li>
-                  <img src={product.image} alt={product.name} />
-                  <p>${product.price}</p>
-                  {product.discount && <p>On Sale</p>}
-                </li>
+                <Grid item xs={9} sm={5} md={4}>
+                  <Card
+                    sx={{
+                      maxWidth: 345,
+                      boxShadow: "none",
+                      textDecoration: "none",
+                    }}
+                    component={Link}
+                    to={`/product/${product._id}`}
+                  >
+                    <CardActionArea>
+                      <Box
+                        height={200}
+                        p={"2rem"}
+                        bgcolor={theme.palette.primary.main}
+                      >
+                        <CardMedia
+                          component="img"
+                          height="100%"
+                          sx={{ objectFit: "contain" }}
+                          image={`${product.image}`}
+                          alt={product.name}
+                        />
+                      </Box>
+
+                      <CardContent>
+                        <Typography
+                          gutterBottom
+                          variant="h4"
+                          fontWeight={600}
+                          color={theme.palette.secondary.dark4}
+                          sx={{
+                            fontSize: "0.9rem",
+                            display: "inline-block",
+                            borderBottom: `solid ${theme.palette.primary.light} 2.5px`,
+                          }}
+                        >
+                          {product.name}
+                        </Typography>
+
+                        <Stack
+                          direction={"row"}
+                          justifyContent={"center"}
+                          spacing={2}
+                        >
+                          <Typography
+                            variant="body2"
+                            color={theme.palette.pink.main}
+                            sx={{
+                              textDecoration: product.discount
+                                ? "line-through"
+                                : "",
+                            }}
+                          >
+                            ${product.price}
+                          </Typography>
+                          {product.discount && (
+                            <Typography
+                              variant="body2"
+                              color={theme.palette.secondary.dark4}
+                            >
+                              $
+                              {calcDiscountedPrice(
+                                product.price,
+                                product.discount
+                              )}
+                            </Typography>
+                          )}
+                        </Stack>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
               ))}
-            </ul>
+            </Grid>
           </>
         )}
       </Container>
