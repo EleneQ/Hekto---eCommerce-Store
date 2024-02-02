@@ -237,6 +237,32 @@ const getLatestProducts = asyncHandler(async (req, res) => {
   }
 });
 
+const updateProductViewsById = asyncHandler(async (req, res) => {
+  const productId = req.params.id;
+
+  const product = await Product.findById(productId);
+
+  if (product) {
+    product.views += 1;
+
+    const updatedProduct = await product.save();
+    res.status(200).json(updatedProduct);
+  } else {
+    res.status(404);
+    throw new Error("Resource not found");
+  }
+});
+
+const getTrendingProducts = asyncHandler(async (req, res) => {
+  const { limit = 10 } = req.query;
+
+  const products = await Product.find()
+    .sort({ views: -1 })
+    .limit(parseInt(limit));
+
+  res.status(200).json(products);
+});
+
 export {
   getProducts,
   getProductById,
@@ -247,4 +273,6 @@ export {
   getTopRatedProducts,
   getFeaturedProducts,
   getLatestProducts,
+  updateProductViewsById,
+  getTrendingProducts,
 };

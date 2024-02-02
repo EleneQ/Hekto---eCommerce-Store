@@ -75,6 +75,20 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+    updateProductViews: builder.mutation({
+      query: (productId) => ({
+        url: `${PRODUCTS_URL}/${productId}/views`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Products"],
+    }),
+    getTrendingProducts: builder.query({
+      query: ({ limit }) => ({
+        url: `${PRODUCTS_URL}/trending`,
+        params: { limit },
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -89,4 +103,6 @@ export const {
   useGetTopRatedProductsQuery,
   useGetFeaturedProductsQuery,
   useGetLatestProductsQuery,
+  useUpdateProductViewsMutation,
+  useGetTrendingProductsQuery,
 } = productsApiSlice;

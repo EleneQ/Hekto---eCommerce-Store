@@ -83,10 +83,10 @@ const LatestProducts = () => {
               justifyContent={"center"}
             >
               {products.map((product) => (
-                <Grid item xs={9} sm={5} md={4}>
+                <Grid key={product._id} item xs={9} sm={5} md={4}>
                   <Card
                     sx={{
-                      maxWidth: 345,
+                      maxWidth: 250,
                       boxShadow: "none",
                       textDecoration: "none",
                     }}

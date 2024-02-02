@@ -1,6 +1,6 @@
 import FeaturedProducts from "./FeaturedProducts";
 import LatestProducts from "./LatestProducts";
-// import TrendingProducts from "./TrendingProducts";
+import TrendingProducts from "./TrendingProducts";
 // import TopCategories from "./TopCategories";
 
 const HomePage = () => {
@@ -8,8 +8,8 @@ const HomePage = () => {
     <>
       <FeaturedProducts />
       <LatestProducts />
-      {/* <TrendingProducts />
-      <TopCategories /> */}
+      <TrendingProducts />
+      {/* <TopCategories /> */}
     </>
   );
 };
