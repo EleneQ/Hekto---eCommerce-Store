@@ -1,6 +1,6 @@
 import {
   useGetTrendingProductsQuery,
-  useGetProductsQuery,
+  useGetDiscountedProductsQuery,
 } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
@@ -47,10 +47,10 @@ const TrendingProducts = () => {
   } = useGetTrendingProductsQuery({ limit: 4 });
 
   const {
-    data: discountedItemData,
+    data: discountedProducts,
     isLoading: loadingDiscounted,
     error: errorDiscounted,
-  } = useGetProductsQuery({ discount: 5, limit: 5 });
+  } = useGetDiscountedProductsQuery({ discount: 5, limit: 5, sort: true });
 
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
@@ -172,58 +172,56 @@ const TrendingProducts = () => {
                 justifyContent={"center"}
                 mt={"0.3rem"}
               >
-                {discountedItemData.products
-                  .slice(0, 2)
-                  .map((product, index) => (
-                    <Grid key={product._id} item xs={9} sm={5} lg={4.5}>
-                      <Card
-                        sx={{
-                          height: "100%",
-                          maxWidth: 400,
-                          bgcolor:
-                            index === 1
-                              ? theme.palette.primary.main
-                              : theme.palette.pink.light,
-                        }}
-                      >
-                        <CardActionArea sx={{ p: "0.7rem", height: "100%" }}>
-                          <CardContent>
-                            <Typography
-                              gutterBottom
-                              variant="h4"
-                              fontWeight={600}
-                              color={theme.palette.secondary.dark4}
-                              sx={{ fontSize: "1.1rem" }}
-                            >
-                              {product.discount}% off on this product
-                            </Typography>
-                            <Typography
-                              component={Link}
-                              to={`/product/${product._id}`}
-                              gutterBottom
-                              variant="h4"
-                              fontWeight={600}
-                              color={theme.palette.pink.main}
-                              sx={{ fontSize: "1rem" }}
-                            >
-                              Shop Now
-                            </Typography>
-                          </CardContent>
-                          <CardMedia
-                            component="img"
-                            height={100}
-                            sx={{
-                              objectFit: "contain",
-                              maxWidth: "70%",
-                              marginLeft: "auto",
-                            }}
-                            image={`${product.image}`}
-                            alt={product.name}
-                          />
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                  ))}
+                {discountedProducts.slice(0, 2).map((product, index) => (
+                  <Grid key={product._id} item xs={9} sm={5} lg={4.5}>
+                    <Card
+                      sx={{
+                        height: "100%",
+                        maxWidth: 400,
+                        bgcolor:
+                          index === 1
+                            ? theme.palette.primary.main
+                            : theme.palette.pink.light,
+                      }}
+                    >
+                      <CardActionArea sx={{ p: "0.7rem", height: "100%" }}>
+                        <CardContent>
+                          <Typography
+                            gutterBottom
+                            variant="h4"
+                            fontWeight={600}
+                            color={theme.palette.secondary.dark4}
+                            sx={{ fontSize: "1.1rem" }}
+                          >
+                            {product.discount}% off on this product
+                          </Typography>
+                          <Typography
+                            component={Link}
+                            to={`/product/${product._id}`}
+                            gutterBottom
+                            variant="h4"
+                            fontWeight={600}
+                            color={theme.palette.pink.main}
+                            sx={{ fontSize: "1rem" }}
+                          >
+                            Shop Now
+                          </Typography>
+                        </CardContent>
+                        <CardMedia
+                          component="img"
+                          height={100}
+                          sx={{
+                            objectFit: "contain",
+                            maxWidth: "70%",
+                            marginLeft: "auto",
+                          }}
+                          image={`${product.image}`}
+                          alt={product.name}
+                        />
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
 
                 <Grid item xs={9} sm={10} lg={3}>
                   <Stack
@@ -232,7 +230,7 @@ const TrendingProducts = () => {
                     alignItems={"center"}
                     spacing={1}
                   >
-                    {discountedItemData.products.slice(2, 5).map((product) => (
+                    {discountedProducts.slice(2, 5).map((product) => (
                       <Stack
                         direction="row"
                         spacing={1}

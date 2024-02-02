@@ -1,4 +1,4 @@
-import { PRODUCTS_URL, UPLOAD_URL, TABS_URL } from "../constants/endpoints";
+import { PRODUCTS_URL, UPLOAD_URL } from "../constants/endpoints";
 import { apiSlice } from "./apiSlice";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -70,7 +70,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     getLatestProducts: builder.query({
       query: ({ selectedTab, limit }) => ({
-        url: `${TABS_URL}/${selectedTab}`,
+        url: `${PRODUCTS_URL}/latest/${selectedTab}`,
         params: { limit },
       }),
       keepUnusedDataFor: 5,
@@ -86,6 +86,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       query: ({ limit }) => ({
         url: `${PRODUCTS_URL}/trending`,
         params: { limit },
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    getDiscountedProducts: builder.query({
+      query: (params) => ({
+        url: `${PRODUCTS_URL}/discount`,
+        params: params,
       }),
       keepUnusedDataFor: 5,
     }),
@@ -105,4 +112,5 @@ export const {
   useGetLatestProductsQuery,
   useUpdateProductViewsMutation,
   useGetTrendingProductsQuery,
+  useGetDiscountedProductsQuery,
 } = productsApiSlice;

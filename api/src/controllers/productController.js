@@ -263,6 +263,19 @@ const getTrendingProducts = asyncHandler(async (req, res) => {
   res.status(200).json(products);
 });
 
+const getDiscountedProducts = asyncHandler(async (req, res) => {
+  const { limit = 10, discount: discountValue = 0, sort } = req.query;
+  const sortCriteria = sort === "true" ? { discount: -1 } : {};
+
+  const products = await Product.find({
+    discount: { $gte: discountValue },
+  })
+    .sort(sortCriteria)
+    .limit(parseInt(limit));
+
+  res.status(200).json(products);
+});
+
 export {
   getProducts,
   getProductById,
@@ -275,4 +288,5 @@ export {
   getLatestProducts,
   updateProductViewsById,
   getTrendingProducts,
+  getDiscountedProducts,
 };
