@@ -169,12 +169,12 @@ const Navbar = () => {
         <Container maxWidth={false}>
           <Toolbar sx={{ justifyContent: "space-between" }} disableGutters>
             <Typography
-              variant="h6"
+              variant="h1"
               noWrap
               component={Link}
+              to="/"
               fontWeight={700}
               fontSize={"1.5rem"}
-              href="/"
               sx={{
                 color: theme.palette.secondary.main,
                 textDecoration: "none",

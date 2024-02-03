@@ -12,8 +12,8 @@ const HomePage = () => {
       <FeaturedProducts />
       <LatestProducts />
       <TrendingProducts />
-      <TopCategories />
       <Subscription />
+      <TopCategories />
     </>
   );
 };

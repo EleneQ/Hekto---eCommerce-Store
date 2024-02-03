@@ -62,6 +62,17 @@ const StyledDiv = styled(Box)(({ theme }) => ({
   },
 }));
 
+const StyledShopNowButton = styled(Button)(({ theme }) => ({
+  color: "white",
+  backgroundColor: theme.palette.pink.main,
+  "&:hover": {
+    backgroundColor: theme.palette.pink.mainHover,
+  },
+  marginTop: "1.5rem",
+  fontSize: "0.9rem",
+  padding: "0.5rem 1rem",
+}));
+
 const Hero = () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
@@ -128,21 +139,13 @@ const Hero = () => {
                   in est adipiscing in phasellus non in justo.
                 </Typography>
 
-                <Button
+                <StyledShopNowButton
+                  variant="contained"
                   component={Link}
                   to="/products"
-                  sx={{
-                    bgcolor: theme.palette.pink.main,
-                    "&:hover": {
-                      bgcolor: theme.palette.pink.mainHover,
-                    },
-                    mt: "1.5rem",
-                    fontSize: "0.9rem",
-                    p: "0.5rem 1rem",
-                  }}
                 >
                   Shop Now
-                </Button>
+                </StyledShopNowButton>
               </Grid>
 
               <Grid
