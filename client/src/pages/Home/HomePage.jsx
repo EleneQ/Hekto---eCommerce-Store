@@ -1,7 +1,7 @@
 import FeaturedProducts from "./FeaturedProducts";
 import LatestProducts from "./LatestProducts";
 import TrendingProducts from "./TrendingProducts";
-// import TopCategories from "./TopCategories";
+import TopCategories from "./TopCategories";
 
 const HomePage = () => {
   return (
@@ -9,7 +9,7 @@ const HomePage = () => {
       <FeaturedProducts />
       <LatestProducts />
       <TrendingProducts />
-      {/* <TopCategories /> */}
+      <TopCategories />
     </>
   );
 };

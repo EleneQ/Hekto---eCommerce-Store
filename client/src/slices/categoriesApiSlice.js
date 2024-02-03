@@ -4,8 +4,9 @@ import { CATEGORIES_URL, UPLOAD_URL } from "../constants/endpoints";
 export const categorisApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCategories: builder.query({
-      query: () => ({
+      query: (paginationDetails) => ({
         url: CATEGORIES_URL,
+        params: paginationDetails,
       }),
       providesTags: ["Categories"],
       keepUnusedDataFor: 5,

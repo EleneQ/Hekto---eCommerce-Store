@@ -25,9 +25,10 @@ const theme = createTheme({
     purple: {
       lightest: "#e5e0fc",
       light: "rgba(236, 210, 250, 0.35)",
-      medium: "#e248ff",
-      main: "#7E33E0",
-      dark: "#603eff",
+      medium: "#7E33E0",
+      main: "#e248ff",
+      dark1: "#9877E7",
+      dark2: "#603eff",
       contrastText: "#f1f1f1",
     },
     pink: {

@@ -54,8 +54,8 @@ const FeaturedProducts = () => {
   });
 
   return (
-    <section style={{ textAlign: "center" }}>
-      <Container maxWidth={false}>
+    <section>
+      <Container maxWidth={false} sx={{ textAlign: "center" }}>
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -212,6 +212,13 @@ const FeaturedProducts = () => {
               pages={data.pages}
               currentPageNum={pageNum}
               setPageNum={setPageNum}
+              listItemStyles={{
+                borderRadius: "10px",
+                width: "25px",
+                height: "5px",
+                indicatorColor: theme.palette.pink.main,
+                bgColor: theme.palette.pink.medium,
+              }}
             />
           </>
         )}

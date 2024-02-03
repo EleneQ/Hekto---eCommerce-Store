@@ -27,9 +27,7 @@ const getProducts = asyncHandler(async (req, res) => {
   const productCount = await Product.countDocuments({});
 
   //response
-  const products = await Product.find(filterCriteria)
-    .limit(parsedLimit)
-    .skip(startIndex);
+  const products = await Product.find().limit(parsedLimit).skip(startIndex);
 
   res.json({
     products,

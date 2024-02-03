@@ -2,8 +2,32 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import Category from "../models/categoryModel.js";
 
 const getCategories = asyncHandler(async (req, res) => {
-  const categories = await Category.find({});
-  res.status(200).json(categories);
+  const { page = 1, limit = 100 } = req.query;
+
+  //pagination
+  const parsedLimit = parseInt(limit);
+  const parsedPage = parseInt(page);
+
+  if (
+    isNaN(parsedLimit) ||
+    isNaN(parsedPage) ||
+    parsedLimit <= 0 ||
+    parsedPage <= 0
+  ) {
+    res.status(400).json({ message: "Invalid limit or page number provided" });
+    return;
+  }
+
+  const startIndex = (parsedPage - 1) * parsedLimit;
+  const categoryCount = await Category.countDocuments();
+
+  const categories = await Category.find().limit(parsedLimit).skip(startIndex);
+
+  res.json({
+    categories,
+    page: parsedPage,
+    pages: Math.ceil(categoryCount / parsedLimit),
+  });
 });
 
 const createCategory = asyncHandler(async (req, res) => {

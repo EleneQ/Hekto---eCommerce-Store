@@ -8,9 +8,12 @@ import {
   discountOffers,
   colorList,
 } from "../../constants/productFilterOptions";
+import { useLocation } from "react-router-dom";
 
 const ProductFilters = ({ searchParams, setSearchParams }) => {
-  const { data: categories, isLoading, error } = useGetCategoriesQuery();
+  const { data, isLoading, error } = useGetCategoriesQuery();
+
+  const location = useLocation();
 
   const handleCheckboxFilter = (e, filterType, filterTitle) => {
     const filter = filterTitle.toLowerCase();
@@ -30,8 +33,11 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
   };
 
   const isParamChecked = (filterType, filterTitle) => {
-    const brands = searchParams.get(`${filterType}`) || "";
-    return brands.split(",").includes(filterTitle.toLowerCase());
+    const urlSearchParams = new URLSearchParams(location.search);
+    
+    const param = urlSearchParams.get(`${filterType}`) || "";
+
+    return param.split(",").includes(filterTitle.toLowerCase());
   };
 
   return (
@@ -98,7 +104,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
             <Message>{error?.data?.message || error.error}</Message>
           ) : (
             <ul>
-              {categories.map((category) => (
+              {data.categories.map((category) => (
                 <li key={category.name} style={{ textTransform: "capitalize" }}>
                   <label htmlFor={category.name}>
                     {category.name}

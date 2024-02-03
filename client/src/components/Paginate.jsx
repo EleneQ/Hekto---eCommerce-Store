@@ -1,7 +1,31 @@
-import { List, ListItem, useTheme } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 
-const Paginate = ({ pages, currentPageNum, setSearchParams, setPageNum }) => {
-  const theme = useTheme();
+const Paginate = ({
+  pages,
+  setSearchParams,
+  setPageNum,
+  currentPageNum,
+  listItemStyles = {},
+}) => {
+  const {
+    borderRadius = "10px",
+    width = "25px",
+    height = "5px",
+    indicatorColor = "skyblue",
+    bgColor = "transparent",
+    border = "none",
+  } = listItemStyles;
+
+  const handleClick = (page) => {
+    if (setPageNum) {
+      setPageNum(page);
+    } else {
+      setSearchParams((prev) => {
+        prev.set("p", page);
+        return prev;
+      });
+    }
+  };
 
   return (
     pages > 1 && (
@@ -18,29 +42,18 @@ const Paginate = ({ pages, currentPageNum, setSearchParams, setPageNum }) => {
           <ListItem
             key={page + 1}
             sx={{
-              borderRadius: "10px",
-              backgroundColor:
-                page + 1 === currentPageNum
-                  ? theme.palette.pink.main
-                  : theme.palette.pink.medium,
-              width: "25px",
-              height: "5px",
+              borderRadius: borderRadius,
+              border: border,
+              width: width,
+              height: height,
               padding: 0,
+              backgroundColor:
+                currentPageNum === page + 1 ? indicatorColor : bgColor,
               "&:hover": {
                 cursor: "pointer",
               },
             }}
-            onClick={
-              setPageNum
-                ? () => {
-                    setPageNum(page + 1);
-                  }
-                : () =>
-                    setSearchParams((prev) => {
-                      prev.set("p", page + 1);
-                      return prev;
-                    })
-            }
+            onClick={() => handleClick(page + 1)}
           />
         ))}
       </List>
