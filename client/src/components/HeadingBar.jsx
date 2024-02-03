@@ -8,7 +8,7 @@ const HeadingBar = () => {
     <Box
       p={"0.3rem"}
       textAlign={"center"}
-      sx={{ backgroundColor: theme.palette.purple.main }}
+      sx={{ backgroundColor: theme.palette.purple.medium }}
     >
       <Typography variant="body2" color={theme.palette.purple.contrastText}>
         Hurry up - we're offering discounts!

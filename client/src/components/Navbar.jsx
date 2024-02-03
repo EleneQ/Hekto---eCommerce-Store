@@ -22,6 +22,7 @@ import {
   Typography,
   styled,
   Divider,
+  useTheme,
 } from "@mui/material";
 import {
   ShoppingCart,
@@ -31,7 +32,6 @@ import {
   MenuOpen,
 } from "@mui/icons-material";
 import { Link, NavLink } from "react-router-dom";
-import theme from "./styles/theme";
 import { navLinks } from "../constants/navLinks";
 
 const StyledNavLink = styled(ListItemButton)(({ theme }) => ({
@@ -47,6 +47,7 @@ const StyledNavLink = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const Navbar = () => {
+  const theme = useTheme();
   const [adminMenuAnchor, setAdminMenuAnchor] = useState(null);
   const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);

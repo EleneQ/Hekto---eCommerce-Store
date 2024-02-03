@@ -36,6 +36,8 @@ const StyledCategoryBox = styled(Box)(
     position: "relative",
     borderRadius: "999px",
     backgroundColor: theme.palette.primary.main,
+    width: { xs: "150px", md: "200px" },
+    aspectRatio: "1",
 
     "&:hover .categoryHoverVisible": {
       display: "block",
@@ -100,10 +102,10 @@ const TopCategories = () => {
               alignItems={"center"}
             >
               {data.categories.map((category, index) => (
-                <Grid item xs={10} sm={5} md={3}>
+                <Grid item xs={5} sm={4} md={3}>
                   <StyledCategoryBox
                     boxShadow={"rgba(100, 100, 111, 0.2) 0px 7px 27px 0px"}
-                    p={"2.5rem"}
+                    p={{ xs: "1.5rem", sm: "2.5rem" }}
                     position={"relative"}
                     borderRadius={"999px"}
                     bgcolor={theme.palette.primary.main}
@@ -112,10 +114,11 @@ const TopCategories = () => {
                     hoveredCategoryIndex={hoveredCategoryIndex}
                     index={index}
                   >
-                    <img
-                      style={{
-                        width: "140px",
-                        aspectRatio: "1",
+                    <Box
+                      component="img"
+                      sx={{
+                        height: "100%",
+                        maxWidth: "100%",
                         objectFit: "contain",
                       }}
                       src={category.image}

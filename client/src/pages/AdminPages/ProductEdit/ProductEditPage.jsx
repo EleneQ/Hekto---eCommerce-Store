@@ -8,7 +8,7 @@ import {
   useGetProductDetailsQuery,
   useUploadProductImageMutation,
 } from "../../../slices/productsApiSlice";
-import Container from "../../../components/styles/Container.styled";
+import { Container } from "@mui/material";
 
 const ProductEditPage = () => {
   const { id: productId } = useParams();

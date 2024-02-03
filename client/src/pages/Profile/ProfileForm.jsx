@@ -7,7 +7,7 @@ import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import { useProfileMutation } from "../../slices/usersApiSlice";
 import { setCredentials } from "../../slices/authSlice";
-import Container from "../../components/styles/Container.styled";
+import { Container } from "@mui/material";
 import { useGetMyOrdersQuery } from "../../slices/ordersApiSlice";
 
 const ProfileForm = () => {

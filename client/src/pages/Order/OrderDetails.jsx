@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Container from "../../components/styles/Container.styled";
+import { Container } from "@mui/material";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import {

@@ -34,9 +34,8 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
 
   const isParamChecked = (filterType, filterTitle) => {
     const urlSearchParams = new URLSearchParams(location.search);
-    
-    const param = urlSearchParams.get(`${filterType}`) || "";
 
+    const param = urlSearchParams.get(`${filterType}`) || "";
     return param.split(",").includes(filterTitle.toLowerCase());
   };
 

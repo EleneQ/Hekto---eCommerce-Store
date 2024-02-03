@@ -30,8 +30,8 @@ const StyledTypographyEllipsis = styled(Typography)({
 });
 
 const StyledTrendingCard = styled(Card)({
+  maxWidth: 400,
   height: "100%",
-  maxWidth: 350,
   mx: "auto",
   textDecoration: "none",
   display: "block",
@@ -60,7 +60,7 @@ const TrendingProducts = () => {
   };
 
   return (
-    <section style={{ margin: "5rem" }}>
+    <section>
       <Container maxWidth={false}>
         <Typography
           textAlign="center"
@@ -85,7 +85,7 @@ const TrendingProducts = () => {
               container
               rowSpacing={5}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              justifyContent={"center"}
+              justifyContent={{ xs: "center" }}
               textAlign="center"
             >
               {trendingProducts.map((product) => (

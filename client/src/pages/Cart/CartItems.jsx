@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
-import Container from "../../components/styles/Container.styled";
+import { Container } from "@mui/material";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 import { useMemo } from "react";
 import { addToCart, removeFromCart } from "../../slices/cartSlice";

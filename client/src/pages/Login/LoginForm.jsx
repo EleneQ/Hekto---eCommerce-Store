@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
 import { useLoginMutation } from "../../slices/usersApiSlice";
 import { setCredentials } from "../../slices/authSlice";
-import Container from "../../components/styles/Container.styled";
+import { Container } from "@mui/material";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");

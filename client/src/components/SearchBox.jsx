@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
-import { SearchInput, SearchForm, SearchButton } from "./styles/Navbar.styled";
 
 const SearchBox = ({ setSearchParams }) => {
   const [keyword, setKeyword] = useState("");
@@ -17,19 +16,20 @@ const SearchBox = ({ setSearchParams }) => {
   };
 
   return (
-    <SearchForm onSubmit={submitHandler}>
-      <SearchInput
-        name="query"
-        type="text"
-        value={keyword}
-        placeholder="Enter search term"
-        onChange={(e) => setKeyword(e.target.value)}
-      />
+    <ul></ul>
+    // <SearchForm onSubmit={submitHandler}>
+    //   <SearchInput
+    //     name="query"
+    //     type="text"
+    //     value={keyword}
+    //     placeholder="Enter search term"
+    //     onChange={(e) => setKeyword(e.target.value)}
+    //   />
 
-      <SearchButton type="submit">
-        <CiSearch />
-      </SearchButton>
-    </SearchForm>
+    //   <SearchButton type="submit">
+    //     <CiSearch />
+    //   </SearchButton>
+    // </SearchForm>
   );
 };
 export default SearchBox;

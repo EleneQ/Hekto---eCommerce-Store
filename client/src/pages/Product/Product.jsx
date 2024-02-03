@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Container from "../../components/styles/Container.styled";
+import { Container } from "@mui/material";
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
 } from "../../slices/productsApiSlice";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import {
-  ProductStyled,
-  Image,
-  PoductColors,
-  ColorsList,
-  AddToCartButton,
-} from "./styles/Product.styled";
 import Rating from "../../components/Rating";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 import { addToCart } from "../../slices/cartSlice";
@@ -75,7 +68,7 @@ const Product = () => {
       ) : (
         <section>
           <Container>
-            <ProductStyled>
+            {/* <ProductStyled>
               <div>
                 <Image src={`${product.image}`} alt={product.name} />
               </div>
@@ -199,7 +192,7 @@ const Product = () => {
                   )}
                 </div>
               </div>
-            </ProductStyled>
+            </ProductStyled> */}
           </Container>
         </section>
       )}

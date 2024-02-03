@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { saveShippingAddress } from "../../slices/cartSlice";
-import Container from "../../components/styles/Container.styled";
 
 const ShippingForm = () => {
   const cart = useSelector((state) => state.cart);

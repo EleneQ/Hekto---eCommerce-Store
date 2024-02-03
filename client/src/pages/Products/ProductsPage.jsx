@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useGetFilteredProductsQuery } from "../../slices/productsApiSlice";
-import Container from "../../components/styles/Container.styled";
+import { Container } from "@mui/material";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import Paginate from "../../components/Paginate";

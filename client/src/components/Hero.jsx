@@ -1,20 +1,24 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import MobileStepper from "@mui/material/MobileStepper";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useGetTopRatedProductsQuery } from "../slices/productsApiSlice";
 import { useState } from "react";
 import Loader from "./Loader";
 import Message from "./Message";
-import { Container, Grid, styled, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Container,
+  Grid,
+  styled,
+  useMediaQuery,
+  useTheme,
+  Typography,
+  Button,
+  Box,
+  MobileStepper,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import pinkBackground1 from "../images/Hero/pinkBackground1.svg";
-import pinkBackground2 from "../images/Hero/pinkBackground2.svg";
-import blueBlob from "../images/Hero/blueBlob.svg";
-import chandelier from "../images/Hero/chandelier.png";
+import pinkBackground1 from "../images/shared/hero/pinkBackground1.svg";
+import pinkBackground2 from "../images/shared/hero/pinkBackground2.svg";
+import blueBlob from "../images/shared/hero/blueBlob.svg";
+import chandelier from "../images/shared/hero/chandelier.png";
 
 const StyledImageContainer = styled("div")({
   position: "relative",
