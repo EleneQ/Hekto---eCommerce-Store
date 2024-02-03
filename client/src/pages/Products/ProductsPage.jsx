@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { useGetProductsQuery } from "../../slices/productsApiSlice";
+import { useGetFilteredProductsQuery } from "../../slices/productsApiSlice";
 import Container from "../../components/styles/Container.styled";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
@@ -21,7 +21,7 @@ const ProductsPage = () => {
     categories: searchParams.get("categories") || [],
   };
 
-  const { data, isLoading, error } = useGetProductsQuery(params);
+  const { data, isLoading, error } = useGetFilteredProductsQuery(params);
 
   return (
     <section style={{ textAlign: "center" }}>

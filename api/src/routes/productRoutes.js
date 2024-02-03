@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import {
   getProducts,
+  getFilteredProducts,
   getProductById,
   createProduct,
   updateProduct,
@@ -18,6 +19,7 @@ import { protect, admin } from "../middleware/authMiddleware.js";
 import blockInDevelopment from "../middleware/preventInDevelopment.js";
 
 router.route("/").get(getProducts).post(protect, admin, createProduct);
+router.get("/filtered", getFilteredProducts);
 router.get("/top", getTopRatedProducts);
 router.get("/featured", getFeaturedProducts);
 router.get("/latest/:tab", getLatestProducts);

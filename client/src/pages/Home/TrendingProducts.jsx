@@ -43,7 +43,7 @@ const TrendingProducts = () => {
   const {
     data: trendingProducts,
     isLoading: loadingTrending,
-    error: errorTranding,
+    error: errorTrending,
   } = useGetTrendingProductsQuery({ limit: 4 });
 
   const {
@@ -75,9 +75,9 @@ const TrendingProducts = () => {
 
         {loadingTrending ? (
           <Loader />
-        ) : errorTranding ? (
+        ) : errorTrending ? (
           <Message>
-            {errorTranding?.data?.message || errorTranding.error}
+            {errorTrending?.data?.message || errorTrending.error}
           </Message>
         ) : (
           <>
@@ -162,7 +162,7 @@ const TrendingProducts = () => {
               <Loader />
             ) : errorDiscounted ? (
               <Message>
-                {errorTranding?.data?.message || errorTranding.error}
+                {errorDiscounted?.data?.message || errorDiscounted.error}
               </Message>
             ) : (
               <Grid

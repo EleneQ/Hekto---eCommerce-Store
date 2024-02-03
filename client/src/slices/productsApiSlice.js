@@ -4,12 +4,20 @@ import { apiSlice } from "./apiSlice";
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: (params) => ({
+      query: (paginationDetails) => ({
         url: PRODUCTS_URL,
-        params: params,
+        params: paginationDetails,
       }),
       providesTags: ["Products"], //now there's no need to refresh the page
       keepUnusedDataFor: 5, //in seconds, how long the data's cached
+    }),
+    getFilteredProducts: builder.query({
+      query: (params) => ({
+        url: `${PRODUCTS_URL}/filtered`,
+        params: params,
+      }),
+      providesTags: ["Products"],
+      keepUnusedDataFor: 5,
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
@@ -101,6 +109,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetFilteredProductsQuery,
   useGetProductDetailsQuery,
   useCreateProductMutation,
   useUpdateProductMutation,

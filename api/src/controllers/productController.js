@@ -7,6 +7,38 @@ import {
 } from "../utils/filterSortProducts.js";
 
 const getProducts = asyncHandler(async (req, res) => {
+  const { page = 1, limit = 100 } = req.query;
+
+  //pagination
+  const parsedLimit = parseInt(limit);
+  const parsedPage = parseInt(page);
+
+  if (
+    isNaN(parsedLimit) ||
+    isNaN(parsedPage) ||
+    parsedLimit <= 0 ||
+    parsedPage <= 0
+  ) {
+    res.status(400).json({ message: "Invalid limit or page number provided" });
+    return;
+  }
+
+  const startIndex = (parsedPage - 1) * parsedLimit;
+  const productCount = await Product.countDocuments({});
+
+  //response
+  const products = await Product.find(filterCriteria)
+    .limit(parsedLimit)
+    .skip(startIndex);
+
+  res.json({
+    products,
+    page: parsedPage,
+    pages: Math.ceil(productCount / parsedLimit),
+  });
+});
+
+const getFilteredProducts = asyncHandler(async (req, res) => {
   const {
     keyword = "",
     page = 1,
@@ -17,7 +49,6 @@ const getProducts = asyncHandler(async (req, res) => {
     discount = 0,
     colors = "",
     categories = "",
-    topRated = "",
   } = req.query;
 
   //filtering and sorting
@@ -33,20 +64,22 @@ const getProducts = asyncHandler(async (req, res) => {
   const sortCriteria = sort ? buildSortCriteria(sort) : {};
 
   //pagination
-  const pageSize = parseInt(limit);
-  const startIndex = (parseInt(page) - 1) * pageSize;
+  const parsedLimit = parseInt(limit);
+  const parsedPage = parseInt(page);
+
+  const startIndex = (parsedPage - 1) * parsedLimit;
   const productCount = await Product.countDocuments(filterCriteria);
 
   //response
   const products = await Product.find(filterCriteria)
     .sort(sortCriteria)
-    .limit(pageSize)
+    .limit(parsedLimit)
     .skip(startIndex);
 
   res.json({
     products,
     page: parseInt(page),
-    pages: Math.ceil(productCount / pageSize),
+    pages: Math.ceil(productCount / parsedLimit),
   });
 });
 
@@ -268,7 +301,7 @@ const getDiscountedProducts = asyncHandler(async (req, res) => {
   const sortCriteria = sort === "true" ? { discount: -1 } : {};
 
   const products = await Product.find({
-    discount: { $gte: discountValue },
+    discount: { $gte: parseInt(discountValue) },
   })
     .sort(sortCriteria)
     .limit(parseInt(limit));
@@ -278,6 +311,7 @@ const getDiscountedProducts = asyncHandler(async (req, res) => {
 
 export {
   getProducts,
+  getFilteredProducts,
   getProductById,
   createProduct,
   updateProduct,
