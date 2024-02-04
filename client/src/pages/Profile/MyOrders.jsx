@@ -32,7 +32,7 @@ const MyOrders = () => {
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   return (
-    <section style={{ marginTop: "5rem" }}>
+    <section style={{ marginTop: "4.5rem" }}>
       <Typography
         variant="h1"
         color={theme.palette.secondary.main}
@@ -47,7 +47,7 @@ const MyOrders = () => {
       ) : error ? (
         <Message>{error?.data?.message || error.error}</Message>
       ) : (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} elevation={5}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -66,7 +66,7 @@ const MyOrders = () => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {order.orderItems.length} item in total
+                    ({order.orderItems.length}) item in total
                   </TableCell>
                   <TableCell align="right">
                     {order.createdAt.substring(0, 10)}

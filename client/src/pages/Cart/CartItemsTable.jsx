@@ -157,12 +157,11 @@ const CartItems = ({ cartItems }) => {
                   </TableCell>
                   <TableCell align="right">
                     <TextField
-                      name="password"
-                      id="password"
+                      name="orderAmount"
+                      id="orderAmount"
                       color="info"
                       type={"number"}
                       value={item.qty}
-                      sx={{ maxWidth: "100%" }}
                       onChange={(e) =>
                         addToCartHandler(item, Number(e.target.value))
                       }

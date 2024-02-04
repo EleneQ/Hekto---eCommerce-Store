@@ -153,57 +153,6 @@ const ProfileForm = () => {
       </StyledUpdateButton>
 
       {isLoading && <Loader />}
-      {/* <form onSubmit={submitHandler}>
-        <label htmlFor="email">
-          Name
-          <input
-            id="name"
-            type="text"
-            name="name"
-            placeholder="Enter Your Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-        <label htmlFor="email">
-          Email Address
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="on"
-          />
-        </label>
-        <label htmlFor="password">
-          Password
-          <input
-            id="confirmPassword"
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={conformPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            autoComplete="on"
-          />
-        </label>
-
-        <button>Update</button>
-        {loadingUpdateProfile && <Loader />}
-      </form> */}
     </Paper>
   );
 };

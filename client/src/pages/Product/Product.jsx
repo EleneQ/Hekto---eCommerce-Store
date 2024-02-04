@@ -1,39 +1,42 @@
 import { useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
-  useGetProductDetailsQuery,
-  useCreateReviewMutation,
-} from "../../slices/productsApiSlice";
+  Box,
+  Button,
+  Container,
+  Grid,
+  Paper,
+  Rating,
+  Stack,
+  TextField,
+  Typography,
+  styled,
+  useTheme,
+} from "@mui/material";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import Rating from "../../components/Rating";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 import { addToCart } from "../../slices/cartSlice";
-import { toast } from "react-toastify";
 
-const Product = () => {
-  const { id: productId } = useParams();
+const StyledAddToCartButton = styled(Button)(({ theme }) => ({
+  color: "white",
+  backgroundColor: theme.palette.pink.main,
+  "&:hover": {
+    backgroundColor: theme.palette.pink.mainHover,
+  },
+  fontSize: "0.9rem",
+  padding: "0.5rem 1rem",
+  textTransform: "capitalize",
+}));
+
+const Product = ({ product, loadingProduct, errorProduct }) => {
+  const theme = useTheme();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-
-  const {
-    data: product,
-    isLoading,
-    refetch,
-    error,
-  } = useGetProductDetailsQuery(productId);
-
-  const [createReview, { isLoading: loadingProductReview }] =
-    useCreateReviewMutation();
-
-  const { userInfo } = useSelector((state) => state.auth);
 
   const addToCartHandler = () => {
     if (product) {
@@ -42,159 +45,132 @@ const Product = () => {
     navigate("/cart");
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    try {
-      await createReview({
-        productId,
-        rating,
-        comment,
-      }).unwrap();
-      refetch(); //no stale data
-      toast.success("Review added successfully");
-      setComment("");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
-
   return (
     <>
-      {isLoading ? (
+      {loadingProduct ? (
         <Loader />
-      ) : error ? (
-        <Message>{error?.data?.message || error.error}</Message>
+      ) : errorProduct ? (
+        <Message>{errorProduct?.data?.message || errorProduct.error}</Message>
       ) : (
-        <section>
-          <Container>
-            {/* <ProductStyled>
-              <div>
-                <Image src={`${product.image}`} alt={product.name} />
-              </div>
-              <div>
-                <div>
-                  <p>{product.price}</p>
-                  {product.discount && product.discount !== 0 && (
-                    <p>
-                      {calcDiscountedPrice(product.price, product.discount)}
-                    </p>
-                  )}
-                </div>
-
-                <p>{product.name}</p>
-                <Rating
-                  value={product.rating}
-                  text={`(${product.numReviews} reviews)`}
+        <Container component={"section"} maxWidth={false} sx={{ mt: "4rem" }}>
+          <Grid
+            container
+            component={Paper}
+            direction={"row"}
+            elevation={4}
+            justifyContent={{ xs: "center", md: "space-between" }}
+            alignItems={"center"}
+            spacing={{ md: 5 }}
+            rowSpacing={{ xs: 3, md: 0 }}
+            p={{ xs: "1.5rem", md: "2.5rem" }}
+            pb={{ xs: "2rem", md: "2.5rem" }}
+          >
+            <Grid item xs={9} md={6}>
+              <Box display={"flex"} justifyContent="center">
+                <Box
+                  component="img"
+                  sx={{ aspectRatio: 1 }}
+                  src={`${product.image}`}
+                  alt={product.name}
                 />
-                <PoductColors>
-                  <p>{product.colors.length === 1 ? "Color:" : "Colors:"}</p>
-                  <ColorsList>
-                    {product.colors.map((color) => (
-                      <li style={{ backgroundColor: `${color.value}` }}></li>
-                    ))}
-                  </ColorsList>
-                </PoductColors>
-                <div>
-                  <p>Categories</p>
-                  <ul>
-                    {product.categories.map((category) => (
-                      <li>{category}</li>
-                    ))}
-                  </ul>
-                </div>
-                <p>
-                  Status:{" "}
-                  {product.countInStock > 0 ? "In Stock" : "Out Of Stick"}
-                </p>
+              </Box>
+            </Grid>
 
-                {product.countInStock > 0 && (
-                  <input
-                    type="number"
-                    value={qty}
-                    min={1}
-                    max={product.countInStock}
-                    onChange={(e) => setQty(Number(e.target.value))}
-                    onBlur={() => {
-                      if (qty > product.countInStock) {
-                        setQty(product.countInStock);
-                      }
-                    }}
-                  />
+            <Grid item xs={9} md={6}>
+              <Typography
+                variant="h2"
+                color={theme.palette.secondary.main}
+                fontWeight={700}
+                fontSize={"1.2rem"}
+                gutterBottom
+              >
+                {product.name}
+              </Typography>
+
+              <Typography
+                variant="body1"
+                display={"flex"}
+                alignItems={"center"}
+                gap={"0.3rem"}
+                color={theme.palette.secondary.main}
+                gutterBottom
+              >
+                <Rating name="rating" value={product.rating} readOnly />{" "}
+                {`(${product.numReviews} reviews)`}
+              </Typography>
+
+              <Stack direction={"row"} spacing={2}>
+                {product.discount && product.discount !== 0 && (
+                  <Typography variant="body1" gutterBottom>
+                    ${calcDiscountedPrice(product.price, product.discount)}
+                  </Typography>
                 )}
 
-                <AddToCartButton
-                  className={product.countInStock > 0 ? "" : "out-of-stock"}
-                  onClick={
-                    product.countInStock > 0 ? addToCartHandler : undefined
-                  }
+                <Typography
+                  variant="body1"
+                  color={theme.palette.pink.main}
+                  gutterBottom
+                  sx={{
+                    textDecoration:
+                      product.discount && product.discount !== 0
+                        ? "line-through"
+                        : "none",
+                  }}
                 >
-                  Add To Cart
-                </AddToCartButton>
-              </div>
+                  ${product.price}
+                </Typography>
+              </Stack>
 
-              <div>
-                <h2>Reviews</h2>
+              <Typography
+                gutterBottom
+                variant="body1"
+                textTransform={"capitalize"}
+                color={theme.palette.secondary.main}
+              >
+                Categories: {product.categories.join(", ")}
+              </Typography>
 
-                {product.reviews.length === 0 && <Message>No Reviews</Message>}
+              <Typography
+                gutterBottom
+                variant="body1"
+                color={theme.palette.secondary.main}
+              >
+                Status: {product.countInStock > 0 ? "In Stock" : "Out Of Stick"}
+              </Typography>
 
-                <ul>
-                  {product.reviews.map((review) => (
-                    <li key={review._id}>
-                      <h3>{review.name}</h3>
+              {product.countInStock > 0 && (
+                <TextField
+                  name="password"
+                  id="password"
+                  color="info"
+                  type={"number"}
+                  value={qty}
+                  sx={{ display: "block", mb: "1rem" }}
+                  onChange={(e) => setQty(Number(e.target.value))}
+                  inputProps={{
+                    min: 1,
+                    max: product.countInStock,
+                    style: { paddingBlock: "0.3rem" },
+                  }}
+                  onBlur={(e) => {
+                    const enteredQty = Number(e.target.value);
+                    if (enteredQty > (product.countInStock || 0)) {
+                      addToCartHandler(product, product.countInStock || 1);
+                    }
+                  }}
+                />
+              )}
 
-                      <Rating value={review.rating} />
-                      <p>{review.createdAt.substring(0, 10)}</p>
-                      <p>{review.comment}</p>
-                    </li>
-                  ))}
-                </ul>
-
-                <div>
-                  <h2>Create a review</h2>
-
-                  {loadingProductReview && <Loader />}
-
-                  {userInfo ? (
-                    <form onSubmit={submitHandler}>
-                      <label htmlFor="rating">
-                        Rating
-                        <select
-                          name="rating"
-                          id="rating"
-                          value={rating}
-                          onChange={(e) => setRating(Number(e.target.value))}
-                        >
-                          <option value="">Select</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                        </select>
-                      </label>
-                      <label htmlFor="comment">
-                        Comment
-                        <textarea
-                          name="comment"
-                          id="comment"
-                          row={3}
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        />
-                      </label>
-                      <button disabled={loadingProductReview}>Submit</button>
-                    </form>
-                  ) : (
-                    <Message>
-                      Please <Link to="/login">sign in</Link> to write a review
-                    </Message>
-                  )}
-                </div>
-              </div>
-            </ProductStyled> */}
-          </Container>
-        </section>
+              <StyledAddToCartButton
+                variant="contained"
+                disabled={product.countInStock <= 0}
+                onClick={addToCartHandler}
+              >
+                Add To Cart
+              </StyledAddToCartButton>
+            </Grid>
+          </Grid>
+        </Container>
       )}
     </>
   );
