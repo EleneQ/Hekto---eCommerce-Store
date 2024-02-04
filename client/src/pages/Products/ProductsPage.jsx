@@ -1,13 +1,25 @@
-import { Link, useSearchParams } from "react-router-dom";
-import { useGetFilteredProductsQuery } from "../../slices/productsApiSlice";
-import { Container } from "@mui/material";
-import Loader from "../../components/Loader";
-import Message from "../../components/Message";
-import Paginate from "../../components/Paginate";
+import { useSearchParams } from "react-router-dom";
+import {
+  Box,
+  IconButton,
+  Container,
+  Drawer,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import SearchBox from "../../components/SearchBox";
 import ProductFilters from "./ProductFilter";
+import Products from "./Products";
+import Sort from "./Sort";
+import { useState } from "react";
+import ListRoundedIcon from "@mui/icons-material/ListRounded";
 
 const ProductsPage = () => {
+  const theme = useTheme();
+
   const [searchParams, setSearchParams] = useSearchParams({ p: 1 });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const params = {
     page: searchParams.get("p") || 1,
@@ -21,59 +33,80 @@ const ProductsPage = () => {
     categories: searchParams.get("categories") || [],
   };
 
-  const { data, isLoading, error } = useGetFilteredProductsQuery(params);
+  const toggleDrawer = () => {
+    setSidebarOpen((prevState) => !prevState);
+  };
 
   return (
-    <section style={{ textAlign: "center" }}>
-      <Container>
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message>{error?.data?.message || error.error}</Message>
-        ) : !data ? (
-          <Message>No products found</Message>
-        ) : (
-          <>
+    <Box component={"section"} mt={{ xs: "4rem", md: "5rem" }}>
+      <Container maxWidth={false}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          justifyContent={"space-between"}
+          aligItems={"center"}
+          sx={{ mb: "2.5rem" }}
+        >
+          <Typography
+            variant="h1"
+            fontWeight={700}
+            fontSize={{ xs: "1.3rem", md: "1.2rem" }}
+            mb={{ xs: "1rem", md: "0" }}
+          >
+            Accessories & Fashion item
+          </Typography>
+
+          <Stack
+            direction={"row"}
+            justifyContent={{ xs: "space-between", md: "center" }}
+            aligItems={"center"}
+            spacing={3}
+          >
+            {/* SMALL SCREEN SIDEBAR */}
+            <Box display={{ md: "none" }}>
+              <IconButton
+                onClick={() => setSidebarOpen(true)}
+                sx={{ fontSize: "2.5rem", color: theme.palette.secondary.main }}
+              >
+                <ListRoundedIcon />
+              </IconButton>
+              <Drawer anchor="left" open={sidebarOpen} onClose={toggleDrawer}>
+                <Box sx={{ width: 250, p: "2rem" }} role="presentation">
+                  <ProductFilters
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
+                  />
+                </Box>
+              </Drawer>
+            </Box>
+
+            <SearchBox setSearchParams={setSearchParams} />
+
+            <Sort
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
+            />
+          </Stack>
+        </Stack>
+
+        <Stack
+          direction={"row"}
+          justifyContent={{ xs: "center", md: "space-between" }}
+          aligItems={"center"}
+          spacing={{ md: 5 }}
+        >
+          {/* DESKTOP SIDEBAR */}
+          <Box display={{ xs: "none", md: "block" }}>
             <ProductFilters
               searchParams={searchParams}
               setSearchParams={setSearchParams}
             />
+          </Box>
 
-            <ul>
-              {data.products &&
-                data.products.map((product) => (
-                  <Link key={product._id} to={`/product/${product._id}`}>
-                    <li>
-                      <div>
-                        <img src={`${product.image}`} alt={product.name} />
-                      </div>
-                      <div style={{ padding: "1rem" }}>
-                        <p>{product.name}</p>
-                        <ul>
-                          {product.colors.map((color, index) => (
-                            <li
-                              key={index}
-                              style={{ backgroundColor: color.value }}
-                            />
-                          ))}
-                        </ul>
-                        <p>Code: {product.code}</p>
-                        <p>${product.price}</p>
-                      </div>
-                    </li>
-                  </Link>
-                ))}
-            </ul>
-
-            <Paginate
-              pages={data.pages}
-              currentPageNum={data.page}
-              setSearchParams={setSearchParams}
-            />
-          </>
-        )}
+          {/* PRODUCT LIST */}
+          <Products params={params} setSearchParams={setSearchParams} />
+        </Stack>
       </Container>
-    </section>
+    </Box>
   );
 };
 

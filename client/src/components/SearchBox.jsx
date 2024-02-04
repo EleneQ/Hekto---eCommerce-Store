@@ -1,35 +1,58 @@
+import { Divider, IconButton, Paper, TextField, useTheme } from "@mui/material";
 import { useState } from "react";
-import { CiSearch } from "react-icons/ci";
+import SearchIcon from "@mui/icons-material/Search";
 
 const SearchBox = ({ setSearchParams }) => {
+  const theme = useTheme();
   const [keyword, setKeyword] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    if (keyword.trim()) {
-      setSearchParams((prev) => {
-        prev.set("q", keyword);
-        return prev;
-      });
-    }
+    setSearchParams((prev) => {
+      prev.set("q", keyword);
+      return prev;
+    });
   };
 
   return (
-    <ul></ul>
-    // <SearchForm onSubmit={submitHandler}>
-    //   <SearchInput
-    //     name="query"
-    //     type="text"
-    //     value={keyword}
-    //     placeholder="Enter search term"
-    //     onChange={(e) => setKeyword(e.target.value)}
-    //   />
+    <Paper
+      component="form"
+      onSubmit={submitHandler}
+      sx={{
+        p: "2px 4px",
+        display: "flex",
+        alignItems: "center",
+        border: `1px solid ${theme.palette.pink.main}`,
+      }}
+    >
+      <TextField
+        variant="standard"
+        color={theme.palette.secondary.main}
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+        type="text"
+        sx={{ ml: 1, flex: 1, border: "none" }}
+        placeholder="Enter search term..."
+        InputProps={{
+          disableUnderline: true,
+          style: { color: theme.palette.secondary.main },
+        }}
+      />
 
-    //   <SearchButton type="submit">
-    //     <CiSearch />
-    //   </SearchButton>
-    // </SearchForm>
+      <Divider
+        sx={{ height: 28, m: 0.5, bgcolor: theme.palette.pink.main }}
+        orientation="vertical"
+      />
+
+      <IconButton
+        type="submit"
+        sx={{ p: "10px", fontSize: "1rem" }}
+        aria-label="search"
+      >
+        <SearchIcon />
+      </IconButton>
+    </Paper>
   );
 };
 export default SearchBox;
