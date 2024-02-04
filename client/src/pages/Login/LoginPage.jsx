@@ -48,9 +48,6 @@ const LoginPage = () => {
   const searchParams = new URLSearchParams(search);
   const redirect = searchParams.get("redirect") || "/";
 
-  /*
-    if the userInfo exists in the state, then the user's logged in and should be redirecred to whatever redirect's value is
-  */
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);

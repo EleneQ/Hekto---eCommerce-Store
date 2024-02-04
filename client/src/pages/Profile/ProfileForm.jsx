@@ -1,29 +1,45 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { FaTimes } from "react-icons/fa";
-import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import { useProfileMutation } from "../../slices/usersApiSlice";
 import { setCredentials } from "../../slices/authSlice";
-import { Container } from "@mui/material";
-import { useGetMyOrdersQuery } from "../../slices/ordersApiSlice";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+  styled,
+  useTheme,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
+const StyledUpdateButton = styled(Button)(({ theme }) => ({
+  color: "white",
+  backgroundColor: theme.palette.green.main,
+  "&:hover": {
+    backgroundColor: theme.palette.green.mainHover,
+  },
+  marginTop: "1.5rem",
+  fontSize: "0.9rem",
+  padding: "0.5rem 1rem",
+}));
 
 const ProfileForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [conformPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
+  const theme = useTheme();
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [updateProfile, { isLoading: loadingUpdateProfile }] =
-    useProfileMutation();
-
-  const { data: orders, isLoading, error } = useGetMyOrdersQuery();
+  const [updateProfile, { isLoading }] = useProfileMutation();
 
   useEffect(() => {
     if (userInfo) {
@@ -54,112 +70,141 @@ const ProfileForm = () => {
   };
 
   return (
-    <section>
-      <Container>
-        <h2>User Profile</h2>
-        <form onSubmit={submitHandler}>
-          <label htmlFor="email">
-            Name
-            <input
-              id="name"
-              type="text"
-              name="name"
-              placeholder="Enter Your Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
-          <label htmlFor="email">
-            Email Address
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <label htmlFor="password">
-            Password
-            <input
-              id="password"
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="on"
-            />
-          </label>
-          <label htmlFor="password">
-            Password
-            <input
-              id="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={conformPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              autoComplete="on"
-            />
-          </label>
+    <Paper
+      component="form"
+      onSubmit={submitHandler}
+      elevation={4}
+      sx={{ maxWidth: "540px", p: "2.5rem", mx: "auto", mt: "4rem" }}
+    >
+      <Typography
+        gutterBottom
+        variant="h2"
+        color={theme.palette.secondary.main}
+        fontWeight={700}
+        textAlign={"center"}
+      >
+        Update Your Profile
+      </Typography>
+      
+      <TextField
+        name="name"
+        id="name"
+        label="Name"
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+        autoFocus
+        color="info"
+        sx={{ mt: "1rem" }}
+      />
 
-          <button>Update</button>
-          {loadingUpdateProfile && <Loader />}
-        </form>
+      <TextField
+        name="email"
+        id="email"
+        label="Email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        fullWidth
+        color="info"
+        sx={{ mt: "1rem" }}
+      />
 
-        <div>
-          <h2>My Orders</h2>
-          {isLoading ? (
-            <Loader />
-          ) : error ? (
-            <Message>{error?.data?.message || error.error}</Message>
-          ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>DATE</th>
-                  <th>TOTAL</th>
-                  <th>PAID</th>
-                  <th>DELIVERED</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order) => (
-                  <tr key={order._id}>
-                    <td>{order._id}</td>
-                    <td>{order.createdAt.substring(0, 10)}</td>
-                    <td>${order.totalPrice}</td>
-                    <td>
-                      {order.isPaid ? (
-                        order.paidAt.substring(0, 10)
-                      ) : (
-                        <FaTimes style={{ color: "red" }}></FaTimes>
-                      )}
-                    </td>
-                    <td>
-                      {order.isdelivered ? (
-                        order.deliveredAt.substring(0, 10)
-                      ) : (
-                        <FaTimes style={{ color: "red" }}></FaTimes>
-                      )}
-                    </td>
-                    <td>
-                      <Link to={`/order/${order._id}`}>
-                        <button>Details</button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-      </Container>
-    </section>
+      <TextField
+        name="password"
+        id="password"
+        label="Password"
+        type={showPassword ? "text" : "password"}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        fullWidth
+        color="info"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={() => setShowPassword((prev) => !prev)}
+                sx={{ fontSize: "1.2rem" }}
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        sx={{ mt: "1rem" }}
+      />
+
+      <TextField
+        name="confirmPassword"
+        id="confirmPassword"
+        label="Confirm Password"
+        type="password"
+        value={conformPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        fullWidth
+        color="info"
+        sx={{ mt: "1rem" }}
+      />
+
+      <StyledUpdateButton disabled={isLoading} type="submit" fullWidth>
+        Update
+      </StyledUpdateButton>
+
+      {isLoading && <Loader />}
+      {/* <form onSubmit={submitHandler}>
+        <label htmlFor="email">
+          Name
+          <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Enter Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <label htmlFor="email">
+          Email Address
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label htmlFor="password">
+          Password
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="on"
+          />
+        </label>
+        <label htmlFor="password">
+          Password
+          <input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={conformPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            autoComplete="on"
+          />
+        </label>
+
+        <button>Update</button>
+        {loadingUpdateProfile && <Loader />}
+      </form> */}
+    </Paper>
   );
 };
 export default ProfileForm;

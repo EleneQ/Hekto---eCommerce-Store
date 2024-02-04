@@ -169,7 +169,7 @@ const Navbar = () => {
         <Container maxWidth={false}>
           <Toolbar sx={{ justifyContent: "space-between" }} disableGutters>
             <Typography
-              variant="h1"
+              variant="body1"
               noWrap
               component={Link}
               to="/"

@@ -94,156 +94,154 @@ const Hero = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : error ? (
+    <Message>{error?.data?.message || error.error}</Message>
+  ) : (
     <Box sx={{ bgcolor: theme.palette.primary.main }}>
-      {isLoading ? (
-        <Loader />
-      ) : error ? (
-        <Message>{error?.data?.message || error.error}</Message>
-      ) : (
-        <StyledDiv>
-          <Container
-            maxWidth={false}
-            sx={{ py: "2rem", pt: { sm: "3rem", lg: "2rem" } }}
+      <StyledDiv>
+        <Container
+          maxWidth={false}
+          sx={{ py: "2rem", pt: { sm: "3rem", lg: "2rem" } }}
+        >
+          <Grid
+            container
+            alignItems="center"
+            justifyContent={isMobile ? "center" : "space-between"}
+            spacing={isMobile ? 0 : 6}
           >
-            <Grid
-              container
-              alignItems="center"
-              justifyContent={isMobile ? "center" : "space-between"}
-              spacing={isMobile ? 0 : 6}
-            >
-              <Grid item xs={11} sm={8} md={6}>
-                <Typography
-                  variant="body2"
-                  color={theme.palette.pink.main}
-                  sx={{ mb: "1rem" }}
-                >
-                  Best Furniture For Your Castle....
-                </Typography>
-                <Typography
-                  variant="h2"
-                  fontWeight={700}
-                  sx={{
-                    bgcolor: "inherit",
-                    fontSize: { xs: "1.5rem", sm: "2rem", xl: "2.5rem" },
-                  }}
-                >
-                  New Furniture Collection Trends in 2024
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color={theme.palette.primary.darkest}
-                  sx={{ mt: "1rem", fontSize: { xs: "15px", md: "1rem" } }}
-                >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna
-                  in est adipiscing in phasellus non in justo.
-                </Typography>
-
-                <StyledShopNowButton
-                  variant="contained"
-                  component={Link}
-                  to="/products"
-                >
-                  Shop Now
-                </StyledShopNowButton>
-              </Grid>
-
-              <Grid
-                item
-                xs={10}
-                sm={8}
-                md={6}
+            <Grid item xs={11} sm={8} md={6}>
+              <Typography
+                variant="body2"
+                color={theme.palette.pink.main}
+                sx={{ mb: "1rem" }}
+              >
+                Best Furniture For Your Castle....
+              </Typography>
+              <Typography
+                variant="h2"
+                fontWeight={700}
                 sx={{
-                  display: { xs: "none", sm: "block" },
-                  mt: { sm: "1.5rem", md: "0" },
+                  bgcolor: "inherit",
+                  fontSize: { xs: "1.5rem", sm: "2rem", xl: "2.5rem" },
                 }}
               >
-                <StyledImageContainer>
+                New Furniture Collection Trends in 2024
+              </Typography>
+              <Typography
+                variant="body2"
+                color={theme.palette.primary.darkest}
+                sx={{ mt: "1rem", fontSize: { xs: "15px", md: "1rem" } }}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna
+                in est adipiscing in phasellus non in justo.
+              </Typography>
+
+              <StyledShopNowButton
+                variant="contained"
+                component={Link}
+                to="/products"
+              >
+                Shop Now
+              </StyledShopNowButton>
+            </Grid>
+
+            <Grid
+              item
+              xs={10}
+              sm={8}
+              md={6}
+              sx={{
+                display: { xs: "none", sm: "block" },
+                mt: { sm: "1.5rem", md: "0" },
+              }}
+            >
+              <StyledImageContainer>
+                <Box
+                  component="img"
+                  sx={{
+                    width: 450,
+                    aspectRatio: 1,
+                    position: "relative",
+                    zIndex: 5,
+                  }}
+                  alt={products[activeStep]?.name}
+                  src={products[activeStep]?.image}
+                />
+
+                <Box position="absolute" top={"10%"} right={30} zIndex={6}>
                   <Box
                     component="img"
                     sx={{
-                      width: 450,
+                      width: 80,
                       aspectRatio: 1,
-                      position: "relative",
-                      zIndex: 5,
                     }}
-                    alt={products[activeStep]?.name}
-                    src={products[activeStep]?.image}
+                    alt=""
+                    src={blueBlob}
                   />
-
-                  <Box position="absolute" top={"10%"} right={30} zIndex={6}>
-                    <Box
-                      component="img"
-                      sx={{
-                        width: 80,
-                        aspectRatio: 1,
-                      }}
-                      alt=""
-                      src={blueBlob}
-                    />
-                    <Typography
-                      variant="body1"
-                      color="white"
-                      fontWeight={700}
-                      position="absolute"
-                      top="50%"
-                      left="50%"
-                      sx={{
-                        transform: "translate(-50%, -50%)",
-                      }}
-                    >
-                      20%+ off
-                    </Typography>
-                  </Box>
-                </StyledImageContainer>
-              </Grid>
+                  <Typography
+                    variant="body1"
+                    color="white"
+                    fontWeight={700}
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    sx={{
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    20%+ off
+                  </Typography>
+                </Box>
+              </StyledImageContainer>
             </Grid>
+          </Grid>
 
-            <MobileStepper
-              variant="text"
-              steps={maxSteps}
-              position="static"
-              activeStep={activeStep}
-              sx={{
-                bgcolor: "inherit",
-                display: { xs: "none", sm: "flex" },
-              }}
-              nextButton={
-                <Button
-                  size="small"
-                  onClick={handleNext}
-                  disabled={activeStep === maxSteps - 1}
-                  sx={{
-                    color: theme.palette.pink.main,
-                  }}
-                >
-                  Next
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowLeft />
-                  ) : (
-                    <KeyboardArrowRight />
-                  )}
-                </Button>
-              }
-              backButton={
-                <Button
-                  size="small"
-                  onClick={handleBack}
-                  disabled={activeStep === 0}
-                  sx={{ color: theme.palette.pink.main }}
-                >
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowRight />
-                  ) : (
-                    <KeyboardArrowLeft />
-                  )}
-                  Back
-                </Button>
-              }
-            />
-          </Container>
-        </StyledDiv>
-      )}
+          <MobileStepper
+            variant="text"
+            steps={maxSteps}
+            position="static"
+            activeStep={activeStep}
+            sx={{
+              bgcolor: "inherit",
+              display: { xs: "none", sm: "flex" },
+            }}
+            nextButton={
+              <Button
+                size="small"
+                onClick={handleNext}
+                disabled={activeStep === maxSteps - 1}
+                sx={{
+                  color: theme.palette.pink.main,
+                }}
+              >
+                Next
+                {theme.direction === "rtl" ? (
+                  <KeyboardArrowLeft />
+                ) : (
+                  <KeyboardArrowRight />
+                )}
+              </Button>
+            }
+            backButton={
+              <Button
+                size="small"
+                onClick={handleBack}
+                disabled={activeStep === 0}
+                sx={{ color: theme.palette.pink.main }}
+              >
+                {theme.direction === "rtl" ? (
+                  <KeyboardArrowRight />
+                ) : (
+                  <KeyboardArrowLeft />
+                )}
+                Back
+              </Button>
+            }
+          />
+        </Container>
+      </StyledDiv>
     </Box>
   );
 };

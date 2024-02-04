@@ -62,7 +62,6 @@ const Subscription = () => {
             onChange={(e) => setEmail(e.target.value)}
             type="email"
             required
-            autoFocus
             sx={{ ml: 1, flex: 1, border: "none" }}
             placeholder="Enter your email"
             InputProps={{

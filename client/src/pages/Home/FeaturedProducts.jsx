@@ -24,7 +24,6 @@ import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 import { AddShoppingCartRounded } from "@mui/icons-material";
 import { addToCart } from "../../slices/cartSlice";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 
 const StyledViewButton = styled(Button)(({ theme }) => ({
   position: "absolute",
@@ -111,7 +110,6 @@ const FeaturedProducts = () => {
                           }}
                           onClick={() => {
                             dispatch(addToCart({ ...product, qty: 1 }));
-                            toast.success("Product added to cart");
                           }}
                         >
                           <AddShoppingCartRounded />

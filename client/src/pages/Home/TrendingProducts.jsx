@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import truncateText from "../../utils/truncateText";
 
 const StyledTypographyEllipsis = styled(Typography)({
   fontSize: "0.8rem",
@@ -51,13 +52,6 @@ const TrendingProducts = () => {
     isLoading: loadingDiscounted,
     error: errorDiscounted,
   } = useGetDiscountedProductsQuery({ discount: 5, limit: 5, sort: true });
-
-  const truncateText = (text, maxLength) => {
-    if (text.length > maxLength) {
-      return text.substring(0, maxLength) + "...";
-    }
-    return text;
-  };
 
   return (
     <section>
