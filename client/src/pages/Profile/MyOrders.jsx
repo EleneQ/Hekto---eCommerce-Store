@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import Loader from "../../components/Loader";
 
-const StyledShopNowButton = styled(Button)(({ theme }) => ({
+const StyledDetailsButton = styled(Button)(({ theme }) => ({
   color: "white",
   backgroundColor: theme.palette.green.main,
   "&:hover": {
@@ -87,48 +87,19 @@ const MyOrders = () => {
                     )}
                   </TableCell>
                   <TableCell align="right">
-                    <StyledShopNowButton
+                    <StyledDetailsButton
                       variant="contained"
                       component={Link}
                       to={`/order/${order._id}`}
                     >
                       Details
-                    </StyledShopNowButton>
+                    </StyledDetailsButton>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        //   <tbody>
-        //     {orders.map((order) => (
-        //       <tr key={order._id}>
-        //         <td>{order._id}</td>
-        //         <td>{order.createdAt.substring(0, 10)}</td>
-        //         <td>${order.totalPrice}</td>
-        //         <td>
-        //           {order.isPaid ? (
-        //             order.paidAt.substring(0, 10)
-        //           ) : (
-        //             <FaTimes style={{ color: "red" }}></FaTimes>
-        //           )}
-        //         </td>
-        //         <td>
-        //           {order.isdelivered ? (
-        //             order.deliveredAt.substring(0, 10)
-        //           ) : (
-        //             <FaTimes style={{ color: "red" }}></FaTimes>
-        //           )}
-        //         </td>
-        //         <td>
-        //           <Link to={`/order/${order._id}`}>
-        //             <button>Details</button>
-        //           </Link>
-        //         </td>
-        //       </tr>
-        //     ))}
-        //   </tbody>
-        // </table>
       )}
     </section>
   );

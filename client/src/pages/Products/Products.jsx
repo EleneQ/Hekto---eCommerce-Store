@@ -35,6 +35,22 @@ const StyledCartButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
+const StyledProductCard = styled(Card)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "1.5rem",
+  paddingBlock: "1rem",
+  paddingInline: "1rem",
+  width: "100%",
+  maxWidth: "450px",
+  [theme.breakpoints.up("md")]: {
+    flexDirection: "row",
+    paddingInline: "2rem",
+    maxWidth: "none",
+  },
+}));
+
 const Products = ({ params, setSearchParams }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -53,17 +69,7 @@ const Products = ({ params, setSearchParams }) => {
         {data.products &&
           data.products.map((product) => (
             <ListItem key={product._id} disablePadding sx={{ mb: "2rem" }}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "column", md: "row" },
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  p: "1rem",
-                  gap: { xs: "1.5rem", md: "0.5rem" },
-                  maxWidth: { xs: "450px", md: "none" },
-                }}
-              >
+              <StyledProductCard>
                 <CardMedia
                   component="img"
                   sx={{ width: 220, maxWidth: "100%", objectFit: "contain" }}
@@ -161,7 +167,7 @@ const Products = ({ params, setSearchParams }) => {
                     <ShoppingCartRoundedIcon />
                   </StyledCartButton>
                 </CardContent>
-              </Card>
+              </StyledProductCard>
             </ListItem>
           ))}
       </List>

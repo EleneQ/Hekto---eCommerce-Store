@@ -16,14 +16,21 @@ import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 
 const StyledOrderItemCard = styled(Card)(({ theme }) => ({
   display: "flex",
-  flexDirection: { xs: "column", sm: "row" },
+  flexDirection: "column",
   justifyContent: "space-between",
   alignItems: "center",
   paddingBlock: "1rem",
-  paddingInline: { xs: "1rem", sm: "3rem" },
-  gap: { xs: "1rem", md: "2rem" },
+  paddingInline: "1rem",
+  gap: "1rem",
   backgroundColor: theme.palette.primary.main,
   width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "row",
+    paddingInline: "3rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    gap: "2rem",
+  },
 }));
 
 const OrderDetails = ({ isLoading, error, order }) => {
@@ -128,15 +135,19 @@ const OrderDetails = ({ isLoading, error, order }) => {
                     <Box sx={{ flex: "1" }}>
                       <CardMedia
                         component="img"
+                        alt={item.name}
+                        image={
+                          item.image.startsWith("productImages")
+                            ? `/${item.image}`
+                            : item.image
+                        }
                         sx={{
-                          width: { xs: 180, sm: 220 },
-                          height: { xs: 180, sm: 220 },
+                          width: { xs: 180, sm: 200 },
+                          height: { xs: 180, sm: 200 },
                           maxWidth: "100%",
                           objectFit: "contain",
                           mx: "auto",
                         }}
-                        image={item.image}
-                        alt={item.name}
                       />
                     </Box>
 

@@ -15,14 +15,21 @@ import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 
 const StyledCartItemCard = styled(Card)(({ theme }) => ({
   display: "flex",
-  flexDirection: { xs: "column", sm: "row" },
+  flexDirection: "column",
   justifyContent: "space-between",
   alignItems: "center",
   paddingBlock: "1rem",
-  paddingInline: { xs: "1rem", sm: "2rem" },
-  gap: { xs: "1rem", md: "2rem" },
+  paddingInline: "1rem",
+  gap: "1rem",
   backgroundColor: theme.palette.primary.main,
   width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "row",
+    paddingInline: "2rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    gap: "2rem",
+  },
 }));
 
 const OrderInfo = ({ cart }) => {
@@ -63,14 +70,14 @@ const OrderInfo = ({ cart }) => {
         ) : (
           <List>
             {cart.cartItems.map((item, index) => (
-              <ListItem key={index} disablePadding>
+              <ListItem key={index} disablePadding sx={{ mb: "2rem" }}>
                 <StyledCartItemCard>
                   <Box sx={{ flex: "1" }}>
                     <CardMedia
                       component="img"
                       sx={{
-                        width: { xs: 180, sm: 220 },
-                        height: { xs: 180, sm: 220 },
+                        width: { xs: 180, sm: 200 },
+                        height: { xs: 180, sm: 200 },
                         maxWidth: "100%",
                         objectFit: "contain",
                         mx: "auto",
