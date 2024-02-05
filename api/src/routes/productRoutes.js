@@ -31,6 +31,6 @@ router
   .put(protect, admin, updateProduct)
   .delete(protect, admin, deleteProduct);
 router.route("/:id/views").put(blockInDevelopment, updateProductViewsById);
-router.route("/:id/reviews").post(protect, admin, createProductReview);
+router.route("/:id/reviews").post(protect, createProductReview);
 
 export default router;

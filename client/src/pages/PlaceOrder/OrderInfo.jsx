@@ -8,9 +8,22 @@ import {
   CardMedia,
   List,
   ListItem,
+  styled,
 } from "@mui/material";
 import Message from "../../components/Message";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+
+const StyledCartItemCard = styled(Card)(({ theme }) => ({
+  display: "flex",
+  flexDirection: { xs: "column", sm: "row" },
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingBlock: "1rem",
+  paddingInline: { xs: "1rem", sm: "2rem" },
+  gap: { xs: "1rem", md: "2rem" },
+  backgroundColor: theme.palette.primary.main,
+  width: "100%",
+}));
 
 const OrderInfo = ({ cart }) => {
   const theme = useTheme();
@@ -50,27 +63,17 @@ const OrderInfo = ({ cart }) => {
         ) : (
           <List>
             {cart.cartItems.map((item, index) => (
-              <ListItem key={index} disablePadding sx={{ mb: "2rem" }}>
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", sm: "row" },
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    py: "1rem",
-                    px: { xs: "1rem", sm: "2rem" },
-                    gap: { xs: "1rem", md: "2rem" },
-                    bgcolor: theme.palette.primary.main,
-                    width: "100%",
-                  }}
-                >
+              <ListItem key={index} disablePadding>
+                <StyledCartItemCard>
                   <Box sx={{ flex: "1" }}>
                     <CardMedia
                       component="img"
                       sx={{
                         width: { xs: 180, sm: 220 },
+                        height: { xs: 180, sm: 220 },
                         maxWidth: "100%",
                         objectFit: "contain",
+                        mx: "auto",
                       }}
                       image={item.image}
                       alt={item.name}
@@ -107,7 +110,7 @@ const OrderInfo = ({ cart }) => {
                           : item.price)}
                     </Typography>
                   </CardContent>
-                </Card>
+                </StyledCartItemCard>
               </ListItem>
             ))}
           </List>
