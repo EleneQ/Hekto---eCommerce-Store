@@ -4,7 +4,7 @@ import { updateCart } from "../utils/cartUtils";
 const storedCart = localStorage.getItem("cart");
 const initialState = storedCart
   ? JSON.parse(storedCart)
-  : { cartItems: [], shippingAddress: {}, paymentMethod: "PayPal" };
+  : { cartItems: [], shippingAddress: {} };
 
 const cartSlice = createSlice({
   name: "cart",
