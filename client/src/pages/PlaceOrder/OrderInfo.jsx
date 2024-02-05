@@ -72,7 +72,7 @@ const OrderInfo = ({ cart }) => {
             {cart.cartItems.map((item, index) => (
               <ListItem key={index} disablePadding sx={{ mb: "2rem" }}>
                 <StyledCartItemCard>
-                  <Box sx={{ flex: "1" }}>
+                  <Box flex={1}>
                     <CardMedia
                       component="img"
                       sx={{

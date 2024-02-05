@@ -70,14 +70,18 @@ const Products = ({ params, setSearchParams }) => {
           data.products.map((product) => (
             <ListItem key={product._id} disablePadding sx={{ mb: "2rem" }}>
               <StyledProductCard>
-                <CardMedia
-                  component="img"
-                  sx={{ width: 220, maxWidth: "100%", objectFit: "contain" }}
-                  image={product.image}
-                  alt={product.name}
-                />
+                <Box flex={0.4} height={220} width={220}>
+                  <CardMedia
+                    component="img"
+                    sx={{ width: "100%", height: "100%", objectFit: "contain" }}
+                    image={product.image}
+                    alt={product.name}
+                  />
+                </Box>
 
-                <CardContent sx={{ p: 0, "&:last-child": { pb: 0 } }}>
+                <CardContent
+                  sx={{ flex: "1", p: 0, "&:last-child": { pb: 0 } }}
+                >
                   <Stack
                     direction="row"
                     alignItems="center"

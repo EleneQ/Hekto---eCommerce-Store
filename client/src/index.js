@@ -24,7 +24,7 @@ import PlaceOrderPage from "./pages/PlaceOrder/PlaceOrderPage";
 import OrderDetailsPage from "./pages/Order/OrderDetailsPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import OrderListPage from "./pages/AdminPages/OrderList/OrderListPage";
-import ProductList from "./pages/AdminPages/ProductList/ProductList";
+import ProductListPage from "./pages/AdminPages/ProductList/ProductListPage";
 import ProductEditPage from "./pages/AdminPages/ProductEdit/ProductEditPage";
 import UserListPage from "./pages/AdminPages/UserList/UserListPage";
 import ProductsPage from "./pages/Products/ProductsPage";
@@ -51,7 +51,7 @@ const router = createBrowserRouter(
 
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orderlist" element={<OrderListPage />} />
-        <Route path="/admin/productlist" element={<ProductList />} />
+        <Route path="/admin/productlist" element={<ProductListPage />} />
         <Route path="/admin/product/:id/edit" element={<ProductEditPage />} />
         <Route path="/admin/userlist" element={<UserListPage />} />
       </Route>

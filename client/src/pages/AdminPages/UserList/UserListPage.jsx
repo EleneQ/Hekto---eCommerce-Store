@@ -53,7 +53,7 @@ const UserListPage = () => {
         fontWeight={700}
         fontSize={"1.5rem"}
         mb={"1rem"}
-        color={theme.palette.secondary.main}
+        color="secondary.main"
       >
         Users
       </Typography>
