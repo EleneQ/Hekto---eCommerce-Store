@@ -62,15 +62,23 @@ const Product = ({ product, loadingProduct, errorProduct }) => {
             elevation={4}
             justifyContent={{ xs: "center", md: "space-between" }}
             alignItems={"center"}
-            spacing={{ md: 5 }}
             rowSpacing={{ xs: 3, md: 0 }}
-            pb={{ xs: "2rem", md: "0" }}
+            p={{ xs: "0 1.5rem 2rem", md: "1.5rem 2.5rem 2.5rem" }}
           >
             <Grid item xs={9} md={6}>
-              <Box display={"flex"} justifyContent="center" p={{ md: "1rem" }}>
+              <Box
+                display={"flex"}
+                justifyContent="center"
+                height={{ md: 400 }}
+                maxHeight={500}
+              >
                 <Box
                   component="img"
-                  sx={{ objectFit: "contain", maxWidth: "100%" }}
+                  sx={{
+                    objectFit: "contain",
+                    width: "100%",
+                    height: "100%",
+                  }}
                   src={`${product.image}`}
                   alt={product.name}
                 />

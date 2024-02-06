@@ -52,7 +52,7 @@ const ProductsPage = () => {
             fontSize={{ xs: "1.3rem", md: "1.2rem" }}
             mb={{ xs: "1rem", md: "0" }}
           >
-            Accessories & Fashion item
+            Accessories & Fashion items
           </Typography>
 
           <Stack
