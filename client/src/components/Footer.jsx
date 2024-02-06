@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useGetCategoriesQuery } from "../slices/categoriesApiSlice";
 import {
+  Alert,
   Button,
   Container,
   Grid,
@@ -11,7 +12,6 @@ import {
   useTheme,
 } from "@mui/material";
 import Loader from "./Loader";
-import Message from "./Message";
 import { informationList, companyInfoList } from "../constants/footerData";
 import { useSelector } from "react-redux";
 
@@ -89,7 +89,9 @@ const Footer = () => {
               {isLoading ? (
                 <Loader />
               ) : error ? (
-                <Message>{error?.data?.message || error.error}</Message>
+                <Alert severity="error">
+                  {error?.data?.message || error.error}
+                </Alert>
               ) : (
                 data.categories.map((category, index) => (
                   <ListItem

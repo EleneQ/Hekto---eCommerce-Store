@@ -1,8 +1,15 @@
 import { useState } from "react";
-import { Box, Container, Tab, Tabs, Typography, useTheme } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Container,
+  Tab,
+  Tabs,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import Reviews from "./Reviews";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 
 const AdditionalInfo = ({ product, loadingProduct, errorProduct, refetch }) => {
   const theme = useTheme();
@@ -41,9 +48,9 @@ const AdditionalInfo = ({ product, loadingProduct, errorProduct, refetch }) => {
             {loadingProduct ? (
               <Loader />
             ) : errorProduct ? (
-              <Message>
+              <Alert severity="error">
                 {errorProduct?.data?.message || errorProduct.error}
-              </Message>
+              </Alert>
             ) : (
               product.desc
             )}

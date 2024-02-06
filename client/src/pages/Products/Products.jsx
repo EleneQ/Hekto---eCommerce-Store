@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 import { useGetFilteredProductsQuery } from "../../slices/productsApiSlice";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 import {
+  Alert,
   Box,
   Card,
   CardContent,
@@ -60,9 +60,9 @@ const Products = ({ params, setSearchParams }) => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message>{error?.data?.message || error.error}</Message>
+    <Alert severity="error">{error?.data?.message || error.error}</Alert>
   ) : !data ? (
-    <Message>No products found</Message>
+    <Alert security="info">No products found</Alert>
   ) : (
     <div>
       <List>

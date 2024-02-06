@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useGetLatestProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 import {
+  Alert,
   Box,
   Card,
   CardActionArea,
@@ -47,7 +47,7 @@ const LatestProducts = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message>{error?.data?.message || error.error}</Message>
+          <Alert severity="error">{error?.data?.message || error.error}</Alert>
         ) : (
           <>
             <Typography

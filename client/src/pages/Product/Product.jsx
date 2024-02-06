@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
+  Alert,
   Box,
   Button,
   Container,
@@ -14,7 +15,6 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 import { addToCart } from "../../slices/cartSlice";
@@ -50,7 +50,9 @@ const Product = ({ product, loadingProduct, errorProduct }) => {
       {loadingProduct ? (
         <Loader />
       ) : errorProduct ? (
-        <Message>{errorProduct?.data?.message || errorProduct.error}</Message>
+        <Alert severity="error">
+          {errorProduct?.data?.message || errorProduct.error}
+        </Alert>
       ) : (
         <Container component={"section"} maxWidth={false} sx={{ mt: "4rem" }}>
           <Grid

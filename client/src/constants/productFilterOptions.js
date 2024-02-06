@@ -1,6 +1,10 @@
 export const brandList = [
   { title: "Coaster Blue", value: "coasterBlue" },
-  { title: "Coaster Yellow", value: "coasterYellow" },
+  { title: "Wisdom Pack", value: "wisdomPack" },
+  { title: "Bag Lovers", value: "bagLovers" },
+  { title: "Catevilever", value: "catevilever" },
+  { title: "Stromisier", value: "stromisier" },
+  { title: "Yellow Furniture", value: "yellowFurniture" },
 ];
 
 export const ratingOptions = [

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useGetFeaturedProductsQuery } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 import { Link } from "react-router-dom";
 import Paginate from "../../components/Paginate";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -58,7 +58,7 @@ const FeaturedProducts = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message>{error?.data?.message || error.error}</Message>
+          <Alert severity="error">{error?.data?.message || error.error}</Alert>
         ) : (
           <>
             <Typography

@@ -9,8 +9,8 @@ import {
   List,
   ListItem,
   styled,
+  Alert,
 } from "@mui/material";
-import Message from "../../components/Message";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 
 const StyledCartItemCard = styled(Card)(({ theme }) => ({
@@ -66,7 +66,7 @@ const OrderInfo = ({ cart }) => {
         </Typography>
 
         {cart.cartItems.length === 0 ? (
-          <Message>Your cart is empty</Message>
+          <Alert severity="info">Your cart is empty</Alert>
         ) : (
           <List>
             {cart.cartItems.map((item, index) => (

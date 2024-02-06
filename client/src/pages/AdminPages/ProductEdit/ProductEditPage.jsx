@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Message from "../../../components/Message";
 import Loader from "../../../components/Loader";
 import { toast } from "react-toastify";
 import {
@@ -8,7 +7,37 @@ import {
   useGetProductDetailsQuery,
   useUploadProductImageMutation,
 } from "../../../slices/productsApiSlice";
-import { Container } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Button,
+  Container,
+  IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddPhotoAlternateRoundedIcon from "@mui/icons-material/AddPhotoAlternateRounded";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
+import { red } from "@mui/material/colors";
+
+const StyledUpdateButton = styled(Button)(({ theme }) => ({
+  color: "white",
+  backgroundColor: theme.palette.green.main,
+  marginTop: "1.5rem",
+  fontSize: "0.9rem",
+  padding: "0.5rem 1rem",
+  textTransform: "capitalize",
+  "&:hover": {
+    backgroundColor: theme.palette.green.mainHover,
+  },
+}));
 
 const ProductEditPage = () => {
   const { id: productId } = useParams();
@@ -37,6 +66,19 @@ const ProductEditPage = () => {
 
   const navigate = useNavigate();
 
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      setImageUrl(res.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -46,7 +88,7 @@ const ProductEditPage = () => {
         name,
         price,
         image: imageUrl,
-        brands,
+        brands: categories,
         colors,
         categories,
         countInStock,
@@ -61,17 +103,22 @@ const ProductEditPage = () => {
     }
   };
 
-  const uploadFileHandler = async (e) => {
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+  const updateItemAtIndex = (e, index, setter) => {
+    setter((prevItems) => {
+      const updatedItems = [...prevItems];
+      updatedItems[index] = e.target.value;
 
-    try {
-      const res = await uploadProductImage(formData).unwrap();
-      toast.success(res.message);
-      setImageUrl(res.image);
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
+      return updatedItems;
+    });
+  };
+
+  const deleteItemAtIndex = (index, setter) => {
+    setter((prevItems) => {
+      const updatedItems = [...prevItems];
+      updatedItems.splice(index, 1);
+
+      return updatedItems;
+    });
   };
 
   useEffect(() => {
@@ -87,185 +134,310 @@ const ProductEditPage = () => {
     }
   }, [product]);
 
-  const productColorsUpdateHandler = (e, index) => {
-    const { name, value } = e.target;
-
+  const colorsUpdateHandler = (e, index, field) => {
     setColors((prevColors) => {
       const updatedColors = [...prevColors];
-      updatedColors[index] = { ...updatedColors[index], [name]: value };
+
+      updatedColors[index] = {
+        ...updatedColors[index],
+        [field]: e.target.value,
+      };
+
+      return updatedColors;
+    });
+  };
+
+  const deleteColor = (index) => {
+    setColors((prevColors) => {
+      const updatedColors = [...prevColors];
+      updatedColors.splice(index, 1);
 
       return updatedColors;
     });
   };
 
   return (
-    <section>
-      <Container>
-        <h1>Edit Product</h1>
-        <div>
-          {loadingUpdate && <Loader />}
+    <Container component={"section"} maxWidth={false} sx={{ mt: "3.5rem" }}>
+      {loadingUpdate && <Loader />}
 
-          {isLoading ? (
-            <Loader />
-          ) : error ? (
-            <Message>{error}</Message>
-          ) : (
-            <form onSubmit={submitHandler}>
-              <label htmlFor="name">
-                Name
-                <input
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : (
+        <Paper
+          component="form"
+          onSubmit={submitHandler}
+          elevation={5}
+          sx={{ maxWidth: 620, p: "2.5rem", mx: "auto" }}
+        >
+          <Typography
+            variant="h2"
+            color="secondary.main"
+            fontWeight={700}
+            textAlign={"center"}
+          >
+            Edit Product
+          </Typography>
+
+          {/* NAME */}
+          <TextField
+            name="name"
+            id="name"
+            label="Name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            fullWidth
+            required
+            autoFocus
+            color="info"
+            sx={{ mt: "1rem" }}
+          />
+
+          <Stack
+            direction={"row"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            spacing={5}
+            mt={"1.5rem"}
+          >
+            {/* COUNT IN STOCK */}
+            <TextField
+              name="countInStock"
+              id="countInStock"
+              type="number"
+              placeholder="Enter Count In Stock"
+              value={countInStock}
+              onChange={(e) => setCountInStock(e.target.value)}
+              label="Count In Stock"
+              color="info"
+              sx={{ flex: 1 }}
+              inputProps={{ min: 0 }}
+            />
+
+            {/* PRICE */}
+            <TextField
+              name="price"
+              id="price"
+              color="info"
+              type={"number"}
+              value={price}
+              label="Price"
+              placeholder="Enter Price"
+              inputProps={{ min: 0 }}
+              sx={{ flex: 1 }}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          </Stack>
+
+          {/* DESCRIPTION */}
+          <TextField
+            type="text"
+            name="description"
+            id="description"
+            placeholder="Enter Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            label="Description"
+            fullWidth
+            color="info"
+            sx={{ mt: "1.5rem" }}
+          >
+            {product.desc}
+          </TextField>
+
+          {/* IMAGE UPLOAD */}
+          <div style={{ marginTop: "1.5rem" }}>
+            <input
+              type="text"
+              name="imageUrl"
+              id="imageUrl"
+              placeholder="Enter image URL"
+              hidden
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+
+            <Button
+              disabled={loadingUpload}
+              variant="contained"
+              component="label"
+              color="secondary"
+              endIcon={<AddPhotoAlternateRoundedIcon />}
+              sx={{
+                textTransform: "capitalize",
+                fontSize: "0.9rem",
+                p: "0.6rem",
+              }}
+            >
+              Upload Image
+              <input type="file" hidden onChange={uploadFileHandler} />
+            </Button>
+          </div>
+
+          {/* CATEGORIES */}
+          <Accordion sx={{ mt: "1.5rem" }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              Product Categories
+            </AccordionSummary>
+            <AccordionDetails>
+              {categories.map((category, index) => (
+                <TextField
+                  key={index}
+                  label={`Brand #${index + 1}`}
+                  placeholder="Enter Brand"
+                  value={category}
+                  onChange={(e) => updateItemAtIndex(e, index, setBrands)}
                   type="text"
-                  name="name"
-                  id="name"
-                  placeholder="Enter Product Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  name={`brandValue-${index}`}
+                  id={`brandValue-${index}`}
+                  fullWidth
+                  required
+                  color="info"
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        position="end"
+                        onClick={() => deleteItemAtIndex(index, setBrands)}
+                        sx={{ fontSize: "1rem", color: red[500] }}
+                      >
+                        <DeleteForeverRoundedIcon />
+                      </IconButton>
+                    ),
+                  }}
+                  sx={{
+                    mb: index !== categories.length - 1 ? "1.5rem" : "0.5rem",
+                  }}
                 />
-              </label>
+              ))}
 
-              <label htmlFor="price">
-                Price
-                <input
-                  type="number"
-                  name="price"
-                  id="price"
-                  placeholder="Enter Price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </label>
+              <IconButton
+                color="secondary"
+                sx={{ fontSize: "1.5rem" }}
+                onClick={() => setCategories((prev) => [...prev, ""])}
+              >
+                <AddCircleRoundedIcon />
+              </IconButton>
+            </AccordionDetails>
+          </Accordion>
 
-              <div>
-                Image
-                <input
+          {/* BRANDS */}
+          <Accordion sx={{ mt: "1.5rem" }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              Product Brands
+            </AccordionSummary>
+            <AccordionDetails>
+              {brands.map((brand, index) => (
+                <TextField
+                  key={index}
+                  label={`Brand #${index + 1}`}
+                  placeholder="Enter Brand"
+                  value={brand}
+                  onChange={(e) => updateItemAtIndex(e, index, setBrands)}
                   type="text"
-                  name="imageUrl"
-                  id="imageUrl"
-                  placeholder="Enter image URL"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
+                  name={`brandValue-${index}`}
+                  id={`brandValue-${index}`}
+                  fullWidth
+                  required
+                  color="info"
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        position="end"
+                        onClick={() => deleteItemAtIndex(index, setBrands)}
+                        sx={{ fontSize: "1rem", color: red[500] }}
+                      >
+                        <DeleteForeverRoundedIcon />
+                      </IconButton>
+                    ),
+                  }}
+                  sx={{
+                    mb: index !== categories.length - 1 ? "1.5rem" : "0.5rem",
+                  }}
                 />
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  onChange={uploadFileHandler}
-                />
-              </div>
+              ))}
 
-              <label htmlFor="countInStock">
-                Count In Stock
-                <input
-                  type="number"
-                  name="countInStock"
-                  id="countInStock"
-                  placeholder="Enter Count In Stock"
-                  value={countInStock}
-                  onChange={(e) => setCountInStock(e.target.value)}
-                />
-              </label>
+              <IconButton
+                color="secondary"
+                sx={{ fontSize: "1.5rem" }}
+                onClick={() => setBrands((prev) => [...prev, ""])}
+              >
+                <AddCircleRoundedIcon />
+              </IconButton>
+            </AccordionDetails>
+          </Accordion>
 
-              {/** TODO: CHANGE THIS FOR BETTER CATEGORY ADDITION */}
-              <div>
-                <h2>Categories:</h2>
+          {/* COLORS */}
+          <Accordion sx={{ mt: "1.5rem" }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              Product Colors
+            </AccordionSummary>
+            <AccordionDetails>
+              {colors.map((color, index) => (
+                <Stack
+                  key={index}
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  spacing={1}
+                  mb={index !== colors.length - 1 ? "1.5rem" : "0.5rem"}
+                >
+                  <TextField
+                    label={`Color #${index + 1} Name`}
+                    placeholder="Enter Color Name"
+                    value={color.colorName}
+                    onChange={(e) => colorsUpdateHandler(e, index, "colorName")}
+                    required
+                    type="text"
+                    name={`colorValue-${index}`}
+                    id={`colorValue-${index}`}
+                    color="info"
+                  />
 
-                {categories.map((category, index) => (
-                  <label key={index} htmlFor={`category${index}`}>
-                    Category #{index + 1}
-                    <input
-                      type="text"
-                      name={`category${index}`}
-                      id={`category${index}`}
-                      placeholder="Enter category"
-                      value={categories[index]}
-                      onChange={(e) =>
-                        setCategories((prevCategories) => {
-                          const updatedCategories = [...prevCategories];
-                          updatedCategories[index] = e.target.value;
+                  <TextField
+                    label={`Color #${index + 1} Value`}
+                    placeholder="Enter Color Value"
+                    value={color.value}
+                    onChange={(e) => colorsUpdateHandler(e, index, "value")}
+                    required
+                    type="text"
+                    name={`colorValue-${index}`}
+                    id={`colorValue-${index}`}
+                    color="info"
+                  />
 
-                          return updatedCategories;
-                        })
-                      }
-                    />
-                  </label>
-                ))}
-              </div>
+                  <IconButton
+                    position="end"
+                    onClick={() => deleteColor(index)}
+                    sx={{ fontSize: "1rem", color: red[500] }}
+                  >
+                    <DeleteForeverRoundedIcon />
+                  </IconButton>
+                </Stack>
+              ))}
 
-              <label htmlFor="description">
-                Description
-                <input
-                  type="text"
-                  name="description"
-                  id="description"
-                  placeholder="Enter Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </label>
+              <IconButton
+                color="secondary"
+                sx={{ fontSize: "1.5rem" }}
+                onClick={() =>
+                  setColors((prevColors) => [
+                    ...prevColors,
+                    { colorName: "", value: "" },
+                  ])
+                }
+              >
+                <AddCircleRoundedIcon />
+              </IconButton>
+            </AccordionDetails>
+          </Accordion>
 
-              <div>
-                <h2>Colors:</h2>
-
-                {colors.map((color, index) => (
-                  <div key={index}>
-                    <label htmlFor={`colorName${index}`}>
-                      Color #{index + 1} Name
-                      <input
-                        type="text"
-                        name={`colorName${index}`}
-                        id={`colorName${index}`}
-                        placeholder="Enter Color Name"
-                        value={color.colorName}
-                        onChange={(e) => productColorsUpdateHandler(e, index)}
-                      />
-                    </label>
-                    <label htmlFor={`colorValue${index}`}>
-                      Color #{index + 1} Value
-                      <input
-                        type="text"
-                        name={`colorValue${index}`}
-                        id={`colorValue${index}`}
-                        placeholder="Enter Color Value"
-                        value={color.value}
-                        onChange={(e) => productColorsUpdateHandler(e, index)}
-                      />
-                    </label>
-                  </div>
-                ))}
-
-                {/** TODO: CHANGE THIS FOR BETTER BRAND ADDITION */}
-                <div>
-                  <h2>Brands:</h2>
-
-                  {brands.map((brand, index) => (
-                    <label key={index} htmlFor={`brand${index}`}>
-                      Brand #{index + 1}
-                      <input
-                        type="text"
-                        name={`brand${index}`}
-                        id={`brand${index}`}
-                        placeholder="Enter Brand"
-                        value={brands[index]}
-                        onChange={(e) =>
-                          setBrands((prevBrands) => {
-                            const updatedBrands = [...prevBrands];
-                            updatedBrands[index] = e.target.value;
-
-                            return updatedBrands;
-                          })
-                        }
-                      />
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <button>Update</button>
-            </form>
-          )}
-        </div>
-      </Container>
-    </section>
+          <StyledUpdateButton disabled={loadingUpdate} type="submit" fullWidth>
+            Update Product
+          </StyledUpdateButton>
+        </Paper>
+      )}
+    </Container>
   );
 };
 export default ProductEditPage;

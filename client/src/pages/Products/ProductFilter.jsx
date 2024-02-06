@@ -1,6 +1,5 @@
 import { useGetCategoriesQuery } from "../../slices/categoriesApiSlice";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 import {
   brandList,
   ratingOptions,
@@ -9,6 +8,7 @@ import {
 } from "../../constants/productFilterOptions";
 import { useLocation } from "react-router-dom";
 import {
+  Alert,
   Box,
   Checkbox,
   FormControlLabel,
@@ -203,7 +203,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message>{error?.data?.message || error.error}</Message>
+          <Alert severity="error">{error?.data?.message || error.error}</Alert>
         ) : (
           <List>
             {data.categories.map((category) => (

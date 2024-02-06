@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import {
+  Alert,
   Box,
   Card,
   CardContent,
@@ -10,7 +11,6 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
 
@@ -41,7 +41,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message />
+        <Alert severity="error" />
       ) : (
         <div>
           <Typography

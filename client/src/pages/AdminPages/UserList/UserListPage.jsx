@@ -1,5 +1,5 @@
-import Message from "../../../components/Message";
 import {
+  Alert,
   Container,
   IconButton,
   Paper,
@@ -62,7 +62,7 @@ const UserListPage = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message>{error}</Message>
+        <Alert severity="error">{error}</Alert>
       ) : (
         <TableContainer component={Paper} elevation={4}>
           <Table sx={{ minWidth: 400 }} aria-label="user list">

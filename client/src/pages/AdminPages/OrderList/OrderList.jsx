@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import {
+  Alert,
   Button,
   Container,
   Paper,
@@ -13,7 +14,6 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import Message from "../../../components/Message";
 import Loader from "../../../components/Loader";
 import { useGetOrdersQuery } from "../../../slices/ordersApiSlice";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -52,7 +52,7 @@ const OrderList = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message>{error}</Message>
+        <Alert severity="error">{error}</Alert>
       ) : (
         <TableContainer component={Paper} elevation={4}>
           <Table sx={{ minWidth: 400 }} aria-label="user list">

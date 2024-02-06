@@ -1,18 +1,11 @@
 import { Link } from "react-router-dom";
-import {
-  Alert,
-  Button,
-  Container,
-  IconButton,
-  Typography,
-  styled,
-} from "@mui/material";
 import Loader from "../../../components/Loader";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
   useDeleteProductMutation,
 } from "../../../slices/productsApiSlice";
+import { Alert, Button, IconButton, Typography, styled } from "@mui/material";
 import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -29,7 +22,7 @@ const StyledShopNowButton = styled(Button)(({ theme }) => ({
   marginBottom: "1rem",
 }));
 
-const ProductListPage = () => {
+const ProductList = () => {
   const { data, refetch, isLoading, error } = useGetProductsQuery();
 
   const [createProduct, { isLoading: loadingCreate }] =
@@ -127,7 +120,7 @@ const ProductListPage = () => {
   }
 
   return (
-    <Container component={"section"} maxWidth={false} sx={{ mt: "2rem" }}>
+    <div>
       <Typography
         variant="h1"
         fontWeight={700}
@@ -137,10 +130,11 @@ const ProductListPage = () => {
       >
         Products
       </Typography>
-
-      <StyledShopNowButton onClick={createProductHandler}>
+      <StyledShopNowButton
+        onClick={createProductHandler}
+        endIcon={<EditIcon />}
+      >
         Create Product
-        <EditIcon />
       </StyledShopNowButton>
       {loadingCreate && <Loader />}
       {loadingDelete && <Loader />}
@@ -176,8 +170,7 @@ const ProductListPage = () => {
           </div>
         </>
       )}
-    </Container>
+    </div>
   );
 };
-
-export default ProductListPage;
+export default ProductList;

@@ -2,7 +2,6 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useGetTopRatedProductsQuery } from "../slices/productsApiSlice";
 import { useState } from "react";
 import Loader from "./Loader";
-import Message from "./Message";
 import {
   Container,
   Grid,
@@ -13,6 +12,7 @@ import {
   Button,
   Box,
   MobileStepper,
+  Alert,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import pinkBackground1 from "../images/shared/hero/pinkBackground1.svg";
@@ -97,7 +97,7 @@ const Hero = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message>{error?.data?.message || error.error}</Message>
+    <Alert severity="error">{error?.data?.message || error.error}</Alert>
   ) : (
     <Box sx={{ bgcolor: theme.palette.primary.main }}>
       <StyledDiv>

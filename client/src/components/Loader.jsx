@@ -1,5 +1,11 @@
+import { CircularProgress } from "@mui/material";
+
 const Loader = () => {
-  return <h2>Loading...</h2>;
+  return (
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <CircularProgress sx={{ color: "pink.main" }} />
+    </div>
+  );
 };
 
 export default Loader;

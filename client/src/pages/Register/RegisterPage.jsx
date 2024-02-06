@@ -80,117 +80,115 @@ const RegisterPage = () => {
   }, [userInfo, redirect, navigate]);
 
   return (
-    <section>
-      <Container maxWidth={false}>
-        <Paper
-          component="form"
-          onSubmit={submitHandler}
-          elevation={4}
-          sx={{ maxWidth: "540px", p: "2.5rem", mx: "auto", mt: "5rem" }}
+    <Container component={"section"} maxWidth={false}>
+      <Paper
+        component="form"
+        onSubmit={submitHandler}
+        elevation={4}
+        sx={{ maxWidth: "540px", p: "2.5rem", mx: "auto", mt: "5rem" }}
+      >
+        <Typography
+          variant="h2"
+          color={theme.palette.secondary.main}
+          fontWeight={700}
+          textAlign={"center"}
         >
-          <Typography
-            variant="h2"
-            color={theme.palette.secondary.main}
-            fontWeight={700}
-            textAlign={"center"}
+          Login
+        </Typography>
+
+        <TextField
+          name="name"
+          id="name"
+          label="Name"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          fullWidth
+          autoFocus
+          color="info"
+          sx={{ mt: "1rem" }}
+        />
+
+        <TextField
+          name="email"
+          id="email"
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          fullWidth
+          color="info"
+          sx={{ mt: "1rem" }}
+        />
+
+        <TextField
+          name="password"
+          id="password"
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          fullWidth
+          color="info"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  sx={{ fontSize: "1.2rem" }}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mt: "1rem" }}
+        />
+
+        <TextField
+          name="confirmPassword"
+          id="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          value={conformPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+          fullWidth
+          color="info"
+          sx={{ mt: "1rem" }}
+        />
+
+        <StyledLoginButton disabled={isLoading} type="submit" fullWidth>
+          Register
+        </StyledLoginButton>
+
+        {isLoading && <Loader />}
+
+        <Typography
+          variant="body1"
+          color={theme.palette.primary.dark1}
+          sx={{ mt: "1rem" }}
+        >
+          Already registered?{" "}
+          <Link
+            variant="body1"
+            underline="always"
+            component={LinkRouter}
+            to={redirect ? `/login?redirect=${redirect}` : "/login"}
+            sx={{
+              color: theme.palette.secondary.main,
+              textDecorationColor: theme.palette.secondary.main,
+            }}
           >
             Login
-          </Typography>
-
-          <TextField
-            name="name"
-            id="name"
-            label="Name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            fullWidth
-            autoFocus
-            color="info"
-            sx={{ mt: "1rem" }}
-          />
-
-          <TextField
-            name="email"
-            id="email"
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            fullWidth
-            color="info"
-            sx={{ mt: "1rem" }}
-          />
-
-          <TextField
-            name="password"
-            id="password"
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            fullWidth
-            color="info"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    sx={{ fontSize: "1.2rem" }}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mt: "1rem" }}
-          />
-
-          <TextField
-            name="confirmPassword"
-            id="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            value={conformPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            fullWidth
-            color="info"
-            sx={{ mt: "1rem" }}
-          />
-
-          <StyledLoginButton disabled={isLoading} type="submit" fullWidth>
-            Register
-          </StyledLoginButton>
-
-          {isLoading && <Loader />}
-
-          <Typography
-            variant="body1"
-            color={theme.palette.primary.dark1}
-            sx={{ mt: "1rem" }}
-          >
-            Already registered?{" "}
-            <Link
-              variant="body1"
-              underline="always"
-              component={LinkRouter}
-              to={redirect ? `/login?redirect=${redirect}` : "/login"}
-              sx={{
-                color: theme.palette.secondary.main,
-                textDecorationColor: theme.palette.secondary.main,
-              }}
-            >
-              Login
-            </Link>
-          </Typography>
-        </Paper>
-      </Container>
-    </section>
+          </Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 };
 export default RegisterPage;

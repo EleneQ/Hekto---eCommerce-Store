@@ -49,7 +49,7 @@ const theme = createTheme({
       main: "#ff9437",
     },
     green: {
-      mainHover: "rgba(8, 209, 95, 0.9)",
+      mainHover: "rgba(8, 209, 95, 0.85)",
       main: "#08d15f",
       medium: "#33d221",
     },

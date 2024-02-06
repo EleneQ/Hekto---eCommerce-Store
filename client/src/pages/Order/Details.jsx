@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
+  Alert,
   Box,
   Button,
   Divider,
@@ -12,7 +13,6 @@ import { useSelector } from "react-redux";
 import { useDeliverOrderMutation } from "../../slices/ordersApiSlice";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 
 const StyledDeliverButton = styled(Button)(({ theme }) => ({
   color: "white",
@@ -46,7 +46,7 @@ const Details = ({ order, refetch, isLoading, error }) => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message />
+    <Alert severity="error" />
   ) : (
     <Paper
       component={"section"}

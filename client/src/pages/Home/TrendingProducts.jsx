@@ -3,8 +3,8 @@ import {
   useGetDiscountedProductsQuery,
 } from "../../slices/productsApiSlice";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 import {
+  Alert,
   Box,
   Card,
   CardActionArea,
@@ -70,9 +70,9 @@ const TrendingProducts = () => {
         {loadingTrending ? (
           <Loader />
         ) : errorTrending ? (
-          <Message>
+          <Alert severity="error">
             {errorTrending?.data?.message || errorTrending.error}
-          </Message>
+          </Alert>
         ) : (
           <>
             <Grid
@@ -155,9 +155,9 @@ const TrendingProducts = () => {
             {loadingDiscounted ? (
               <Loader />
             ) : errorDiscounted ? (
-              <Message>
+              <Alert severity="error">
                 {errorDiscounted?.data?.message || errorDiscounted.error}
-              </Message>
+              </Alert>
             ) : (
               <Grid
                 container

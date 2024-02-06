@@ -97,7 +97,7 @@ const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     user: req.user._id,
     name: "Sample name",
-    image: "/productImages/sample.png",
+    image: "/productImages/sample.jpg",
     code: randProductCode(),
     price: 0,
     colors: [{ colorName: "white", value: "#fff" }],

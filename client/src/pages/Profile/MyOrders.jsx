@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useGetMyOrdersQuery } from "../../slices/ordersApiSlice";
-import Message from "../../components/Message";
 import { Clear } from "@mui/icons-material";
 import {
   Button,
@@ -13,7 +12,7 @@ import {
   TableHead,
   TableRow,
   Typography,
-  useTheme,
+  Alert,
 } from "@mui/material";
 import Loader from "../../components/Loader";
 
@@ -28,14 +27,13 @@ const StyledDetailsButton = styled(Button)(({ theme }) => ({
 }));
 
 const MyOrders = () => {
-  const theme = useTheme();
   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
 
   return (
     <section style={{ marginTop: "4.5rem" }}>
       <Typography
         variant="h1"
-        color={theme.palette.secondary.main}
+        color="secondary.main"
         fontWeight={700}
         mb={"2rem"}
         sx={{ fontSize: "1.5rem" }}
@@ -45,7 +43,7 @@ const MyOrders = () => {
       {isLoading ? (
         <Loader />
       ) : error ? (
-        <Message>{error?.data?.message || error.error}</Message>
+        <Alert severity="error">{error?.data?.message || error.error}</Alert>
       ) : (
         <TableContainer component={Paper} elevation={5}>
           <Table aria-label="simple table">

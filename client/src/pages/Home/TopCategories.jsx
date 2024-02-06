@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Alert,
   Box,
   Button,
   Container,
@@ -10,7 +11,6 @@ import {
 } from "@mui/material";
 import { useGetCategoriesQuery } from "../../slices/categoriesApiSlice";
 import Loader from "../../components/Loader";
-import Message from "../../components/Message";
 import Paginate from "../../components/Paginate";
 import { Link } from "react-router-dom";
 
@@ -82,7 +82,7 @@ const TopCategories = () => {
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <Message>{error?.data?.message || error.error}</Message>
+          <Alert severity="error">{error?.data?.message || error.error}</Alert>
         ) : (
           <>
             <Typography

@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import {
+  Alert,
   Box,
   Button,
   Divider,
@@ -12,7 +13,6 @@ import { clearCartItems } from "../../slices/cartSlice";
 import { useCreateOrderMutation } from "../../slices/ordersApiSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 
 const StyledLoginButton = styled(Button)(({ theme }) => ({
@@ -115,7 +115,9 @@ const Details = ({ cart }) => {
         </Typography>
         <Divider sx={{ mb: "1rem" }} />
 
-        {error && <Message>{error?.data?.message || error.error}</Message>}
+        {error && (
+          <Alert severity="error">{error?.data?.message || error.error}</Alert>
+        )}
 
         <StyledLoginButton
           disabled={isLoading}
