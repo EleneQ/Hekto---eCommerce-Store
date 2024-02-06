@@ -10,6 +10,7 @@ import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import stripeRoutes from "./routes/stripeRoutes.js";
 const port = process.env.PORT || 6000;
 
 connectDB(); //connecting to MongoDB
@@ -27,6 +28,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/checkout", stripeRoutes);
 
 //image uploads
 const __dirname = path.resolve();

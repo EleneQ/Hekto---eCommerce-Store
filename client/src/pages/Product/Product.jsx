@@ -46,7 +46,7 @@ const Product = ({ product, loadingProduct, errorProduct }) => {
   };
 
   return (
-    <>
+    <section>
       {loadingProduct ? (
         <Loader />
       ) : errorProduct ? (
@@ -54,7 +54,7 @@ const Product = ({ product, loadingProduct, errorProduct }) => {
           {errorProduct?.data?.message || errorProduct.error}
         </Alert>
       ) : (
-        <Container component={"section"} maxWidth={false} sx={{ mt: "4rem" }}>
+        <Container maxWidth={false} sx={{ mt: "4rem" }}>
           <Grid
             container
             component={Paper}
@@ -64,14 +64,13 @@ const Product = ({ product, loadingProduct, errorProduct }) => {
             alignItems={"center"}
             spacing={{ md: 5 }}
             rowSpacing={{ xs: 3, md: 0 }}
-            p={{ xs: "1.5rem", md: "2.5rem" }}
-            pb={{ xs: "2rem", md: "2.5rem" }}
+            pb={{ xs: "2rem", md: "0" }}
           >
             <Grid item xs={9} md={6}>
-              <Box display={"flex"} justifyContent="center">
+              <Box display={"flex"} justifyContent="center" p={{ md: "1rem" }}>
                 <Box
                   component="img"
-                  sx={{ aspectRatio: 1 }}
+                  sx={{ objectFit: "contain", maxWidth: "100%" }}
                   src={`${product.image}`}
                   alt={product.name}
                 />
@@ -174,7 +173,7 @@ const Product = ({ product, loadingProduct, errorProduct }) => {
           </Grid>
         </Container>
       )}
-    </>
+    </section>
   );
 };
 export default Product;
