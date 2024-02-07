@@ -46,7 +46,7 @@ const ProductEditPage = () => {
   const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
-  const [colors, setColors] = useState([{ colorName: "white", value: "#fff" }]);
+  const [colors, setColors] = useState([{ colorName: "", value: "" }]);
   const [countInStock, setCountInStock] = useState(0);
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -88,7 +88,7 @@ const ProductEditPage = () => {
         name,
         price,
         image: imageUrl,
-        brands: categories,
+        brands,
         colors,
         categories,
         countInStock,
@@ -284,14 +284,14 @@ const ProductEditPage = () => {
             <AccordionDetails>
               {categories.map((category, index) => (
                 <TextField
-                  key={index}
-                  label={`Brand #${index + 1}`}
-                  placeholder="Enter Brand"
+                  key={`category-${index}`}
+                  label={`Category #${index + 1}`}
+                  placeholder="Enter Category"
                   value={category}
-                  onChange={(e) => updateItemAtIndex(e, index, setBrands)}
+                  onChange={(e) => updateItemAtIndex(e, index, setCategories)}
                   type="text"
-                  name={`brandValue-${index}`}
-                  id={`brandValue-${index}`}
+                  name={`categoryValue-${index}`}
+                  id={`categoryValue-${index}`}
                   fullWidth
                   required
                   color="info"
@@ -299,7 +299,7 @@ const ProductEditPage = () => {
                     endAdornment: (
                       <IconButton
                         position="end"
-                        onClick={() => deleteItemAtIndex(index, setBrands)}
+                        onClick={() => deleteItemAtIndex(index, setCategories)}
                         sx={{ fontSize: "1rem", color: red[500] }}
                       >
                         <DeleteForeverRoundedIcon />
@@ -330,7 +330,7 @@ const ProductEditPage = () => {
             <AccordionDetails>
               {brands.map((brand, index) => (
                 <TextField
-                  key={index}
+                  key={`brand-${index}`}
                   label={`Brand #${index + 1}`}
                   placeholder="Enter Brand"
                   value={brand}
@@ -353,7 +353,7 @@ const ProductEditPage = () => {
                     ),
                   }}
                   sx={{
-                    mb: index !== categories.length - 1 ? "1.5rem" : "0.5rem",
+                    mb: index !== brands.length - 1 ? "1.5rem" : "0.5rem",
                   }}
                 />
               ))}
