@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import {
-  Alert,
+  // Alert,
   Box,
   Button,
   Divider,
@@ -10,10 +10,13 @@ import {
   useTheme,
 } from "@mui/material";
 import { clearCartItems } from "../../slices/cartSlice";
-import { useCreateOrderMutation } from "../../slices/ordersApiSlice";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {
+  // useCreateOrderMutation,
+  usePayOrderMutation,
+} from "../../slices/ordersApiSlice";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader";
+import { loadStripe } from "@stripe/stripe-js";
 
 const StyledLoginButton = styled(Button)(({ theme }) => ({
   color: "white",
@@ -29,25 +32,52 @@ const StyledLoginButton = styled(Button)(({ theme }) => ({
 
 const Details = ({ cart }) => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [createOrder, { isLoading, error }] = useCreateOrderMutation();
+  // const [createOrder, { isLoading: loadingOrder, error: errorOrder }] =
+  //   useCreateOrderMutation();
+
+  const [payOrder, { isLoading: loadingPayment }] = usePayOrderMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const stripePromise = loadStripe(
+    "pk_test_51Oa0ZoI5jjrwS49dYoFr8OOK4UByL5JzOrSYMGoLa19Ogwa4bQxlFoPYvYbNnIYS2h35nOtfgMqAJlGS53VqqMrd008abDr08A"
+  );
 
   const placeOrderHandler = async () => {
     try {
-      const res = await createOrder({
-        cartItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
+      //create order
+      // const orderRes = await createOrder({
+      //   cartItems: cart.cartItems,
+      //   shippingAddress: cart.shippingAddress,
+      //   itemsPrice: cart.itemsPrice,
+      //   shippingPrice: cart.shippingPrice,
+      //   taxPrice: cart.taxPrice,
+      //   totalPrice: cart.totalPrice,
+      // }).unwrap();
+
+      //stripe payment
+      const stripe = await stripePromise;
+
+      const stripeRes = await payOrder({
+        userEmail: userInfo.email,
+        orderDetails: {
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        },
       }).unwrap();
+
+      //clear cart
       dispatch(clearCartItems());
-      console.log("order", res);
-      navigate(`/order/${res._id}`); //order id
+
+      //redirect
+      await stripe.redirectToCheckout({
+        sessionId: stripeRes.stripeSession.id,
+      });
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -115,19 +145,23 @@ const Details = ({ cart }) => {
         </Typography>
         <Divider sx={{ mb: "1rem" }} />
 
-        {error && (
-          <Alert severity="error">{error?.data?.message || error.error}</Alert>
-        )}
+        {/**  {errorOrder && (
+          <Alert severity="error">
+            {errorOrder?.data?.message || errorOrder.error}
+          </Alert>
+        )} */}
 
         <StyledLoginButton
-          disabled={isLoading}
-          onClick={() => cart.cartItems.length !== 0 && placeOrderHandler()}
+          disabled={cart.cartItems.length === 0}
+          onClick={placeOrderHandler}
           fullWidth
         >
           Place Order
         </StyledLoginButton>
 
-        {isLoading && <Loader />}
+        {/** {loadingOrder && <Loader />} */}
+
+        {loadingPayment && <Loader />}
       </Box>
     </Paper>
   );

@@ -26,10 +26,6 @@ const orderSchema = new mongoose.Schema(
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
     },
-    paymentMethod: {
-      type: String,
-      required: true,
-    },
     paymentResult: {
       id: { type: String },
       status: { type: String },
@@ -56,13 +52,14 @@ const orderSchema = new mongoose.Schema(
       required: true,
       default: 0.0,
     },
-    isPaid: {
-      type: Boolean, //if the customer has already paid or not
-      required: true,
-      default: false,
-    },
+    // isPaid: {
+    //   type: Boolean,
+    //   required: true,
+    //   default: false,
+    // },
     paidAt: {
       type: Date,
+      required: true,
     },
     isDelivered: {
       type: Boolean,

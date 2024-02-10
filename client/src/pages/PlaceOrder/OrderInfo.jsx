@@ -11,7 +11,7 @@ import {
   styled,
   Alert,
 } from "@mui/material";
-import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import calcItemPrice from "../../utils/calcItemPrice";
 
 const StyledCartItemCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -106,15 +106,8 @@ const OrderInfo = ({ cart }) => {
                       color={theme.palette.secondary.main}
                       mt="0.5rem"
                     >
-                      {item.qty} x{" "}
-                      {item.discount
-                        ? `${calcDiscountedPrice(item.price, item.discount)} = `
-                        : `${item.price} = `}
-                      $
-                      {item.qty *
-                        (item.discount
-                          ? calcDiscountedPrice(item.price, item.discount)
-                          : item.price)}
+                      {item.qty} x ${calcItemPrice(item)} = $
+                      {item.qty * calcItemPrice(item)}
                     </Typography>
                   </CardContent>
                 </StyledCartItemCard>

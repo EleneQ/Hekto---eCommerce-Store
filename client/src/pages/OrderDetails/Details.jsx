@@ -116,10 +116,8 @@ const Details = ({ order, refetch, isLoading, error }) => {
         </Typography>
         <Divider sx={{ mb: "1rem" }} />
 
-        {/* PAY ORDER */}
-
         {loadingDeliver && <Loader />}
-        {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+        {userInfo && userInfo.isAdmin && !order.isDelivered && (
           <StyledDeliverButton
             disabled={loadingDeliver}
             onClick={deliverOrderHandler}

@@ -1,19 +1,17 @@
-import { useSelector } from "react-redux";
-import { Container, Grid, Typography, useTheme } from "@mui/material";
-
+import { Container, Grid, Stack, Typography, useTheme } from "@mui/material";
 import CartItemsTable from "./CartItemsTable";
 import Details from "./Details";
+import ShippingForm from "./ShippingForm";
 
 const CartPage = () => {
   const theme = useTheme();
-  const { cartItems } = useSelector((state) => state.cart);
 
   return (
     <Container maxWidth={false} sx={{ mt: "4rem" }}>
       <Grid
         container
         justifyContent={{ xs: "center", sm: "space-between" }}
-        alignItems={"center"}
+        alignItems={{ xs: "center", md: "start" }}
         spacing={{ md: 2, lg: 10 }}
         rowGap={{ xs: 4, lg: 0 }}
       >
@@ -27,11 +25,14 @@ const CartPage = () => {
           >
             Shopping Cart
           </Typography>
-          <CartItemsTable cartItems={cartItems} />
+          <CartItemsTable />
         </Grid>
 
-        <Grid item xs={10} sm={6} md={3.5} lg={4}>
-          <Details cartItems={cartItems} />
+        <Grid item xs={9} sm={6} md={3.5} lg={4}>
+          <Stack direction={"column"} justifyContent={"center"} spacing={4}>
+            <Details />
+            <ShippingForm />
+          </Stack>
         </Grid>
       </Grid>
     </Container>

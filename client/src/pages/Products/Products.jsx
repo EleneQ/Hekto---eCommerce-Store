@@ -20,7 +20,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import calcItemPrice from "../../utils/calcItemPrice";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import { toast } from "react-toastify";
 
@@ -126,7 +126,7 @@ const Products = ({ params, setSearchParams }) => {
                         gutterBottom
                         color={theme.palette.secondary.main}
                       >
-                        ${calcDiscountedPrice(product.price, product.discount)}
+                        ${calcItemPrice(product)}
                       </Typography>
                     )}
 
@@ -179,7 +179,7 @@ const Products = ({ params, setSearchParams }) => {
       <Box
         display={data.products.length <= 0 ? "none" : "flex"}
         justifyContent="center"
-        mt="1rem"
+        mt="auto"
       >
         <Pagination
           count={data.pages}

@@ -62,7 +62,9 @@ const OrderList = () => {
                 <StyledTableCellNames align="right">User</StyledTableCellNames>
                 <StyledTableCellNames align="right">Date</StyledTableCellNames>
                 <StyledTableCellNames align="right">Total</StyledTableCellNames>
-                <StyledTableCellNames align="right">Paid</StyledTableCellNames>
+                <StyledTableCellNames align="right">
+                  Paid At
+                </StyledTableCellNames>
                 <StyledTableCellNames align="right">
                   Delivered
                 </StyledTableCellNames>
@@ -70,56 +72,58 @@ const OrderList = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((order) => (
-                <TableRow
-                  key={order._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {order._id}
-                  </TableCell>
-
-                  <TableCell align="right">
-                    {order.user && order.user.name}
-                  </TableCell>
-
-                  <TableCell align="right">
-                    {order.createdAt.substring(0, 10)}
-                  </TableCell>
-
-                  <TableCell align="right">${order.totalPrice}</TableCell>
-
-                  <TableCell align="right">
-                    {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
-                    ) : (
-                      <ClearIcon
-                        style={{ color: theme.palette.secondary.main }}
-                      />
-                    )}
-                  </TableCell>
-
-                  <TableCell align="right">
-                    {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
-                    ) : (
-                      <ClearIcon
-                        style={{ color: theme.palette.secondary.main }}
-                      />
-                    )}
-                  </TableCell>
-
-                  <TableCell align="right">
-                    <StyledDetaulsButton
-                      variant="contained"
-                      component={Link}
-                      to={`/order/${order._id}`}
-                    >
-                      Details
-                    </StyledDetaulsButton>
+              {orders.length === 0 ? (
+                <TableRow>
+                  <TableCell component="th" scope="row" sx={{ py: "2rem" }}>
+                    No Orders Present
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                orders.map((order) => (
+                  <TableRow
+                    key={order._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {order._id}
+                    </TableCell>
+
+                    <TableCell align="right">
+                      {order.user && order.user.name}
+                    </TableCell>
+
+                    <TableCell align="right">
+                      {order.createdAt.substring(0, 10)}
+                    </TableCell>
+
+                    <TableCell align="right">${order.totalPrice}</TableCell>
+
+                    <TableCell align="right">
+                      {order.paidAt.substring(0, 10)}
+                    </TableCell>
+
+                    <TableCell align="right">
+                      {order.isDelivered ? (
+                        order.deliveredAt.substring(0, 10)
+                      ) : (
+                        <ClearIcon
+                          style={{ color: theme.palette.secondary.main }}
+                        />
+                      )}
+                    </TableCell>
+
+                    <TableCell align="right">
+                      <StyledDetaulsButton
+                        variant="contained"
+                        component={Link}
+                        to={`/order/${order._id}`}
+                      >
+                        Details
+                      </StyledDetaulsButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>

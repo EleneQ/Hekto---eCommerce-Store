@@ -16,7 +16,7 @@ import {
   useTheme,
 } from "@mui/material";
 import Loader from "../../components/Loader";
-import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import calcItemPrice from "../../utils/calcItemPrice";
 import { addToCart } from "../../slices/cartSlice";
 
 const StyledAddToCartButton = styled(Button)(({ theme }) => ({
@@ -111,7 +111,7 @@ const Product = ({ product, loadingProduct, errorProduct }) => {
               <Stack direction={"row"} spacing={2}>
                 {product.discount && product.discount !== 0 && (
                   <Typography variant="body1" gutterBottom>
-                    ${calcDiscountedPrice(product.price, product.discount)}
+                    ${calcItemPrice(product)}
                   </Typography>
                 )}
 

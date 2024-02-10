@@ -99,7 +99,7 @@ const Hero = () => {
   ) : error ? (
     <Alert severity="error">{error?.data?.message || error.error}</Alert>
   ) : (
-    <Box sx={{ bgcolor: theme.palette.primary.main }}>
+    <Box sx={{ bgcolor: "primary.main" }}>
       <StyledDiv>
         <Container
           maxWidth={false}
@@ -112,11 +112,7 @@ const Hero = () => {
             spacing={isMobile ? 0 : 6}
           >
             <Grid item xs={11} sm={8} md={6}>
-              <Typography
-                variant="body2"
-                color={theme.palette.pink.main}
-                sx={{ mb: "1rem" }}
-              >
+              <Typography variant="body2" color="pink.main" sx={{ mb: "1rem" }}>
                 Best Furniture For Your Castle....
               </Typography>
               <Typography
@@ -131,7 +127,7 @@ const Hero = () => {
               </Typography>
               <Typography
                 variant="body2"
-                color={theme.palette.primary.darkest}
+                color={"primary.darkest"}
                 sx={{ mt: "1rem", fontSize: { xs: "15px", md: "1rem" } }}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna

@@ -17,7 +17,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import calcItemPrice from "../../utils/calcItemPrice";
 import { Link } from "react-router-dom";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
@@ -144,11 +144,7 @@ const LatestProducts = () => {
                               variant="body2"
                               color={theme.palette.secondary.dark4}
                             >
-                              $
-                              {calcDiscountedPrice(
-                                product.price,
-                                product.discount
-                              )}
+                              ${calcItemPrice(product)}
                             </Typography>
                           )}
                         </Stack>

@@ -18,16 +18,15 @@ import ProductPage from "./pages/Product/ProductPage";
 import CartPage from "./pages/Cart/CartPage";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
-import ShippingPage from "./pages/shipping/ShippingPage";
-import PaymentPage from "./pages/Payment/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrder/PlaceOrderPage";
-import OrderDetailsPage from "./pages/Order/OrderDetailsPage";
+import OrderDetailsPage from "./pages/OrderDetails/OrderDetailsPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import OrderListPage from "./pages/AdminPages/OrderList/OrderListPage";
 import ProductListPage from "./pages/AdminPages/ProductList/ProductListPage";
 import ProductEditPage from "./pages/AdminPages/ProductEdit/ProductEditPage";
 import UserListPage from "./pages/AdminPages/UserList/UserListPage";
 import ProductsPage from "./pages/Products/ProductsPage";
+import CancelPage from "./pages/Cancel/CancelPage";
 
 //allows child routes
 const router = createBrowserRouter(
@@ -42,11 +41,10 @@ const router = createBrowserRouter(
       <Route path="/products/:searchParams" element={<ProductsPage />} />
 
       <Route path="" element={<PrivateRoute />}>
-        <Route path="/shipping" element={<ShippingPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderDetailsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/cancel" element={<CancelPage />} />
       </Route>
 
       <Route path="" element={<AdminRoute />}>

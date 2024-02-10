@@ -20,7 +20,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import calcItemPrice from "../../utils/calcItemPrice";
 import { AddShoppingCartRounded } from "@mui/icons-material";
 import { addToCart } from "../../slices/cartSlice";
 import { useDispatch } from "react-redux";
@@ -191,13 +191,7 @@ const FeaturedProducts = () => {
                               : theme.palette.secondary.dark4
                           }
                         >
-                          $
-                          {product.discount
-                            ? calcDiscountedPrice(
-                                product.price,
-                                product.discount
-                              )
-                            : product.price}
+                          ${calcItemPrice(product)}
                         </Typography>
                       </CardContent>
                     </CardActionArea>

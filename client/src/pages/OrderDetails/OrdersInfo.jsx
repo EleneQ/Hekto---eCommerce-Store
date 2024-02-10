@@ -9,10 +9,9 @@ import {
   ListItem,
   Typography,
   styled,
-  useTheme,
 } from "@mui/material";
 import Loader from "../../components/Loader";
-import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import calcItemPrice from "../../utils/calcItemPrice";
 
 const StyledOrderItemCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -34,8 +33,6 @@ const StyledOrderItemCard = styled(Card)(({ theme }) => ({
 }));
 
 const OrderDetails = ({ isLoading, error, order }) => {
-  const theme = useTheme();
-
   return (
     <div>
       {isLoading ? (
@@ -49,7 +46,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
             fontWeight={700}
             fontSize={"1.3rem"}
             mb={"2rem"}
-            color={theme.palette.secondary.main}
+            color={"secondary.main"}
           >
             Order {order._id}
           </Typography>
@@ -58,7 +55,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
             variant="body1"
             fontSize={"1rem"}
             gutterBottom
-            color={theme.palette.secondary.main}
+            color={"secondary.main"}
           >
             Name: {order.user.name}
           </Typography>
@@ -67,7 +64,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
             variant="body1"
             fontSize={"1rem"}
             gutterBottom
-            color={theme.palette.secondary.main}
+            color={"secondary.main"}
           >
             Email: {order.user.email}
           </Typography>
@@ -76,7 +73,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
             variant="body1"
             fontSize={"1rem"}
             gutterBottom
-            color={theme.palette.secondary.main}
+            color={"secondary.main"}
           >
             Address: {order.shippingAddress.address},{" "}
             {order.shippingAddress.city}, {order.shippingAddress.postalCode},{" "}
@@ -90,7 +87,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
               fontSize={"1.1rem"}
               mt={"2rem"}
               mb={"0.5rem"}
-              color={theme.palette.secondary.main}
+              color={"secondary.main"}
             >
               Status
             </Typography>
@@ -99,10 +96,10 @@ const OrderDetails = ({ isLoading, error, order }) => {
               variant="body1"
               fontSize={"1rem"}
               gutterBottom
-              color={theme.palette.secondary.main}
+              color={"secondary.main"}
             >
-              {order.isdelivered
-                ? `Delivered on ${order.deliveredAt}`
+              {order.isDelivered
+                ? `Delivered on ${order.deliveredAt.substring(0, 10)}`
                 : "Not Delivered"}
             </Typography>
 
@@ -110,9 +107,9 @@ const OrderDetails = ({ isLoading, error, order }) => {
               variant="body1"
               fontSize={"1rem"}
               gutterBottom
-              color={theme.palette.secondary.main}
+              color={"secondary.main"}
             >
-              {order.isPaid ? `Paid on ${order.paidAt}` : "Not Paid"}
+              Paid on {order.paidAt.substring(0, 10)}
             </Typography>
           </div>
 
@@ -123,7 +120,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
               fontSize={"1.1rem"}
               mt={"2rem"}
               mb={"0.5rem"}
-              color={theme.palette.secondary.main}
+              color={"secondary.main"}
             >
               Order Items
             </Typography>
@@ -159,7 +156,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
                         to={`/product/${item._id}`}
                         variant="h4"
                         fontWeight={700}
-                        color={theme.palette.secondary.main}
+                        color={"secondary.main"}
                         sx={{ textDecoration: "none" }}
                       >
                         {item.name}
@@ -167,21 +164,11 @@ const OrderDetails = ({ isLoading, error, order }) => {
 
                       <Typography
                         variant="body2"
-                        color={theme.palette.secondary.main}
+                        color={"secondary.main"}
                         mt="0.5rem"
                       >
-                        {item.qty} x{" "}
-                        {item.discount
-                          ? `${calcDiscountedPrice(
-                              item.price,
-                              item.discount
-                            )} = `
-                          : `${item.price} = `}
-                        $
-                        {item.qty *
-                          (item.discount
-                            ? calcDiscountedPrice(item.price, item.discount)
-                            : item.price)}
+                        {item.qty} x ${calcItemPrice(item)} = $
+                        {item.qty * calcItemPrice(item)}
                       </Typography>
                     </CardContent>
                   </StyledOrderItemCard>

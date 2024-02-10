@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -16,7 +16,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcDiscountedPrice from "../../utils/calcdiscountedPrice";
+import calcItemPrice from "../../utils/calcItemPrice";
 import { addToCart, removeFromCart } from "../../slices/cartSlice";
 import truncateText from "../../utils/truncateText";
 import { Clear } from "@mui/icons-material";
@@ -45,9 +45,11 @@ const StyledShopNowButton = styled(Button)(({ theme }) => ({
   padding: "0.5rem 1rem",
 }));
 
-const CartItems = ({ cartItems }) => {
+const CartItems = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
+
+  const { cartItems } = useSelector((state) => state.cart);
 
   const addToCartHandler = async (product, qty) => {
     dispatch(addToCart({ ...product, qty }));
@@ -150,10 +152,7 @@ const CartItems = ({ cartItems }) => {
                     </Stack>
                   </TableCell>
                   <TableCell align="right">
-                    $
-                    {item.discount
-                      ? calcDiscountedPrice(item.price, item.discount)
-                      : item.price}
+                    ${calcItemPrice(item)}
                   </TableCell>
                   <TableCell align="right">
                     <TextField
@@ -178,13 +177,7 @@ const CartItems = ({ cartItems }) => {
                     />
                   </TableCell>
                   <TableCell align="right">
-                    $
-                    {(
-                      item.qty *
-                      (item.discount > 0
-                        ? calcDiscountedPrice(item.price, item.discount)
-                        : item.price)
-                    ).toFixed(2)}
+                    ${item.qty * calcItemPrice(item)}
                   </TableCell>
                 </TableRow>
               ))}

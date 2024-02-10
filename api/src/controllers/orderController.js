@@ -1,31 +1,25 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Order from "../models/orderModel.js";
-import OrderModel from "../models/orderModel.js";
 
-const addOrderItems = asyncHandler(async (req, res) => {
-  const {
-    cartItems: orderItems,
-    shippingAddress,
-    paymentMethod,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
+//create order with stripe
+const createOrder = async (orderItems, userId, orderDetails) => {
+  const { shippingAddress, itemsPrice, taxPrice, shippingPrice, totalPrice } =
+    orderDetails;
 
-  if (orderItems && orderItems.length === 0) {
-    res.status(400);
-    throw new Error("No order items");
-  } else {
-    const order = new OrderModel({
-      orderItems: orderItems.map((order) => ({
-        ...order,
-        product: order._id,
+  try {
+    if (!orderItems || orderItems.length === 0) {
+      throw new Error("No order items provided");
+    }
+
+    const order = new Order({
+      orderItems: orderItems.map((item) => ({
+        ...item,
+        product: item._id,
         _id: undefined,
       })),
-      user: req.user._id,
+      user: userId,
+      paidAt: Date.now(),
       shippingAddress,
-      paymentMethod,
       itemsPrice,
       taxPrice,
       shippingPrice,
@@ -33,18 +27,19 @@ const addOrderItems = asyncHandler(async (req, res) => {
     });
 
     const createdOrder = await order.save();
-
-    res.status(201).json(createdOrder);
+    return createdOrder;
+  } catch (err) {
+    throw new Error(`Error creating order: ${err.message}`);
   }
-});
+};
 
 const getMyOrders = asyncHandler(async (req, res) => {
-  const orders = await OrderModel.find({ user: req.user._id });
+  const orders = await Order.find({ user: req.user._id });
   res.status(200).json(orders);
 });
 
 const getOrderById = asyncHandler(async (req, res) => {
-  const order = await OrderModel.findById(req.params.id).populate(
+  const order = await Order.findById(req.params.id).populate(
     "user",
     "name email"
   );
@@ -57,29 +52,8 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-const updateOrderToPaid = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id);
-
-  if (order) {
-    order.isPaid = true;
-    order.paidAt = Date.now();
-    order.paymentResult = {
-      id: req.body.id,
-      status: req.body.status,
-      update_time: req.body.update_time,
-      email_address: req.body.payer.email_address,
-    };
-
-    const updatedOrder = await order.save();
-    res.status(200).json(updatedOrder);
-  } else {
-    res.status(404);
-    throw new Error("Order not found");
-  }
-});
-
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  const order = await OrderModel.findById(req.params.id);
+  const order = await Order.findById(req.params.id);
 
   if (order) {
     order.isDelivered = true;
@@ -94,15 +68,14 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 });
 
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await OrderModel.find({}).populate("user", "id name");
+  const orders = await Order.find({}).populate("user", "id name");
   res.status(200).json(orders);
 });
 
 export {
-  addOrderItems,
+  createOrder,
   getMyOrders,
   getOrderById,
-  updateOrderToPaid,
   updateOrderToDelivered,
   getOrders,
 };
