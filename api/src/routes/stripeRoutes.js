@@ -5,7 +5,6 @@ dotenv.config();
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
 import { protect } from "../middleware/authMiddleware.js";
-import { createOrder } from "../controllers/orderController.js";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_KEY);
@@ -54,7 +53,7 @@ router.post(
   "/pay",
   protect,
   asyncHandler(async (req, res) => {
-    const { userEmail, orderItems, shippingAddress } = req.body;
+    const { userEmail, orderItems } = req.body;
 
     //create line_items
     const lineItems = await createLineItems(orderItems);
@@ -93,24 +92,16 @@ router.post(
       ],
     });
 
-    if (session) {
-      //order details
-      const orderDetails = {
-        taxPrice: session.total_details.amount_tax / 100,
-        shippingPrice: session.total_details.amount_shipping / 100,
-        itemsPrice: session.amount_subtotal / 100,
-        totalPrice: session.amount_total / 100,
-        shippingAddress,
-      };
+    //order details
+    const orderDetails = {
+      taxPrice: session.total_details.amount_tax / 100,
+      shippingPrice: session.total_details.amount_shipping / 100,
+      itemsPrice: session.amount_subtotal / 100,
+      totalPrice: session.amount_total / 100,
+    };
 
-      //create order
-      await createOrder(orderItems, req.user._id, orderDetails);
-
-      //send res
-      res.status(200).json({ stripeSession: session });
-    } else {
-      throw new Error("No stripe session");
-    }
+    //send res
+    res.status(200).json({ stripeSession: session, orderDetails });
   })
 );
 

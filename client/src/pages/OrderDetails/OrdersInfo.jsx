@@ -11,7 +11,7 @@ import {
   styled,
 } from "@mui/material";
 import Loader from "../../components/Loader";
-import calcItemPrice from "../../utils/calcItemPrice";
+import { calcItemPrice, calcPriceQty } from "../../utils/calcItemPrice";
 
 const StyledOrderItemCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -168,7 +168,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
                         mt="0.5rem"
                       >
                         {item.qty} x ${calcItemPrice(item)} = $
-                        {item.qty * calcItemPrice(item)}
+                        {calcPriceQty(item.qty, item)}
                       </Typography>
                     </CardContent>
                   </StyledOrderItemCard>

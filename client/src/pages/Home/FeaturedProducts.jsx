@@ -20,7 +20,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcItemPrice from "../../utils/calcItemPrice";
+import { calcItemPrice } from "../../utils/calcItemPrice";
 import { AddShoppingCartRounded } from "@mui/icons-material";
 import { addToCart } from "../../slices/cartSlice";
 import { useDispatch } from "react-redux";

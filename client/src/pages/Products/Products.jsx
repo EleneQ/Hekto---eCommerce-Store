@@ -20,9 +20,8 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcItemPrice from "../../utils/calcItemPrice";
+import { calcItemPrice } from "../../utils/calcItemPrice";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
-import { toast } from "react-toastify";
 
 const StyledCartButton = styled(IconButton)(({ theme }) => ({
   fontSize: "1.1rem",
@@ -165,7 +164,6 @@ const Products = ({ params, setSearchParams }) => {
                     aria-label="add to cart"
                     onClick={() => {
                       dispatch(addToCart({ ...product, qty: 1 }));
-                      toast.success("Added to cart");
                     }}
                   >
                     <ShoppingCartRoundedIcon />

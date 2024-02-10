@@ -16,7 +16,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcItemPrice from "../../utils/calcItemPrice";
+import { calcPriceQty, calcItemPrice } from "../../utils/calcItemPrice";
 import { addToCart, removeFromCart } from "../../slices/cartSlice";
 import truncateText from "../../utils/truncateText";
 import { Clear } from "@mui/icons-material";
@@ -151,9 +151,7 @@ const CartItems = () => {
                       </div>
                     </Stack>
                   </TableCell>
-                  <TableCell align="right">
-                    ${calcItemPrice(item)}
-                  </TableCell>
+                  <TableCell align="right">${calcItemPrice(item)}</TableCell>
                   <TableCell align="right">
                     <TextField
                       name="orderAmount"
@@ -177,7 +175,7 @@ const CartItems = () => {
                     />
                   </TableCell>
                   <TableCell align="right">
-                    ${item.qty * calcItemPrice(item)}
+                    ${calcPriceQty(item.qty, item)}
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,4 +1,4 @@
-const calcItemPrice = (item) => {
+export const calcItemPrice = (item) => {
   if (item.discount && item.discount > 0) {
     const discountedPrice = item.price * (1 - item.discount / 100);
     return parseFloat(discountedPrice).toFixed(2);
@@ -7,4 +7,6 @@ const calcItemPrice = (item) => {
   }
 };
 
-export default calcItemPrice;
+export const calcPriceQty = (qty, item) => {
+  return (qty * calcItemPrice(item)).toFixed(2);
+};

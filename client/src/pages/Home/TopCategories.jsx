@@ -22,7 +22,7 @@ const StyledViewButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.green.main,
   color: "white",
   fontSize: "0.75rem",
-  padding: "0.6rem 0.5rem",
+  padding: "0.3rem 0.5rem",
 
   "&:hover": {
     backgroundColor: theme.palette.green.mainHover,
@@ -87,7 +87,7 @@ const TopCategories = () => {
           <>
             <Typography
               variant="h2"
-              color={theme.palette.secondary.main}
+              color={"secondary.main"}
               fontWeight={700}
               mt="5rem"
               mb="2rem"
@@ -108,7 +108,7 @@ const TopCategories = () => {
                     p={{ xs: "1.5rem", sm: "2.5rem" }}
                     position={"relative"}
                     borderRadius={"999px"}
-                    bgcolor={theme.palette.primary.main}
+                    bgcolor={"primary.maim"}
                     onMouseEnter={() => setHoveredCategoryIndex(index)}
                     onMouseLeave={() => setHoveredCategoryIndex(null)}
                     hoveredCategoryIndex={hoveredCategoryIndex}
@@ -134,14 +134,14 @@ const TopCategories = () => {
                       variant="contained"
                       sx={{ display: "none" }}
                     >
-                      View Details
+                      View
                     </StyledViewButton>
                   </StyledCategoryBox>
                   <Typography
                     variant="h4"
                     textTransform={"capitalize"}
                     mt={"0.5rem"}
-                    color={theme.palette.secondary.main}
+                    color={"secondary.main"}
                   >
                     {category.name}
                   </Typography>

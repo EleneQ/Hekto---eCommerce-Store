@@ -1,10 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { usePayOrderMutation } from "../../slices/ordersApiSlice";
-import calcItemPrice from "../../utils/calcItemPrice";
+import {
+  useCreateOrderMutation,
+  usePayOrderMutation,
+} from "../../slices/ordersApiSlice";
+import { calcItemPrice } from "../../utils/calcItemPrice";
 import { Box, Button, Divider, Paper, Typography, styled } from "@mui/material";
 import { loadStripe } from "@stripe/stripe-js";
 import { clearCartItems } from "../../slices/cartSlice";
 import { toast } from "react-toastify";
+import objIsEmpty from "../../utils/objectIsEmpty";
 
 const StyledLoginButton = styled(Button)(({ theme }) => ({
   color: "white",
@@ -28,43 +32,58 @@ const Details = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
+  const [createOrder, { isLoading: loadingOrder }] = useCreateOrderMutation();
+
   const stripePromise = loadStripe(
     "pk_test_51Oa0ZoI5jjrwS49dYoFr8OOK4UByL5JzOrSYMGoLa19Ogwa4bQxlFoPYvYbNnIYS2h35nOtfgMqAJlGS53VqqMrd008abDr08A"
   );
 
+  const createOrderHandler = async (stripeRes) => {
+    const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
+      stripeRes.orderDetails;
+
+    try {
+      await createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        itemsPrice: itemsPrice,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      }).unwrap();
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   const checkoutHandler = async () => {
-    if (!cart.shippingAddress) {
-      toast.error("No Shipping Address");
+    if (!cart.shippingAddress || objIsEmpty(cart.shippingAddress)) {
+      toast.error("No Shipping Address Submitted");
       return;
     }
 
     try {
+      //stripe session
       const stripe = await stripePromise;
 
       const stripeRes = await payOrder({
         userEmail: userInfo.email,
-        orderDetails: {
-          orderItems: cart.cartItems.map((item) => ({
-            ...item,
-            price: calcItemPrice(item),
-          })),
-          shippingAddress: cart.shippingAddress,
-        },
+        orderItems: cart.cartItems,
       }).unwrap();
 
-      if (!stripeRes.stripeSession.id) {
-        console.error("Invalid response from Stripe server");
-        return;
-      }
+      //create order
+      await createOrderHandler(stripeRes);
 
+      //clear cart
       dispatch(clearCartItems());
 
+      //redirect
       await stripe.redirectToCheckout({
         sessionId: stripeRes.stripeSession.id,
       });
     } catch (err) {
-      toast.error(err?.data?.message || err.error || "An error occurred");
-      window.scrollTo(0, 700); //x, y
+      toast.error(err?.data?.message || err.error);
+      window.scrollTo(0, 700);
     }
   };
 
@@ -123,7 +142,7 @@ const Details = () => {
           <StyledLoginButton
             onClick={checkoutHandler}
             fullWidth
-            disabled={loadingPayment}
+            disabled={loadingPayment || loadingOrder}
           >
             Proceed To Checkout
           </StyledLoginButton>

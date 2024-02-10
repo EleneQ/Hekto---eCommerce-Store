@@ -18,7 +18,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import calcItemPrice from "../../utils/calcItemPrice";
+import { calcItemPrice } from "../../utils/calcItemPrice";
 import truncateText from "../../utils/truncateText";
 
 const StyledTypographyEllipsis = styled(Typography)({

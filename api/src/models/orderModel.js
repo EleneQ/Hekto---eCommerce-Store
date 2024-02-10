@@ -26,12 +26,12 @@ const orderSchema = new mongoose.Schema(
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
     },
-    paymentResult: {
-      id: { type: String },
-      status: { type: String },
-      update_time: { type: String },
-      email_address: { type: String },
-    },
+    // paymentResult: {
+    //   id: { type: String },
+    //   status: { type: String },
+    //   update_time: { type: String },
+    //   email_address: { type: String },
+    // },
     itemsPrice: {
       type: Number,
       required: true,

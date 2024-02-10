@@ -16,7 +16,7 @@ import {
   useTheme,
 } from "@mui/material";
 import Loader from "../../components/Loader";
-import calcItemPrice from "../../utils/calcItemPrice";
+import { calcItemPrice } from "../../utils/calcItemPrice";
 import { addToCart } from "../../slices/cartSlice";
 
 const StyledAddToCartButton = styled(Button)(({ theme }) => ({

@@ -18,7 +18,6 @@ import ProductPage from "./pages/Product/ProductPage";
 import CartPage from "./pages/Cart/CartPage";
 import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
-import PlaceOrderPage from "./pages/PlaceOrder/PlaceOrderPage";
 import OrderDetailsPage from "./pages/OrderDetails/OrderDetailsPage";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import OrderListPage from "./pages/AdminPages/OrderList/OrderListPage";
@@ -42,7 +41,6 @@ const router = createBrowserRouter(
 
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderDetailsPage />} />
         <Route path="/cancel" element={<CancelPage />} />
       </Route>

@@ -17,7 +17,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import calcItemPrice from "../../utils/calcItemPrice";
+import { calcItemPrice } from "../../utils/calcItemPrice";
 import { Link } from "react-router-dom";
 
 const StyledTab = styled(Tab)(({ theme }) => ({

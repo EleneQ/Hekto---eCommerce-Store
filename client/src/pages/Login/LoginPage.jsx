@@ -15,6 +15,7 @@ import {
   Link,
   InputAdornment,
   IconButton,
+  Box,
 } from "@mui/material";
 import Loader from "../../components/Loader";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -67,90 +68,110 @@ const LoginPage = () => {
   };
 
   return (
-    <section>
-      <Container maxWidth={false}>
-        <Paper
-          component="form"
-          onSubmit={submitHandler}
-          elevation={4}
-          sx={{ maxWidth: "540px", p: "2.5rem", mx: "auto", mt: "5rem" }}
+    <Container component={"section"} maxWidth={false}>
+      <Paper
+        component="form"
+        onSubmit={submitHandler}
+        elevation={4}
+        sx={{ maxWidth: "540px", p: "2.5rem", mx: "auto", mt: "5rem" }}
+      >
+        <Typography
+          variant="h2"
+          color={theme.palette.secondary.main}
+          fontWeight={700}
+          textAlign={"center"}
         >
+          Login
+        </Typography>
+
+        <TextField
+          name="email"
+          id="email"
+          label="Enter Your Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          fullWidth
+          autoFocus
+          color="info"
+          sx={{ mt: "1rem" }}
+        />
+        <TextField
+          name="password"
+          id="password"
+          label="Enter Your Password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          fullWidth
+          color="info"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  sx={{ fontSize: "1.2rem" }}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          sx={{ mt: "1rem" }}
+        />
+
+        <Box mt="2rem">
           <Typography
-            variant="h2"
-            color={theme.palette.secondary.main}
-            fontWeight={700}
-            textAlign={"center"}
+            variant="body2"
+            color="secondary.main"
+            fontSize={"0.9rem"}
           >
-            Login
+            <span style={{ color: "#7b7878" }}>Admin Email:</span>{" "}
+            admin@email.com,{" "}
+            <span style={{ color: "#7b7878" }}>Admin Password:</span> 123456
           </Typography>
-
-          <TextField
-            name="email"
-            id="email"
-            label="Enter Your Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            fullWidth
-            autoFocus
-            color="info"
-            sx={{ mt: "1rem" }}
-          />
-          <TextField
-            name="password"
-            id="password"
-            label="Enter Your Password"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            fullWidth
-            color="info"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    sx={{ fontSize: "1.2rem" }}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{ mt: "1rem" }}
-          />
-
-          <StyledLoginButton disabled={isLoading} type="submit" fullWidth>
-            Sign In
-          </StyledLoginButton>
-
-          {isLoading && <Loader />}
-
           <Typography
+            variant="body2"
+            color="secondary.main"
+            fontSize={"0.9rem"}
+            mt={{ xs: "0.5rem", md: "0.1rem" }}
+          >
+            <span style={{ color: "#7b7878" }}>Customer Email:</span>{" "}
+            jane@email.com,{" "}
+            <span style={{ color: "#7b7878" }}>Customer Password:</span> 123456
+          </Typography>
+        </Box>
+
+        <StyledLoginButton disabled={isLoading} type="submit" fullWidth>
+          Sign In
+        </StyledLoginButton>
+
+        {isLoading && <Loader />}
+
+        <Typography
+          variant="body1"
+          color={theme.palette.primary.dark1}
+          sx={{ mt: "1rem" }}
+        >
+          Don't have an account?{" "}
+          <Link
             variant="body1"
-            color={theme.palette.primary.dark1}
-            sx={{ mt: "1rem" }}
+            underline="always"
+            component={LinkRouter}
+            to={redirect ? `/register?redirect=${redirect}` : "/register"}
+            sx={{
+              color: theme.palette.secondary.main,
+              textDecorationColor: theme.palette.secondary.main,
+            }}
           >
-            Don't have an account?{" "}
-            <Link
-              variant="body1"
-              underline="always"
-              component={LinkRouter}
-              to={redirect ? `/register?redirect=${redirect}` : "/register"}
-              sx={{
-                color: theme.palette.secondary.main,
-                textDecorationColor: theme.palette.secondary.main,
-              }}
-            >
-              Register
-            </Link>
-          </Typography>
-        </Paper>
-      </Container>
-    </section>
+            Register
+          </Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 };
 export default LoginPage;
