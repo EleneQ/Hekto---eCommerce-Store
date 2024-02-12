@@ -1,4 +1,4 @@
-import { calcItemPrice } from "./calcItemPrice";
+import { calcPriceQty } from "./calcItemPrice";
 
 export const addDecimals = (num) => {
   return (Math.round(num * 100) / 100).toFixed(2);
@@ -7,10 +7,7 @@ export const addDecimals = (num) => {
 export const updateCart = (state) => {
   //calculate items price
   state.itemsPrice = addDecimals(
-    state.cartItems.reduce(
-      (acc, item) => acc + calcItemPrice(item) * item.qty,
-      0
-    )
+    state.cartItems.reduce((acc, item) => acc + calcPriceQty(item.qty, item), 0)
   );
 
   // //calculate shipping price

@@ -1,8 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  useCreateOrderMutation,
-  usePayOrderMutation,
-} from "../../slices/ordersApiSlice";
+import { usePayOrderMutation } from "../../slices/ordersApiSlice";
 import { calcItemPrice } from "../../utils/calcItemPrice";
 import { Box, Button, Divider, Paper, Typography, styled } from "@mui/material";
 import { loadStripe } from "@stripe/stripe-js";
@@ -32,29 +29,9 @@ const Details = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const [createOrder, { isLoading: loadingOrder }] = useCreateOrderMutation();
-
   const stripePromise = loadStripe(
     "pk_test_51Oa0ZoI5jjrwS49dYoFr8OOK4UByL5JzOrSYMGoLa19Ogwa4bQxlFoPYvYbNnIYS2h35nOtfgMqAJlGS53VqqMrd008abDr08A"
   );
-
-  const createOrderHandler = async (stripeRes) => {
-    const { itemsPrice, shippingPrice, taxPrice, totalPrice } =
-      stripeRes.orderDetails;
-
-    try {
-      await createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        itemsPrice: itemsPrice,
-        shippingPrice: shippingPrice,
-        taxPrice: taxPrice,
-        totalPrice: totalPrice,
-      }).unwrap();
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
-    }
-  };
 
   const checkoutHandler = async () => {
     if (!cart.shippingAddress || objIsEmpty(cart.shippingAddress)) {
@@ -68,12 +45,12 @@ const Details = () => {
 
       const stripeRes = await payOrder({
         userEmail: userInfo.email,
-        orderItems: cart.cartItems,
+        orderDetails: {
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+        },
       }).unwrap();
-
-      //create order
-      await createOrderHandler(stripeRes);
-
+      
       //clear cart
       dispatch(clearCartItems());
 
@@ -142,7 +119,7 @@ const Details = () => {
           <StyledLoginButton
             onClick={checkoutHandler}
             fullWidth
-            disabled={loadingPayment || loadingOrder}
+            disabled={loadingPayment}
           >
             Proceed To Checkout
           </StyledLoginButton>

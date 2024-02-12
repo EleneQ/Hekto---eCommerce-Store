@@ -2,38 +2,36 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import Order from "../models/orderModel.js";
 
 //create order with stripe
-const addOrderItems = asyncHandler(async (req, res) => {
-  const {
-    orderItems,
-    shippingAddress,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
+const createOrder = async (orderItems, userId, orderDetails) => {
+  const { shippingAddress, itemsPrice, taxPrice, shippingPrice, totalPrice } =
+    orderDetails;
 
-  if (!orderItems || orderItems.length === 0) {
-    throw new Error("No order items provided");
+  try {
+    if (!orderItems || orderItems.length === 0) {
+      throw new Error("No order items provided");
+    }
+
+    const order = new Order({
+      orderItems: orderItems.map((item) => ({
+        ...item,
+        product: item._id,
+        _id: undefined,
+      })),
+      user: userId,
+      paidAt: Date.now(),
+      shippingAddress,
+      itemsPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+    });
+
+    const createdOrder = await order.save();
+    return createdOrder;
+  } catch (err) {
+    throw new Error(`Could not create an order: ${err.message}`);
   }
-
-  const order = new Order({
-    orderItems: orderItems.map((item) => ({
-      ...item,
-      product: item._id,
-      _id: undefined,
-    })),
-    user: req.user._id,
-    paidAt: Date.now(),
-    shippingAddress,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  });
-
-  const createdOrder = await order.save();
-  res.status(201).json(createdOrder);
-});
+};
 
 const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
@@ -75,7 +73,7 @@ const getOrders = asyncHandler(async (req, res) => {
 });
 
 export {
-  addOrderItems,
+  createOrder,
   getMyOrders,
   getOrderById,
   updateOrderToDelivered,

@@ -1,10 +1,11 @@
-import express from "express";
+import express, { json } from "express";
 import Stripe from "stripe";
 import dotenv from "dotenv";
 dotenv.config();
 import asyncHandler from "../middleware/asyncHandler.js";
 import Product from "../models/productModel.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { createOrder } from "../controllers/orderController.js";
 
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_KEY);
@@ -49,25 +50,30 @@ const createLineItems = async (orderItems) => {
   }
 };
 
+let pendingOrderItems = [];
+let pendingShippingAddress = {};
+let pendingUserId = "";
+
 router.post(
   "/pay",
   protect,
   asyncHandler(async (req, res) => {
-    const { userEmail, orderItems } = req.body;
+    const { userEmail, orderItems, shippingAddress } = req.body;
+
+    pendingOrderItems = orderItems;
+    pendingShippingAddress = shippingAddress;
+    pendingUserId = req.user._id;
 
     //create line_items
     const lineItems = await createLineItems(orderItems);
 
     const session = await stripe.checkout.sessions.create({
-      customer_email: userEmail,
       line_items: lineItems,
       mode: "payment",
       success_url: process.env.CLIENT_URL,
       cancel_url: `${process.env.CLIENT_URL}/cancel`,
       payment_method_types: ["card"],
-      // shipping_address_collection: {
-      //   allowed_countries: ["US", "CA", "GE", "FR", "JP"],
-      // },
+      customer_email: userEmail,
       shipping_options: [
         {
           shipping_rate_data: {
@@ -92,16 +98,51 @@ router.post(
       ],
     });
 
-    //order details
-    const orderDetails = {
-      taxPrice: session.total_details.amount_tax / 100,
-      shippingPrice: session.total_details.amount_shipping / 100,
-      itemsPrice: session.amount_subtotal / 100,
-      totalPrice: session.amount_total / 100,
-    };
+    //send session
+    res.status(200).json({ stripeSession: session });
+  })
+);
 
-    //send res
-    res.status(200).json({ stripeSession: session, orderDetails });
+let endpointSecret;
+// endpointSecret = process.env.WEBHOOK_SECRET;
+
+router.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  asyncHandler(async (req, res) => {
+    //verify that the event calling this webhook comes from stripe
+    const sig = req.headers["stripe-signature"];
+
+    let data;
+    let eventType;
+
+    if (endpointSecret) {
+      const event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        endpointSecret
+      );
+
+      data = event.data.object;
+      eventType = event.type;
+    } else {
+      data = req.body.data.object;
+      eventType = req.body.type;
+    }
+
+    if (eventType === "checkout.session.completed") {
+      const orderDetails = {
+        shippingAddress: pendingShippingAddress,
+        itemsPrice: data.amount_subtotal / 100,
+        taxPrice: data.total_details.amount_tax / 100,
+        shippingPrice: data.total_details.amount_shipping / 100,
+        totalPrice: data.amount_total / 100,
+      };
+
+      await createOrder(pendingOrderItems, pendingUserId, orderDetails);
+    }
+
+    res.send().end();
   })
 );
 
