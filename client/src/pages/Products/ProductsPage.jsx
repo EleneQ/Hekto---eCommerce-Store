@@ -7,6 +7,7 @@ import {
   Stack,
   Typography,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import SearchBox from "../../components/SearchBox";
 import ProductFilters from "./ProductFilter";
@@ -17,6 +18,7 @@ import ListRoundedIcon from "@mui/icons-material/ListRounded";
 
 const ProductsPage = () => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const [searchParams, setSearchParams] = useSearchParams({ p: 1 });
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -62,22 +64,27 @@ const ProductsPage = () => {
             spacing={3}
           >
             {/* SMALL SCREEN SIDEBAR */}
-            <Box display={{ md: "none" }}>
-              <IconButton
-                onClick={() => setSidebarOpen(true)}
-                sx={{ fontSize: "2.5rem", color: theme.palette.secondary.main }}
-              >
-                <ListRoundedIcon />
-              </IconButton>
-              <Drawer anchor="left" open={sidebarOpen} onClose={toggleDrawer}>
-                <Box sx={{ width: 250, p: "2rem" }} role="presentation">
-                  <ProductFilters
-                    searchParams={searchParams}
-                    setSearchParams={setSearchParams}
-                  />
-                </Box>
-              </Drawer>
-            </Box>
+            {isSmallScreen && (
+              <Box>
+                <IconButton
+                  onClick={() => setSidebarOpen(true)}
+                  sx={{
+                    fontSize: "2.5rem",
+                    color: theme.palette.secondary.main,
+                  }}
+                >
+                  <ListRoundedIcon />
+                </IconButton>
+                <Drawer anchor="left" open={sidebarOpen} onClose={toggleDrawer}>
+                  <Box sx={{ width: 250, p: "2rem" }} role="presentation">
+                    <ProductFilters
+                      searchParams={searchParams}
+                      setSearchParams={setSearchParams}
+                    />
+                  </Box>
+                </Drawer>
+              </Box>
+            )}
 
             <SearchBox setSearchParams={setSearchParams} />
 
@@ -94,13 +101,15 @@ const ProductsPage = () => {
           aligItems={"center"}
           spacing={{ md: 5 }}
         >
-          {/* DESKTOP SIDEBAR */}
-          <Box display={{ xs: "none", md: "block" }}>
-            <ProductFilters
-              searchParams={searchParams}
-              setSearchParams={setSearchParams}
-            />
-          </Box>
+          {/* BIG SCREEN SIDEBAR */}
+          {!isSmallScreen && (
+            <Box display={{ xs: "none", md: "block" }}>
+              <ProductFilters
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+              />
+            </Box>
+          )}
 
           {/* PRODUCT LIST */}
           <Products params={params} setSearchParams={setSearchParams} />
