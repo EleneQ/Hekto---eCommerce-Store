@@ -130,8 +130,9 @@ const Hero = () => {
                 color={"primary.darkest"}
                 sx={{ mt: "1rem", fontSize: { xs: "15px", md: "1rem" } }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna
-                in est adipiscing in phasellus non in justo.
+                Explore the latest trends in furniture design for 2024! Our
+                curated collections offer a blend of functionality and aesthetic
+                appeal.
               </Typography>
 
               <StyledShopNowButton

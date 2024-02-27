@@ -71,7 +71,7 @@ const Footer = () => {
 
             <Typography variant="body2" mt="2rem">
               Contact Info:
-              <div>17 Princess Road, London, Greater London NW1 8JR, UK</div>
+              <div>42 Rue de la Paix, Paris, France.</div>
             </Typography>
           </Grid>
 
