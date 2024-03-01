@@ -25,8 +25,16 @@ app.use(express.json());
 //access req.cookie
 app.use(cookieParser());
 
+//routes
+app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/order", orderRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/checkout", stripeRoutes);
+
 //image uploads
-const __dirname = path.resolve(); //set __dirname to current directory
+const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 if (process.env.NODE_ENV === "production") {
@@ -42,14 +50,6 @@ if (process.env.NODE_ENV === "production") {
     res.send("API running...");
   });
 }
-
-//routes
-app.use("/api/products", productRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/order", orderRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/upload", uploadRoutes);
-app.use("/api/checkout", stripeRoutes);
 
 //error handlers
 app.use(notFound);
