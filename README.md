@@ -6,7 +6,7 @@
 
 Hekto is an eCommerce platform. It provides a user-friendly, beautiful interface that helps visitors filter, search and sort through all products. Users can register or login, review each product, add to card, pay using Stripe webhooks and ship to their address. For the admin, Hekto has a lot of special functionality, such as creating and editing products, viewing all users, orders and products, marking orders as delivered, etc. Hekto uses MongoDB to store the data and manages state using Redux Toolkit for seamless and instant UI updates.
 
-Credits for the design: [Flowbase.co](https://www.figma.com/community/file/1093372331682706566)
+Credits for the design: [Saber Ali](https://www.figma.com/community/file/967759864749832815)
 
 👩‍💻 Live Demo: [Hekto Demo](https://hekto-0me9.onrender.com/)
 
