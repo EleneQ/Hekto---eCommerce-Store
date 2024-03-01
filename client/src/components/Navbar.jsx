@@ -169,7 +169,9 @@ const Navbar = () => {
       >
         <Container maxWidth={false}>
           <Toolbar sx={{ justifyContent: "space-between" }} disableGutters>
-            <Box component="img" sx={{ height: 25 }} src={logo} alt="logo" />
+            <Link to="/">
+              <Box component="img" sx={{ height: 25 }} src={logo} alt="logo" />
+            </Link>
 
             <List sx={{ ml: "8rem" }}>
               <Stack
