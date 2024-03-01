@@ -2,7 +2,7 @@
   <img src="https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/5367edbf-602b-4864-9574-b3b043f5c97f" alt="logo" />
 </p>
 
-# Foodieland 👒👚
+# Hekto 👒👚
 
 Hekto is an eCommerce platform. It provides a user-friendly, beautiful interface that helps visitors filter, search and sort through all products. Users can register or login, review each product, add to card, pay using Stripe webhooks and ship to their address. For the admin, Hekto has a lot of special functionality, such as creating and editing products, viewing all users, orders and products, marking orders as delivered, etc. Hekto uses MongoDB to store the data and manages state using Redux Toolkit for seamless and instant UI updates.
 
