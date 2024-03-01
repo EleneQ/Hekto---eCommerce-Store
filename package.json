@@ -10,7 +10,8 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node api/seeder",
-    "data:destroy": "node api/seeder -d"
+    "data:destroy": "node api/seeder -d",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "author": "Elene Qaldani",
   "license": "MIT",

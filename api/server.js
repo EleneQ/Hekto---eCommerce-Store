@@ -25,12 +25,12 @@ app.use(express.json());
 //access req.cookie
 app.use(cookieParser());
 
-//static folder
+//image uploads
 const __dirname = path.resolve(); //set __dirname to current directory
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 if (process.env.NODE_ENV === "production") {
-  //set static folder
+  //set static react build folder
   app.use(express.static(path.join(__dirname, "/client/build")));
 
   //any non-api route will be redirected to index.html
