@@ -26,8 +26,22 @@ app.use(express.json());
 app.use(cookieParser());
 
 //static folder
-const __dirname = path.resolve();
-app.use("/assets", express.static(path.join(__dirname, "assets")));
+const __dirname = path.resolve(); //set __dirname to current directory
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+if (process.env.NODE_ENV === "production") {
+  //set static folder
+  app.use(express.static(path.join(__dirname, "/client/build")));
+
+  //any non-api route will be redirected to index.html
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API running...");
+  });
+}
 
 //routes
 app.use("/api/products", productRoutes);

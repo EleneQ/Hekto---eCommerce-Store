@@ -186,7 +186,7 @@ const Navbar = () => {
             <List sx={{ ml: "8rem" }}>
               <Stack
                 direction={"row"}
-                sx={{ display: { xs: "none", md: "flex" } }}
+                sx={{ display: { xs: "none", sm: "flex" } }}
               >
                 {navLinks.map((item) => (
                   <ListItem key={item.name} disablePadding>
@@ -202,7 +202,7 @@ const Navbar = () => {
               </Stack>
             </List>
 
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Box sx={{ display: { xs: "none", sm: "flex" } }}>
               {userInfo && userInfo.isAdmin && (
                 <>
                   <Button
@@ -352,7 +352,7 @@ const Navbar = () => {
               direction={"row"}
               alignItems={"center"}
               justifyContent={"center"}
-              sx={{ display: { xs: "flex", md: "none" } }}
+              sx={{ display: { xs: "flex", sm: "none" } }}
             >
               <Box>
                 <IconButton
@@ -372,7 +372,7 @@ const Navbar = () => {
                 to="/cart"
                 size="large"
                 color="inherit"
-                sx={{ display: { xs: "flex", md: "none" } }}
+                sx={{ display: { xs: "flex", sm: "none" } }}
               >
                 <Badge
                   badgeContent={cartItems.reduce(

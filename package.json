@@ -5,9 +5,12 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.js",
-    "data:import": "node src/seeder.js",
-    "data:destroy": "node src/seeder.js -d"
+    "start": "node api/server.js",
+    "server": "nodemon api/server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node api/seeder",
+    "data:destroy": "node api/seeder -d"
   },
   "author": "Elene Qaldani",
   "license": "MIT",
@@ -23,6 +26,7 @@
   },
   "devDependencies": {
     "colors": "^1.4.0",
+    "concurrently": "^8.2.2",
     "dotenv": "^16.3.2",
     "nodemon": "^3.0.3"
   }
