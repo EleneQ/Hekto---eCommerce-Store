@@ -1,52 +1,82 @@
 <p align="center">
-  <img src="https://github.com/EleneQ/Foodieland---recipes-and-cocktails/assets/126418804/dda36539-8a21-4e34-a5f7-b4167d11e489" alt="logo" />
+  <img src="https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/5367edbf-602b-4864-9574-b3b043f5c97f" alt="logo" />
 </p>
 
-# Foodieland 🍕🍹
+# Foodieland 👒👚
 
-Foodieland serves as a digital hub for meal and cocktail recipes, offering a user-friendly interface to search and filter through a wide array of recipes. With just a click of a button, users can uncover new flavors and experience the joy of culinary discovery right in their own kitchen. Foodieland is an all-in-one destination for culinary inspiration and exploration.
+Hekto is an eCommerce platform. It provides a user-friendly, beautiful interface that helps visitors filter, search and sort through all products. Users can register or login, review each product, add to card, pay using Stripe webhooks and ship to their address. For the admin, Hekto has a lot of special functionality, such as creating and editing products, viewing all users, orders and products, marking orders as delivered, etc. Hekto uses MongoDB to store the data and manages state using Redux Toolkit for seamless and instant UI updates.
 
 Credits for the design: [Flowbase.co](https://www.figma.com/community/file/1093372331682706566)
 
-👩‍💻 Live Demo: [Foodieland Demo](https://foodieland-recipe.netlify.app/)
+👩‍💻 Live Demo: [Hekto Demo](https://hekto-0me9.onrender.com/)
 
 ### Built with:
 
 &raquo; React <br>
 &raquo; JavaScript <br>
-&raquo; TheMealDB API <br>
-&raquo; TheCocktailDB API <br>
-&raquo; Tailwind <br>
-&raquo; Sass / Scss <br>
+&raquo; Redux Toolkit <br>
+&raquo; Material UI <br>
+&raquo; Css <br>
+&raquo; Rest API <br>
+&raquo; Node <br>
+&raquo; Express <br>
+&raquo; MongoDB <br>
+&raquo; Mongoose <br>
+&raquo; Stripe <br>
 
 ## Screenshots 📸
 
 <!-- Home Page -->
 <h3 align="center">Home Page</h3>
 
-![monito homepage](https://github.com/EleneQ/Foodieland---recipes-and-cocktails/assets/126418804/803856cb-bce1-4350-869a-5df80fb5ba61)
+![hekto homepage](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/a38cc5a0-8dec-4539-b6b6-b544a64c5e51)
 
-<!-- Cocktails Page -->
-<h3 align="center">Cocktails Page</h3>
+<!-- Products Page -->
+<h3 align="center">Products Page</h3>
 
-![monito cocktails page](https://github.com/EleneQ/Foodieland---recipes-and-cocktails/assets/126418804/957b0082-6d52-4edd-ada4-073e2d36afe1)
+![hekto products page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/16c45d39-93f4-43b3-bba5-80929d2d7b1f)
 
-<!-- Contact Us Page -->
-<h3 align="center">Contact Us Page</h3>
+<!-- Cart Page -->
+<h3 align="center">Cart Page</h3>
 
-![monito contact us page](https://github.com/EleneQ/Foodieland---recipes-and-cocktails/assets/126418804/2eb1d804-68c5-4048-9a51-ad1b9c19c1a7)
+![hekto cart page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/cdb0394b-912e-4525-9347-a03b918b1b7e)
 
-<!-- About Us Page -->
-<h3 align="center">About Us Page</h3>
+<!-- Product Details Page -->
+<h3 align="center">Product Details Page</h3>
 
-![monito about us page](https://github.com/EleneQ/Foodieland---recipes-and-cocktails/assets/126418804/5dac3754-7503-40fe-9f55-b360079a4937)
+![hekto product details page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/71f7e448-81b7-46aa-b111-59e736e6b817)
 
-<!-- Meal Page -->
-<h3 align="center">Meal Recipe Page</h3>
+<!-- Register Page -->
+<h3 align="center">Register Page</h3>
 
-![monito meal recipe page](https://github.com/EleneQ/Foodieland---recipes-and-cocktails/assets/126418804/f4a1595c-5cb0-42c5-ac5c-b683ca6d2558)
+![hekto register page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/896b5beb-1d47-4698-a363-4e51ce367754)
 
-<!-- Cocktail Page -->
-<h3 align="center">Cocktail Recipe Page</h3>
+<!-- User Profile Page -->
+<h3 align="center">User Profile Page</h3>
 
-![monito cocktail recipe page](https://github.com/EleneQ/Foodieland---recipes-and-cocktails/assets/126418804/31063f6d-96f5-4299-adc6-0758e03c9391)
+![hekto user profile page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/a6205804-ec2a-47ef-aff8-87c76a3810ef)
+
+<!-- Admin Edit Product Page -->
+<h3 align="center">Admin Edit Product Page</h3>
+
+![hekto admin edit product page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/efcc5ca5-1cfb-4f40-892a-c979314f0ac0)
+
+<!-- Admin Product List Page -->
+<h3 align="center">Admin Product List Page</h3>
+
+![hekto admin product list page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/096585bc-22a4-48b7-b735-eb60b4d15f4d)
+
+<!-- Admin User List Page -->
+<h3 align="center">Admin User List Page</h3>
+
+![hekto admin user list page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/b0d35ecf-1677-48e7-bd2b-4f910968cead)
+
+<!-- Admin Order List Page -->
+<h3 align="center">Admin Order List Page</h3>
+
+![hekto admin order list page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/55b62e95-39cc-4d2e-9cda-1307a42d1a90)
+
+<!-- Order Details Page -->
+<h3 align="center">Order Details Page</h3>
+
+![hekto order details page](https://github.com/EleneQ/Hekto---eCommerce-Store/assets/126418804/ea19fde1-c972-4e3e-82d7-99b98c3f4119)

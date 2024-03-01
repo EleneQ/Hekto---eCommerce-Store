@@ -33,6 +33,7 @@ import {
 } from "@mui/icons-material";
 import { Link, NavLink } from "react-router-dom";
 import { navLinks } from "../constants/navLinks";
+import logo from "../images/shared/logo.png";
 
 const StyledNavLink = styled(ListItemButton)(({ theme }) => ({
   textAlign: "center",
@@ -168,20 +169,7 @@ const Navbar = () => {
       >
         <Container maxWidth={false}>
           <Toolbar sx={{ justifyContent: "space-between" }} disableGutters>
-            <Typography
-              variant="body1"
-              noWrap
-              component={Link}
-              to="/"
-              fontWeight={700}
-              fontSize={"1.5rem"}
-              sx={{
-                color: theme.palette.secondary.main,
-                textDecoration: "none",
-              }}
-            >
-              Hekto
-            </Typography>
+            <Box component="img" sx={{ height: 25 }} src={logo} alt="logo" />
 
             <List sx={{ ml: "8rem" }}>
               <Stack
