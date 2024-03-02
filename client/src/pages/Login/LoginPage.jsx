@@ -15,7 +15,6 @@ import {
   Link,
   InputAdornment,
   IconButton,
-  Box,
 } from "@mui/material";
 import Loader from "../../components/Loader";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -123,27 +122,16 @@ const LoginPage = () => {
           sx={{ mt: "1rem" }}
         />
 
-        <Box mt="2rem">
-          <Typography
-            variant="body2"
-            color="secondary.main"
-            fontSize={"0.9rem"}
-          >
-            <span style={{ color: "#7b7878" }}>Admin Email:</span>{" "}
-            admin@email.com,{" "}
-            <span style={{ color: "#7b7878" }}>Admin Password:</span> 123456
-          </Typography>
-          <Typography
-            variant="body2"
-            color="secondary.main"
-            fontSize={"0.9rem"}
-            mt={{ xs: "0.5rem", md: "0.1rem" }}
-          >
-            <span style={{ color: "#7b7878" }}>Customer Email:</span>{" "}
-            jane@email.com,{" "}
-            <span style={{ color: "#7b7878" }}>Customer Password:</span> 123456
-          </Typography>
-        </Box>
+        <Typography
+          variant="body2"
+          color="secondary.main"
+          fontSize={"0.9rem"}
+          mt="2rem"
+        >
+          <span style={{ color: "#7b7878" }}>Customer Email:</span>{" "}
+          jane@email.com,{" "}
+          <span style={{ color: "#7b7878" }}>Customer Password:</span> 123456
+        </Typography>
 
         <StyledLoginButton disabled={isLoading} type="submit" fullWidth>
           Sign In
