@@ -18,6 +18,7 @@ Credits for the design: [Saber Ali](https://www.figma.com/community/file/9677598
 &raquo; Material UI <br>
 &raquo; Css <br>
 &raquo; Rest API <br>
+&raquo; Json Web Token <br>
 &raquo; Node <br>
 &raquo; Express <br>
 &raquo; MongoDB <br>
