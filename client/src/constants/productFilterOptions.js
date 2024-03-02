@@ -8,17 +8,17 @@ export const brandList = [
 ];
 
 export const ratingOptions = [
-  { title: "4.5 & up", value: "4.5" },
-  { title: "4.0 & up", value: "4.0" },
-  { title: "3.5 & up", value: "3.5" },
-  { title: "3.0 & up", value: "3.0" },
+  { title: "5.0 & up", value: 5 },
+  { title: "4.0 & up", value: 4 },
+  { title: "3.0 & up", value: 3 },
+  { title: "2.0 & up", value: 2 },
 ];
 
 export const discountOffers = [
-  { title: "50% & up", value: "50" },
-  { title: "20% & up", value: "20" },
-  { title: "10% & up", value: "10" },
-  { title: "5% & up", value: "5" },
+  { title: "50% & up", value: 50 },
+  { title: "20% & up", value: 20 },
+  { title: "10% & up", value: 10 },
+  { title: "5% & up", value: 5 },
 ];
 
 export const colorList = [

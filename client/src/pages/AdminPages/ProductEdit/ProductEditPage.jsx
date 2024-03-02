@@ -225,9 +225,9 @@ const ProductEditPage = () => {
               value={price}
               label="Price"
               placeholder="Enter Price"
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, step: 0.01 }}
               sx={{ flex: 1 }}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => setPrice(parseFloat(e.target.value).toFixed(2))}
             />
           </Stack>
 

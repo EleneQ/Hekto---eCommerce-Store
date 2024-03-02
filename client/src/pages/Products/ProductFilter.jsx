@@ -35,23 +35,31 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
 
     setSearchParams((prev) => {
       const prevFilters = prev.get(`${filterType}`)
-        ? searchParams.get(`${filterType}`).split(",")
+        ? searchParams.get(filterType).split(",")
         : [];
 
       const updatedFilters = e.target.checked
         ? [...prevFilters, filter]
         : prevFilters.filter((f) => f !== filter);
 
-      prev.set(filterType, updatedFilters.join(","));
+      if (updatedFilters.length > 0) {
+        prev.set(filterType, updatedFilters.join(","));
+      } else {
+        prev.delete(filterType);
+      }
       return prev;
     });
   };
 
-  const isParamChecked = (filterType, filterTitle) => {
+  const isCheckboxChecked = (filterType, filterTitle) => {
     const urlSearchParams = new URLSearchParams(location.search);
 
     const param = urlSearchParams.get(`${filterType}`) || "";
     return param.split(",").includes(filterTitle.toLowerCase());
+  };
+
+  const isRadioCheckedInt = (value, paramType) => {
+    return value === parseInt(searchParams.get(`${paramType}`));
   };
 
   return (
@@ -77,7 +85,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
                 id={brand.value}
                 name={brand.value}
                 label={brand.title}
-                checked={isParamChecked("brands", brand.title)}
+                checked={isCheckboxChecked("brands", brand.title)}
                 value={brand.value}
                 onChange={(e) => handleCheckboxFilter(e, "brands", brand.title)}
                 control={
@@ -117,7 +125,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
               value={discount.value}
               id={discount.value}
               label={discount.title}
-              checked={discount.value === searchParams.get("discount")}
+              checked={isRadioCheckedInt(discount.value, "discount")}
               onChange={() => {
                 setSearchParams(
                   (prev) => {
@@ -163,7 +171,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
               value={rating.value}
               id={rating.value}
               label={<Rating value={rating.value} readOnly />}
-              checked={rating.value === searchParams.get("rating")}
+              checked={isRadioCheckedInt(rating.value, "rating")}
               onChange={() => {
                 setSearchParams(
                   (prev) => {
@@ -216,7 +224,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
                   id={category.name}
                   name={category.name}
                   value={category.name}
-                  checked={isParamChecked("categories", category.name)}
+                  checked={isCheckboxChecked("categories", category.name)}
                   onChange={(e) =>
                     handleCheckboxFilter(e, "categories", category.name)
                   }
@@ -263,7 +271,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
                 id={color.value}
                 name={color.value}
                 value={color.value}
-                checked={isParamChecked("colors", color.title)}
+                checked={isCheckboxChecked("colors", color.title)}
                 onChange={(e) => handleCheckboxFilter(e, "colors", color.title)}
                 control={
                   <Checkbox
@@ -272,7 +280,7 @@ const ProductFilters = ({ searchParams, setSearchParams }) => {
                     style={{
                       color: color.value,
                       border: `2px solid ${
-                        isParamChecked("colors", color.title)
+                        isCheckboxChecked("colors", color.title)
                           ? color.value
                           : "transparent"
                       }`,

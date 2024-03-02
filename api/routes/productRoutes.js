@@ -12,11 +12,11 @@ import {
   getFeaturedProducts,
   getLatestProducts,
   getTrendingProducts,
-  updateProductViewsById,
+  // updateProductViewsById,
   getDiscountedProducts,
 } from "../controllers/productController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
-import blockInDevelopment from "../middleware/preventInDevelopment.js";
+// import blockInDevelopment from "../middleware/preventInDevelopment.js";
 
 router.route("/").get(getProducts).post(protect, admin, createProduct);
 router.get("/filtered", getFilteredProducts);
@@ -30,7 +30,7 @@ router
   .get(getProductById)
   .put(protect, admin, updateProduct)
   .delete(protect, admin, deleteProduct);
-router.route("/:id/views").put(blockInDevelopment, updateProductViewsById);
+// router.route("/:id/views").put(blockInDevelopment, updateProductViewsById);
 router.route("/:id/reviews").post(protect, createProductReview);
 
 export default router;
