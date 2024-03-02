@@ -10,12 +10,16 @@ import { createOrder } from "../controllers/orderController.js";
 const router = express.Router();
 const stripe = new Stripe(process.env.STRIPE_KEY);
 
-const taxRate = await stripe.taxRates.create({
-  display_name: "Tax",
-  inclusive: false,
-  percentage: 10,
-  description: "Global Tax",
-});
+const taxRate = await stripe.taxRates
+  .create({
+    display_name: "Tax",
+    inclusive: false,
+    percentage: 10,
+    description: "Global Tax",
+  })
+  .catch((error) => {
+    console.error("Error creating tax rate:", error);
+  });
 
 const createLineItems = async (orderItems) => {
   try {
