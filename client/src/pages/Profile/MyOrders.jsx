@@ -38,7 +38,7 @@ const MyOrders = () => {
         mb={"2rem"}
         sx={{ fontSize: "1.5rem" }}
       >
-        Shopping Cart
+        Orders
       </Typography>
       {isLoading ? (
         <Loader />
