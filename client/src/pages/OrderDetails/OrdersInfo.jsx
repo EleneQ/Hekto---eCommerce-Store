@@ -153,7 +153,7 @@ const OrderDetails = ({ isLoading, error, order }) => {
                     >
                       <Typography
                         component={Link}
-                        to={`/product/${item._id}`}
+                        to={`/product/${item.product}`}
                         variant="h4"
                         fontWeight={700}
                         color={"secondary.main"}
