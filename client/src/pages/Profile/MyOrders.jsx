@@ -71,14 +71,10 @@ const MyOrders = () => {
                   </TableCell>
                   <TableCell align="right">${order.totalPrice}</TableCell>
                   <TableCell align="right">
-                    {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
-                    ) : (
-                      <Clear sx={{ color: "red" }} />
-                    )}
+                    {order.paidAt.substring(0, 10)}
                   </TableCell>
                   <TableCell align="right">
-                    {order.isdelivered ? (
+                    {order.isDelivered ? (
                       order.deliveredAt.substring(0, 10)
                     ) : (
                       <Clear sx={{ color: "red" }} />
