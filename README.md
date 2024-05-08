@@ -16,11 +16,9 @@ Credits for the design: [Saber Ali](https://www.figma.com/community/file/9677598
 &raquo; JavaScript <br>
 &raquo; Redux Toolkit <br>
 &raquo; Material UI <br>
-&raquo; Css <br>
-&raquo; Rest API <br>
 &raquo; Json Web Token <br>
-&raquo; Node <br>
-&raquo; Express <br>
+&raquo; Node.js <br>
+&raquo; Express.js <br>
 &raquo; MongoDB <br>
 &raquo; Mongoose <br>
 &raquo; Stripe <br>
